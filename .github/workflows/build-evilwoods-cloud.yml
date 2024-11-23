@@ -5,6 +5,8 @@ on:
     - cron: "21 21 * * *"
   push:
     branches: ["main"]
+    paths:
+      - "bootc/evilwoods-cloud/**"
 
 env:
   REGISTRY: ghcr.io
