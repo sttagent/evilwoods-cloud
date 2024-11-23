@@ -1,5 +1,5 @@
 
-name: build-eilwoods-desktop
+name: build-evilwoods-cloud
 on:
   schedule:
     - cron: "21 21 * * *"
