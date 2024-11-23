@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "jmarrero-atomic"
+  IMAGE_NAME: "evilwoods-cloud"
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
@@ -24,7 +24,7 @@ jobs:
       - name: Build container image
         uses: redhat-actions/buildah-build@v2.13
         with:
-          context: "."
+          context: "./bootc/evilwoods-cloud"
           containerfiles: Containerfile
           image: ${{ env.IMAGE_NAME }}
           layers: false
