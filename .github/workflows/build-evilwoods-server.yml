@@ -28,7 +28,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2.13
         with:
           context: "./bootc/evilwoods-server"
-          containerfiles: Containerfile
+          containerfiles: ./bootc/evilwoods-server/Containerfile
           image: ${{ env.IMAGE_NAME }}
           layers: false
           oci: true
