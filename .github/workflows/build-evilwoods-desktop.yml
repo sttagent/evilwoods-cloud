@@ -26,7 +26,7 @@ jobs:
       - name: Build container image
         uses: redhat-actions/buildah-build@v2.13
         with:
-          context: "./bootc/evilwoods-desktop"
+          context: "bootc/evilwoods-desktop"
           containerfiles: Containerfile
           image: ${{ env.IMAGE_NAME }}
           layers: false
