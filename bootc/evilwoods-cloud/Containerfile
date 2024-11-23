@@ -1,0 +1,6 @@
+FROM quay.io/centos-bootc/centos-bootc:stream10
+RUN \
+    ## Add vscode repo and key
+    dnf -y install epel-release epel-next-release && \
+    dnf -y install fish && \
+    dnf clean all

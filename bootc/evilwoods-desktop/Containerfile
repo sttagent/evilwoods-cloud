@@ -1,0 +1,9 @@
+FROM quay.io/fedora/fedora-silverblue:41
+RUN \
+    dnf -y install \
+    # run local qemu vms
+    # libvirt-daemon-config-network libvirt-daemon-kvm qemu-kvm \
+    # virt-install virt-manager virt-viewer \
+    # preffered tools
+    fish neovim && \
+    dnf clean all
