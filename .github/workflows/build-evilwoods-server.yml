@@ -1,5 +1,5 @@
 
-name: build-evilwoods-cloud
+name: build-evilwoods-server
 on:
   schedule:
     - cron: "21 21 * * *"
@@ -27,7 +27,7 @@ jobs:
       - name: Build container image
         uses: redhat-actions/buildah-build@v2.13
         with:
-          context: "bootc/evilwoods-cloud"
+          context: "bootc/evilwoods-server"
           containerfiles: Containerfile
           image: ${{ env.IMAGE_NAME }}
           layers: false
