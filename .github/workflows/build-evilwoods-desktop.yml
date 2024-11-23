@@ -40,9 +40,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2.6
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: |
-            latest
-            ${{ github.sha }}
+          tags: latest
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}

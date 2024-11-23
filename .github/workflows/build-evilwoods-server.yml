@@ -20,6 +20,9 @@ env:
 jobs:
   podman-build:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
@@ -28,7 +31,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2.13
         with:
           context: "./bootc/evilwoods-server"
-          containerfiles: ./bootc/evilwoods-server/Containerfile
+          containerfiles: "./bootc/evilwoods-server/Containerfile"
           image: ${{ env.IMAGE_NAME }}
           layers: false
           oci: true
