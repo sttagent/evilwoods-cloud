@@ -1,8 +1,7 @@
-
 name: build-evilwoods-desktop
 on:
   schedule:
-    - cron: "21 21 * * *"
+    - cron: "21 4 * * *"
   push:
     branches: ["main"]
     paths:
