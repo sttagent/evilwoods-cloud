@@ -1,8 +1,7 @@
-
 name: build-evilwoods-server
 on:
   schedule:
-    - cron: "21 21 * * *"
+    - cron: "21 4 * * 5"
   push:
     branches: ["main"]
     paths:
@@ -15,7 +14,6 @@ env:
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
-
 
 jobs:
   podman-build:
