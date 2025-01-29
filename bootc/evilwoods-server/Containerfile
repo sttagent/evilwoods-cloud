@@ -4,5 +4,5 @@ COPY config/usr /usr
 RUN \
   ## Add vscode repo and key
   dnf -y install epel-release && \
-  dnf -y install fish qemu-guest-agent firewalld && \
+  dnf -y install fish qemu-guest-agent firewalld cockpit && \
   dnf clean all
