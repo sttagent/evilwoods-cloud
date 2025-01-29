@@ -1,0 +1,9 @@
+---
+- name: Setup Evil Cloud Server
+  hosts: all
+  become: true
+  tasks:
+    - name: Change hostname to evilcloud
+      hostname:
+        name: evilcloud
+      register: hostname_changed
