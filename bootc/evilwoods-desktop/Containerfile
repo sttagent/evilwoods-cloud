@@ -2,15 +2,15 @@ FROM quay.io/fedora/fedora-silverblue:41
 
 COPY config/usr /usr
 RUN \
-    dnf -y config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo && \
-    dnf -y copr enable pgdev/ghostty && \
-    dnf -y install \
-    # run local qemu vms
-    # libvirt-daemon-config-network libvirt-daemon-kvm qemu-kvm \
-    # virt-install virt-manager virt-viewer \
-    # preffered tools
-    fish neovim tailscale ghostty && \
-    dnf -y remove firefox firefox-langpacks && \
-    dnf -y clean all
+  dnf -y config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo && \
+  dnf -y copr enable pgdev/ghostty && \
+  dnf -y install \
+  # run local qemu vms
+  # libvirt-daemon-config-network libvirt-daemon-kvm qemu-kvm \
+  # virt-install virt-manager virt-viewer \
+  # preffered tools
+  fish neovim tailscale ghostty ripgrep fd-find bat && \
+  dnf -y remove firefox firefox-langpacks && \
+  dnf -y clean all
 
 RUN ln -s /usr/lib/systemd/system/tailscaled.service /usr/lib/systemd/system/multi-user.target.wants/
