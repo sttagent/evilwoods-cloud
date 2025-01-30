@@ -1,1 +1,1 @@
-export $PATH=$PATH:/opt/xonsh/xbin
+export PATH=$PATH:/opt/xonsh/xbin
