@@ -1,6 +1,18 @@
+FROM docker.io/xonsh/xonsh:slim AS builder
+
+RUN apt-get update && apt-get install -y wget
+
+COPY scripts/install-atuin.xsh /app/install-atuin.xsh
+
+WORKDIR /app
+
+RUN xonsh install-atuin.xsh
+
+
 FROM quay.io/centos-bootc/centos-bootc:stream10
 
 COPY config/usr /usr
+
 RUN \
     ## Add vscode repo and key
     dnf -y install epel-release && \
@@ -9,3 +21,5 @@ RUN \
 
 RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.12 \
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
+
+COPY --from=builder /app/atuin /usr/local/bin/atuin
