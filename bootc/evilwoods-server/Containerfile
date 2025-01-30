@@ -2,11 +2,11 @@ FROM docker.io/xonsh/xonsh:slim AS builder
 
 RUN apt-get update && apt-get install -y wget
 
-COPY scripts/install-atuin.xsh /app/install-atuin.xsh
+COPY scripts/install-binaries.xsh /app/install-binaries.xsh
 
 WORKDIR /app
 
-RUN xonsh install-atuin.xsh
+RUN xonsh install-binaries.xsh
 
 
 FROM quay.io/centos-bootc/centos-bootc:stream10
@@ -22,4 +22,7 @@ RUN \
 RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.12 \
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
 
-COPY --from=builder /app/atuin /usr/local/bin/atuin
+COPY --from=builder /app/usr /usr
+
+RUN mkdir -p /usr/etc/systemd/system/multi-user.target.wants && \
+    ln -s /usr/lib/systemd/system/tailscaled.service /usr/etc/systemd/system/multi-user.target.wants/tailscaled.service
