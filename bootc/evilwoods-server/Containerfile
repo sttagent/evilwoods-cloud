@@ -17,7 +17,7 @@ RUN \
     ## Add vscode repo and key
     dnf config-manager -y --add-repo https://pkgs.tailscale.com/stable/centos/10/tailscale.repo && \
     dnf -y install epel-release && \
-    dnf -y install fish qemu-guest-agent firewalld cockpit tailscale && \
+    dnf -y install fish qemu-guest-agent firewalld cockpit cockpit-podman cockpit-ostree tailscale && \
     dnf clean all
 
 RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.13 \
