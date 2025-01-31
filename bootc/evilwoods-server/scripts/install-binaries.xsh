@@ -13,7 +13,7 @@ zellij_archive = zellij-x86_64-unknown-linux-musl.tar.gz
 
 mkdir -p usr/local/bin
 
-wget @(f"https://github.com/bitwarden/sdk-sm/releases/download/bws-v1.0.0/bws-aarch64-unknown-linux-gnu-1.0.0.zip")
+wget @(f"https://github.com/bitwarden/sdk-sm/releases/download/bws-v{bitwarden_version}/bws-aarch64-unknown-linux-gnu-{bitwarden_version}.zip")
 unzip @(bitwarden_archive)
 cp bws usr/local/bin/
 
