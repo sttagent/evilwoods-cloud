@@ -9,7 +9,7 @@ chezmoi_archive = f"{chezmoi_dir}.tar.gz"
 bitwarden_version = "1.0.0"
 bitwarden_archive = f"bws-x86_64-unknown-linux-gnu-{bitwarden_version}.zip"
 
-zellij_archive = zellij-x86_64-unknown-linux-musl.tar.gz
+zellij_archive = "zellij-x86_64-unknown-linux-musl.tar.gz"
 
 mkdir -p usr/local/bin
 
@@ -30,4 +30,3 @@ cp chezmoi usr/local/bin/
 #install zellij
 wget -q @(f"https://github.com/zellij-org/zellij/releases/download/latest/{zellij_archive}")
 tar -x zellij -f @(zellij_archive) -C usr/local/bin/
-
