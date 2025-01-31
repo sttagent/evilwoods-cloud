@@ -20,7 +20,7 @@ RUN \
     dnf -y install fish qemu-guest-agent firewalld cockpit tailscale && \
     dnf clean all
 
-RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.12 \
+RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.13 \
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
 
 COPY --from=builder /app/usr /usr
