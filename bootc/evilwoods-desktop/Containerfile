@@ -1,6 +1,6 @@
 FROM quay.io/fedora-ostree-desktops/silverblue:41
 
-COPY ../common-config/usr config/usr /
+COPY config/usr /usr
 
 RUN \
     dnf -y config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo && \
