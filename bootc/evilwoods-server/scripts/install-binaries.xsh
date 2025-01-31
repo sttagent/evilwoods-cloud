@@ -27,5 +27,6 @@ tar -x chezmoi -f @(chezmoi_archive)
 cp chezmoi usr/local/bin/
 
 #install zellij
-wget -q @(f"https://github.com/zellij-org/zellij/releases/download/latest/{zellij_archive}")
-tar -x zellij -f @(zellij_archive) -C usr/local/bin/
+wget -q @(f"https://github.com/zellij-org/zellij/releases/latest/download/{zellij_archive}")
+tar -xf @(zellij_archive)
+cp zellij usr/local/bin/

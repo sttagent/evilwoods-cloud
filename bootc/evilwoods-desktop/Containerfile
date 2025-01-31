@@ -9,7 +9,7 @@ RUN \
     dnf -y remove firefox firefox-langpacks && \
     dnf -y clean all
 
-RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.12 \
+RUN TARGET_DIR=/var/opt/xonsh-env PYTHON_VER=3.12 \
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
 
 RUN ln -s /usr/lib/systemd/system/tailscaled.service /usr/lib/systemd/system/multi-user.target.wants/

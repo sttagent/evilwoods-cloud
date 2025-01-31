@@ -1,6 +1,6 @@
 FROM docker.io/xonsh/xonsh:slim AS builder
 
-RUN apt-get update && apt-get install -y wget
+RUN apt-get update && apt-get install -y unzip wget
 
 COPY scripts/install-binaries.xsh /app/install-binaries.xsh
 
