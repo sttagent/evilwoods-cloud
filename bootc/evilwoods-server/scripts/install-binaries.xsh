@@ -13,3 +13,8 @@ wget  @(f"https://github.com/atuinsh/atuin/releases/latest/download/{atuin_archi
 tar -xvf @(atuin_archive_name + ".tar.gz")
 cp  @(atuin_archive_name)/atuin usr/local/bin/
 
+# Install chezmoi
+wget  @(f"https://github.com/twpayne/chezmoi/releases/download/v{chezmoi_version}/{chezmoi_archive}")
+tar -x chezmoi -f @(chezmoi_archive)
+cp chezmoi usr/local/bin/
+
