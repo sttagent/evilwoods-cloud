@@ -11,7 +11,7 @@ RUN xonsh install-binaries.xsh
 
 FROM quay.io/centos-bootc/centos-bootc:stream10
 
-COPY config/usr /usr
+COPY ../common-config/usr config/usr /
 
 RUN \
   ## Add vscode repo and key
