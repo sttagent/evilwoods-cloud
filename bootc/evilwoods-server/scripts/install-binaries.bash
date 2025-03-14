@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
 atuin_archive_name="atuin-x86_64-unknown-linux-gnu"
 
 chezmoi_version="2.59.0"
