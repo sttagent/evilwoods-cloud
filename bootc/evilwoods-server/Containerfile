@@ -1,29 +1,18 @@
-FROM docker.io/xonsh/xonsh:slim AS builder
-
-RUN apt-get update && apt-get install -y unzip wget
-
-COPY scripts/install-binaries.xsh /app/install-binaries.xsh
-
-WORKDIR /app
-
-RUN xonsh install-binaries.xsh
-
-
 FROM quay.io/centos-bootc/centos-bootc:stream10
 
-COPY config/usr /usr
 
 RUN \
-    ## Add vscode repo and key
+    ## Add tailscale repo and key
     dnf config-manager -y --add-repo https://pkgs.tailscale.com/stable/centos/10/tailscale.repo && \
     dnf -y install epel-release && \
-    dnf -y install fish qemu-guest-agent firewalld cockpit cockpit-podman cockpit-ostree tailscale && \
+    dnf -y install fish qemu-guest-agent firewalld cockpit cockpit-podman cockpit-ostree tailscale unzip wget && \
     dnf clean all
 
-RUN TARGET_DIR=/opt/xonsh-env PYTHON_VER=3.13 \
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"
+WORKDIR /tmp
 
-COPY --from=builder /app/usr /usr
+COPY ./scripts/install-binaries.bash .
+
+RUN bash ./install-binaries.bash && rm -rf *
 
 RUN mkdir -p /usr/etc/systemd/system/multi-user.target.wants && \
     ln -s /usr/lib/systemd/system/tailscaled.service /usr/etc/systemd/system/multi-user.target.wants/tailscaled.service
