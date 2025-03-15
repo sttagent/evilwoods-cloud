@@ -1,5 +1,6 @@
 FROM quay.io/centos-bootc/centos-bootc:stream10
 
+COPY ./config/usr /usr
 
 RUN \
     ## Add tailscale repo and key
