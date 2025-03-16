@@ -8,4 +8,4 @@ Type=xfs
 Options=defaults,noatime,nodiratime,nobarrier
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=local-fs.target
