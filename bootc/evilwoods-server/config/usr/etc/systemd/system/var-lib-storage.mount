@@ -5,7 +5,7 @@ Description=Mount storage directory
 What=/dev/vdb
 Where=/var/lib/storage
 Type=xfs
-Options=defaults,noatime,nodiratime,nobarrier
+Options=defaults,noatime,nodiratime
 
 [Install]
 WantedBy=local-fs.target
