@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount storage directory
+
+[Mount]
+What=/dev/vdb
+Where=/var/lib/storage
+Type=xfs
+Options=defaults,noatime,nodiratime,nobarrier
+
+[Install]
+WantedBy=multi-user.target
