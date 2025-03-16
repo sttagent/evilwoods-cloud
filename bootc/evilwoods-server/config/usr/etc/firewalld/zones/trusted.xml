@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone target="ACCEPT">
+  <short>Trusted</short>
+  <description>All network connections are accepted.</description>
+  <forward-port port="443" protocol="tcp" to-port="8443"/>
+  <forward-port port="80" protocol="tcp" to-port="8080"/>
+  <interface name="tailscale0"/>
+  <forward/>
+</zone>
