@@ -1,0 +1,8 @@
+[Unit]
+Description=Caddy container sevice
+
+[Container]
+Image=docker.io/library/caddy:2.9
+
+[Install]
+WantedBy=default.target
