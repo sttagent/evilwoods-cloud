@@ -1,9 +1,126 @@
----
 - name: Setup Evil Cloud Server
-  hosts: all
-  become: true
+  hosts: evilcloud_ts
+  remote_user: "{{ main_user }}"
+  vars_files:
+    - vars.yml
+  vars_prompt:
+    - name: ansible_become_password
+      prompt: "Enter the password for the main user"
+      private: true
+
   tasks:
-    - name: Change hostname to evilcloud
-      hostname:
-        name: evilcloud
-      register: hostname_changed
+    - name: Add container-runner user
+      become: true
+      ansible.builtin.user:
+        name: "{{ container_runner_user }}"
+        home: "{{ service_data_path }}"
+        shell: /usr/bin/bash
+        create_home: true
+        state: present
+
+    - name: Ensure storage directory exists
+      become: true
+      ansible.builtin.file:
+        path: "{{ service_data_path }}"
+        state: directory
+        mode: "0700"
+        owner: "{{ container_runner_user }}"
+        group: "{{ container_runner_user }}"
+
+    # SELinux context needs to be configured as user home directory.
+    # Otherwise, authorized_keys file will not be accessible.
+    # This copies the SELinux context from existing home directory to the storage directory.
+    - name: Configure SELinux context for storage directory
+      become: true
+      community.general.sefcontext:
+        target: "{{ service_data_path }}"
+        substitute: "/var/home/aitvaras"
+        state: present
+      register: sefcontext_result
+
+    - name: Apply SELinux policy for storage directory
+      become: true
+      ansible.builtin.command:
+        cmd: "restorecon -irv {{ service_data_path }}"
+      when: sefcontext_result.changed
+
+    - name: Add ssh key for container-runner user
+      become: true
+      ansible.posix.authorized_key:
+        user: "{{ container_runner_user }}"
+        key: "{{ lookup('file', '/home/{{ main_user }}/.ssh/id_ed25519.pub') }}"
+        state: present
+
+    - name: Check if linger is enabled for container-runner user
+      become: true
+      ansible.builtin.stat:
+        path: "/var/lib/systemd/linger/{{ container_runner_user }}"
+      register: linger_check
+
+    - name: Set linger for container-runner user
+      become: true
+      ansible.builtin.file:
+        path: "/var/lib/systemd/linger/{{ container_runner_user }}"
+        state: touch
+        owner: "{{ container_runner_user }}"
+        group: "{{ container_runner_user }}"
+        mode: "0644"
+      when: not linger_check.stat.exists
+
+    - name: Ensure container-runner user quadlet directory exists
+      become_user: "{{ container_runner_user }}"
+      become: true
+      ansible.builtin.file:
+        path: "~/.config/containers/systemd"
+        state: directory
+        mode: "0755"
+        owner: "{{ container_runner_user }}"
+        group: "{{ container_runner_user }}"
+
+    - name: Save Caddy service quadlet files
+      become_user: "{{ container_runner_user }}"
+      become: true
+      block:
+        - ansible.builtin.file:
+            path: "{{ caddy_config_directory }}"
+            state: directory
+            mode: "0755"
+            owner: "{{ container_runner_user }}"
+            group: "{{ container_runner_user }}"
+        - ansible.builtin.template:
+            src: "caddy/Caddyfile.j2"
+            dest: "{{ caddy_config_directory }}/Caddyfile"
+            owner: "{{ container_runner_user }}"
+            group: "{{ container_runner_user }}"
+            mode: "0644"
+          notify: Restart Caddy
+        - ansible.builtin.template:
+            src: "caddy/caddy.container.j2"
+            dest: "~/.config/containers/systemd/caddy.container"
+            owner: "{{ container_runner_user }}"
+            group: "{{ container_runner_user }}"
+            mode: "0644"
+          notify: Restart Caddy
+        - ansible.builtin.template:
+            src: "caddy/caddy_data.volume.j2"
+            dest: "~/.config/containers/systemd/caddy_data.volume"
+            owner: "{{ container_runner_user }}"
+            group: "{{ container_runner_user }}"
+            mode: "0644"
+          notify: Restart Caddy
+        - ansible.builtin.systemd:
+            name: caddy.service
+            state: started
+            enabled: true
+            daemon_reload: true
+            scope: user
+
+  handlers:
+    - name: Restart Caddy
+      become_user: "{{ container_runner_user }}"
+      become: true
+      ansible.builtin.systemd:
+        name: caddy.service
+        state: restarted
+        daemon_reload: true
+        scope: user

@@ -1,0 +1,15 @@
+[Unit]
+Description=Caddy HTTP/2 web server
+After=network.target
+
+[Container]
+Image=docker.io/library/caddy:2.9
+Volume={{ caddy_config_directory }}:/etc/caddy:Z
+Volume=caddy_data.volume:/data
+Network=host
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

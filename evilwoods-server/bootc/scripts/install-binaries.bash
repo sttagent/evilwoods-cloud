@@ -30,7 +30,7 @@ wget -q "https://github.com/twpayne/chezmoi/releases/download/v${chezmoi_version
 tar -x chezmoi -f $chezmoi_archive
 cp chezmoi /usr/local/bin/
 
-#install zellij
+# Install zellij
 wget -q "https://github.com/zellij-org/zellij/releases/latest/download/${zellij_archive}"
 tar -xf $zellij_archive
 cp zellij /usr/local/bin/

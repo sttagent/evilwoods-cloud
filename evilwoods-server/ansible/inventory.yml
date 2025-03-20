@@ -1,0 +1,4 @@
+evilcloud:
+  hosts:
+    evilcloud_ts:
+      ansible_host: 100.92.124.86
