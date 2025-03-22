@@ -20,6 +20,3 @@ WORKDIR /tmp
 COPY ./scripts/install-binaries.bash .
 
 RUN bash ./install-binaries.bash && rm -rf *
-
-RUN mkdir -p /usr/etc/systemd/system/multi-user.target.wants && \
-    ln -s /usr/lib/systemd/system/tailscaled.service /usr/etc/systemd/system/multi-user.target.wants/tailscaled.service
