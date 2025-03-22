@@ -2,11 +2,8 @@ FROM quay.io/fedora-ostree-desktops/silverblue:42
 
 COPY config/usr /usr
 
-RUN \
-    dnf -y config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo && \
-    # dnf -y copr enable pgdev/ghostty && dnf -y install ghostty && \
-    dnf -y install fish neovim tailscale ripgrep fd-find bat && \
-    dnf -y remove firefox firefox-langpacks && \
-    dnf -y clean all
+WORKDIR /tmp
 
-RUN ln -s /usr/lib/systemd/system/tailscaled.service /usr/lib/systemd/system/multi-user.target.wants/
+COPY scripts scripts
+
+RUN bash scripts/install-packages.bash && rm -rf /tmp/*
