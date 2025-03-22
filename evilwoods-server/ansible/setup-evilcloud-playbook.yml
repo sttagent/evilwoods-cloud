@@ -77,6 +77,16 @@
         owner: "{{ container_runner_user }}"
         group: "{{ container_runner_user }}"
 
+    - name: Copy Cloudflared service quadlet file
+      become_user: "{{ container_runner_user }}"
+      become: true
+      ansible.builtin.template:
+        src: "cloudflared.container.j2"
+        dest: "~/.config/containers/systemd/cloudflared.container"
+        owner: "{{ container_runner_user }}"
+        group: "{{ container_runner_user }}"
+        mode: "0644"
+
     - name: Save Caddy service quadlet files
       become_user: "{{ container_runner_user }}"
       become: true
@@ -108,12 +118,19 @@
             group: "{{ container_runner_user }}"
             mode: "0644"
           notify: Restart Caddy
-        - ansible.builtin.systemd:
-            name: caddy.service
-            state: started
-            enabled: true
-            daemon_reload: true
-            scope: user
+
+
+    - name: Start Services
+      become_user: "{{ container_runner_user }}"
+      become: true
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        enabled: true
+        daemon_reload: true
+        scope: user
+      loop:
+        - caddy.service
+        - cloudflared.service
 
   handlers:
     - name: Restart Caddy
@@ -121,6 +138,14 @@
       become: true
       ansible.builtin.systemd:
         name: caddy.service
+        state: restarted
+        daemon_reload: true
+        scope: user
+    - name: Restart Cloudflare
+      become_user: "{{ container_runner_user }}"
+      become: true
+      ansible.builtin.systemd:
+        name: cloudflared.service
         state: restarted
         daemon_reload: true
         scope: user
