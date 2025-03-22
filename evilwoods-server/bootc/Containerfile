@@ -2,21 +2,10 @@ FROM quay.io/centos-bootc/centos-bootc:stream10
 
 COPY ./config/usr /usr
 
-RUN <<EOF
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-dnf -y install epel-release
-dnf -y install rsync fish qemu-guest-agent firewalld cockpit cockpit-podman cockpit-ostree unzip wget
-dnf config-manager -y --add-repo https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
-dnf -y install tailscale
-dnf -y install https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-x86_64.rpm
-dnf clean all
-EOF
-
 WORKDIR /tmp
 
-COPY ./scripts/install-binaries.bash .
+COPY scripts scripts
 
-RUN bash ./install-binaries.bash && rm -rf *
+RUN bash ./scripts/install-packages.bash
+
+RUN bash ./scripts/download-binaries.bash && rm -rf *
