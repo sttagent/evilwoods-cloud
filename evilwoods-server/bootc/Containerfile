@@ -3,6 +3,8 @@ FROM quay.io/centos-bootc/centos-bootc:stream10
 COPY ./config/usr /usr
 
 RUN <<EOF
+#!/usr/bin/env bash
+
 set -euo pipefail
 
 dnf -y install epel-release
