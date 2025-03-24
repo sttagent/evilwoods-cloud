@@ -1,0 +1,13 @@
+- name: Copy cloudflared secret retrieval service
+  ansible.builtin.template:
+    src: "cloudflared-get-secret.service.j2"
+    dest: "{{ evilwoods_runner_unit_file_path }}/cloudflared-get-secret.service"
+    mode: "0644"
+  notify: Restart Cloudflared
+
+- name: Copy Cloudflared service quadlet file
+  ansible.builtin.template:
+    src: "cloudflared.container.j2"
+    dest: "{{ evilwoods_quadlet_path }}/cloudflared.container"
+    mode: "0644"
+  notify: Restart Cloudflared

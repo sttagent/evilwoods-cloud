@@ -1,6 +1,0 @@
-main_user: aitvaras
-container_runner_user: container-runner
-container_runner_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFc8oFtu7i4WBlbcDMB7ua9cHJW2bzeomrLFddokw7v"
-service_data_path: /var/lib/storage/data
-
-caddy_config_directory: "{{ service_data_path }}/caddy/config"

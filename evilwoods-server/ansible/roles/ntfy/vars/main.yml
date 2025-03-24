@@ -1,0 +1,3 @@
+ntfy_app_name: "{{ ansible_role_name }}"
+ntfy_port: "{{ evilwoods_ntfy_port }}"
+ntfy_url: "http://ntfy.{{ evilwoods_domain_name }}"

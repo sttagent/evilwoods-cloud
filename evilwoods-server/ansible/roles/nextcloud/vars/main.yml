@@ -1,0 +1,7 @@
+nextcloud_app_name: "{{ ansible_role_name }}"
+nextcloud_url: "https://{{ nextcloud_app_name }}.{{ evilwoods_domain_name }}"
+
+nextcloud_volume_path: "{{ evilwoods_data_path }}/nextcloud"
+nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
+nextcloud_config_volume: "{{ evilwoods_data_path }}/nextcloud/config"
+nextcloud_db_data_volume: "{{ evilwoods_data_path }}/nextcloud/db_data"

@@ -1,0 +1,12 @@
+[Unit]
+Description=Nextcloud Pod
+
+[Pod]
+PodName=Nextcloud
+PublishPort={{ evilwoods_nextcloud_port }}:9000
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

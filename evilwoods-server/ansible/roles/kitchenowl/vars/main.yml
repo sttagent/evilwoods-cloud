@@ -1,0 +1,4 @@
+kitchenowl_app_name: "{{ ansible_role_name }}"
+kitchenowl_volume_path: "{{ evilwoods_data_path }}/{{ kitchenowl_app_name }}"
+kitchenowl_data_volume: "{{ kitchenowl_volume_path }}/kitchenowl_data"
+kitchenowl_url: "https://{{ kitchenowl_app_name }}.{{ evilwoods_domain_name }}"

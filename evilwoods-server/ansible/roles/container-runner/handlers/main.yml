@@ -1,0 +1,5 @@
+- name: Apply SELinux policy
+  ansible.builtin.command:
+    cmd: "restorecon -irv {{ evilwoods_data_path }}"
+  register: restcon_result
+  changed_when: restcon_result.rc == 0

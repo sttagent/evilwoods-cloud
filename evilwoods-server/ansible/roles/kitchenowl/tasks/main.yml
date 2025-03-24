@@ -1,0 +1,26 @@
+- name: Ensure kitchenowl data volume exists
+  ansible.builtin.file:
+    path: "{{ kitchenowl_data_volume }}"
+    state: directory
+    mode: "0755"
+
+- name: Render kitchenowl quadlet file
+  ansible.builtin.template:
+    src: kitchenowl.container.j2
+    dest: "{{ evilwoods_quadlet_path }}/kitchenowl.container"
+    mode: "0644"
+  notify: Restart kitchenowl
+
+- name: Render kitchenowl secret retrieval unit file
+  ansible.builtin.template:
+    src: kitchenowl-get-secrets.service.j2
+    dest: "{{ evilwoods_runner_unit_file_path }}/kitchenowl-get-secrets.service"
+    mode: "0644"
+  notify: Restart kitchenowl
+
+- name: Render kitchenowl caddyfile
+  ansible.builtin.template:
+    src: kitchenowl.caddyfile.j2
+    dest: "{{ evilwoods_caddy_volume_service_path }}/kitchenowl.caddyfile"
+    mode: "0644"
+  notify: Restart caddy

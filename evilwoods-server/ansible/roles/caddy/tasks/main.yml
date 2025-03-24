@@ -1,0 +1,43 @@
+- name: Create Caddy configuration directory
+  ansible.builtin.file:
+    path: "{{ evilwoods_caddy_volume_service_path }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+
+- name: Copy Caddy configuration file
+  ansible.builtin.copy:
+    src: "Caddyfile"
+    dest: "{{ evilwoods_caddy_volume_config_path }}/Caddyfile"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0644"
+  notify: Restart caddy
+
+- name: Copy global configuration file
+  ansible.builtin.template:
+    src: "global.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_volume_config_path }}/global.caddyfile"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0644"
+  notify: Restart caddy
+
+- name: Copy Caddy service quadlet file
+  ansible.builtin.template:
+    src: "caddy.container.j2"
+    dest: "{{ evilwoods_quadlet_path }}/caddy.container"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0644"
+  notify: Restart caddy
+
+- name: Copy Caddy data volume file
+  ansible.builtin.template:
+    src: "caddy_data.volume.j2"
+    dest: "{{ evilwoods_quadlet_path }}/caddy_data.volume"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0644"
+  notify: Restart caddy

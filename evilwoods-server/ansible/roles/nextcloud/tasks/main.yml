@@ -1,0 +1,37 @@
+- name: Ensure nextcloud paths exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  loop:
+    - "{{ nextcloud_data_volume }}"
+    - "{{ nextcloud_config_volume }}"
+    - "{{ nextcloud_db_data_volume }}"
+
+- name: Render nextcloud quadlet files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - nextcloud.volume
+    - nextcloud-valkey-data.volume
+    - nextcloud-postgresql.container
+    - nextcloud-valkey.container
+    - nextcloud-server.container
+    - nextcloud.pod
+  notify: Restart nextcloud
+
+- name: Render nextcloud caddfile
+  ansible.builtin.template:
+    src: nextcloud.caddyfile.j2
+    dest: "{{ evilwoods_caddy_volume_service_path }}/nextcloud.caddyfile"
+    mode: "0644"
+  notify: Restart caddy
+
+- name: Render nextcloud config.php
+  ansible.builtin.template:
+    src: nextcloud-config.php.j2
+    dest: "{{ nextcloud_config_volume }}/config.php"
+    mode: "0644"
+  notify: Restart nextcloud

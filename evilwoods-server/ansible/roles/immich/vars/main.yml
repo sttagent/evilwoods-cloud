@@ -1,0 +1,12 @@
+immich_app_name: "{{ ansible_role_name }}"
+immich_url: "https://{{ immich_app_name }}.{{ evilwoods_domain_name }}"
+immich_volume_path: "{{ evilwoods_data_path }}/immich"
+immich_db_data_volume: "{{ immich_volume_path }}/db_data"
+immich_upload_volume: "{{ immich_volume_path }}/uploads"
+immich_config_volume: "{{ immich_volume_path }}/config"
+immich_settings_path: "/etc/immich"
+immich_version: "1.131.3"
+
+immich_db_password: "immich"
+immich_db_user: "immich"
+immich_db_name: "immich"

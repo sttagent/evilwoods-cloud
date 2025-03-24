@@ -1,0 +1,6 @@
+- name: Restart nextcloud
+  ansible.builtin.systemd:
+    name: nextcloud-pod.service
+    state: restarted
+    scope: user
+    daemon_reload: true

@@ -1,0 +1,7 @@
+- name: "Restart {{ ntfy_app_name }}"
+  ansible.builtin.systemd:
+    name: "{{ ntfy_app_name }}.service"
+    state: restarted
+    enabled: true
+    daemon_reload: true
+    scope: user

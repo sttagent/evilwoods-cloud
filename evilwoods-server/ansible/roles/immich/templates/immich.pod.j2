@@ -1,0 +1,12 @@
+[Unit]
+description={{ immich_app_name }} App service
+
+[Pod]
+PodName={{ immich_app_name }}
+PublishPort={{ evilwoods_immich_port }}:2283
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

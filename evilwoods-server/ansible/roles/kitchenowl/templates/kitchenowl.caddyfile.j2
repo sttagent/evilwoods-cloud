@@ -1,0 +1,11 @@
+{{ kitchenowl_url }} {
+    reverse_proxy localhost:{{ evilwoods_kitchenowl_port }}
+        encode gzip
+        header {
+                X-Frame-Options "SAMEORIGIN"
+                X-XSS-Protection "1; mode=block"
+                X-Content-Type-Options "nosniff"
+                Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+                Referrer-Policy "strict-origin-when-cross-origin"
+        }
+}

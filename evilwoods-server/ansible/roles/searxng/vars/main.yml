@@ -1,0 +1,4 @@
+searxng_app_name: "{{ ansible_role_name }}"
+searxng_port: "{{ Evilwoods_server_port }}"
+searxng_data_path: "{{ evilwoods_data_path }}/searxng"
+searxng_url: "https://search.{{ evilwoods_domain_name }}"

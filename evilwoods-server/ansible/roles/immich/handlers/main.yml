@@ -1,0 +1,6 @@
+- name: Restart immich
+  ansible.builtin.systemd:
+    name: immich-pod.service
+    state: restarted
+    daemon_reload: true
+    scope: user

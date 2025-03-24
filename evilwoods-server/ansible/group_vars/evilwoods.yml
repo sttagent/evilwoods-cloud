@@ -1,0 +1,22 @@
+evilwoods_runner_user: container-runner
+evilwoods_runner_user_id: 1001
+evilwoods_runner_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFc8oFtu7i4WBlbcDMB7ua9cHJW2bzeomrLFddokw7v"
+evilwoods_data_path: /var/lib/storage/data
+evilwoods_quadlet_path: "{{ evilwoods_data_path }}/.config/containers/systemd"
+evilwoods_runner_unit_file_path: "{{ evilwoods_data_path }}/.config/systemd/user"
+
+evilwoods_domain_name: test.evilwoods.net
+
+evilwoods_caddy_volume_path: "{{ evilwoods_data_path }}/caddy"
+evilwoods_caddy_volume_config_path: "{{ evilwoods_caddy_volume_path }}/config"
+evilwoods_caddy_volume_service_path: "{{ evilwoods_caddy_volume_config_path }}/services"
+
+evilwoods_nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
+
+evilwoods_http_port: 8080
+evilwoods_https_port: 8443
+evilwoods_searxng_port: 8081
+evilwoods_ntfy_port: 8082
+evilwoods_kitchenowl_port: 8083
+evilwoods_immich_port: 8084
+evilwoods_nextcloud_port: 8085

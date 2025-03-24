@@ -1,0 +1,10 @@
+[Unit]
+Description=Valkey Container Service
+
+[Container]
+Image=docker.io/valkey/valkey:8.1-alpine
+Volume=valkey_data.volume:/data
+Pod=searxng.pod
+
+[Service]
+Restart=on-failure
