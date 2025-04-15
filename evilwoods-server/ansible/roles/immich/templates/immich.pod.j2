@@ -2,8 +2,7 @@
 description={{ immich_app_name }} App service
 
 [Pod]
-PodName={{ immich_app_name }}
-PublishPort={{ evilwoods_immich_port }}:2283
+Network={{ evilwoods_container_network }}.network
 
 [Service]
 Restart=always

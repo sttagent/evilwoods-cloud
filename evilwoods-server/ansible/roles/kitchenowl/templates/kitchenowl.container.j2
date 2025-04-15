@@ -5,9 +5,9 @@ After={{ kitchenowl_app_name }}-get-secrets.service
 
 [Container]
 Image=docker.io/tombursch/kitchenowl:v0.6.11
-PublishPort={{ evilwoods_kitchenowl_port }}:8080
 Secret=kitchenowl_jwt_secret,type=env,target=JWT_SECRET_KEY
 Volume={{ kitchenowl_data_volume }}:/data:Z
+Network=evilcloud.network
 
 [Service]
 Restart=always

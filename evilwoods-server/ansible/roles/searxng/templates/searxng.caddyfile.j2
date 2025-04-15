@@ -58,7 +58,7 @@ route {
 }
 
 # SearXNG (uWSGI)
-reverse_proxy localhost:8081 {
+reverse_proxy systemd-{{ searxng_app_name }}:8080 {
 	header_up X-Forwarded-Port {http.request.port}
 	header_up X-Real-IP {http.request.remote.host}
 

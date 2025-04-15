@@ -4,8 +4,7 @@ Requires=caddy.service searxng-get-secrets.service
 After=caddy.service searxng-get-secrets.service
 
 [Pod]
-PodName=SearXNG
-PublishPort=8081:8080
+Network={{ evilwoods_container_network }}.network
 
 [Service]
 Restart=always

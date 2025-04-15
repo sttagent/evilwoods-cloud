@@ -5,7 +5,7 @@ After=caddy.service
 [Container]
 Image=docker.io/binwiederhier/ntfy:v2.11.0
 Exec=serve
-PublishPort={{ ntfy_port }}:80
+Network=evilcloud.network
 
 [Service]
 Restart=on-failure

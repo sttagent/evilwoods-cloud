@@ -2,8 +2,8 @@
 Description=Nextcloud Pod
 
 [Pod]
-PodName=Nextcloud
-PublishPort={{ evilwoods_nextcloud_port }}:9000
+AddHost=nextcloud.test.evilwoods.net:10.89.0.14
+Network={{ evilwoods_container_network }}.network
 
 [Service]
 Restart=always

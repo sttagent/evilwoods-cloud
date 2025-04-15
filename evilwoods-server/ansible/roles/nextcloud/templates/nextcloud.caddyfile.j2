@@ -5,7 +5,7 @@
 
     file_server
 
-    php_fastcgi localhost:{{ evilwoods_nextcloud_port }}
+    php_fastcgi systemd-{{ nextcloud_app_name }}:9000
 
     redir /.well-known/carddav /remote.php/dav 301
     redir /.well-known/caldav /remote.php/dav 301

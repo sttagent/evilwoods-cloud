@@ -10,6 +10,7 @@ evilwoods_domain_name: test.evilwoods.net
 evilwoods_caddy_volume_path: "{{ evilwoods_data_path }}/caddy"
 evilwoods_caddy_volume_config_path: "{{ evilwoods_caddy_volume_path }}/config"
 evilwoods_caddy_volume_service_path: "{{ evilwoods_caddy_volume_config_path }}/services"
+evilwoods_container_network: evilcloud
 
 evilwoods_nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
 

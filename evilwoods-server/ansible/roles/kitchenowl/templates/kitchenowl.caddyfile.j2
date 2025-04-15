@@ -1,5 +1,5 @@
 {{ kitchenowl_url }} {
-    reverse_proxy localhost:{{ evilwoods_kitchenowl_port }}
+    reverse_proxy systemd-kitchenowl:8080
         encode gzip
         header {
                 X-Frame-Options "SAMEORIGIN"
