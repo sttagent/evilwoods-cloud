@@ -10,4 +10,5 @@ Environment=POSTGRES_DB=nextcloud
 Environment=REDIS_HOST=systemd-nextcloud-valkey
 Image=docker.io/library/nextcloud:31-fpm-alpine
 Volume=nextcloud.volume:/var/www/html:z
+Volume={{ nextcloud_config_volume }}/evilwoods.config.php:/var/www/html/config/evilwoods.config.php:Z
 Pod=nextcloud.pod
