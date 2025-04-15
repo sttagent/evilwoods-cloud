@@ -2,7 +2,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "0700"
+    mode: "0755"
   loop:
     - "{{ nextcloud_data_volume }}"
     - "{{ nextcloud_config_volume }}"
