@@ -14,6 +14,11 @@ evilwoods_container_network: evilcloud
 
 evilwoods_nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
 
+evilwoods_container_subnet: "10.200.0.0/24"
+evilwoods_container_gateway: "10.200.0.1"
+evilwoods_container_ip_range: "10.200.0.100-10.200.0.200"
+evilwoods_caddy_ip: "10.200.0.2"
+
 evilwoods_http_port: 8080
 evilwoods_https_port: 8443
 evilwoods_searxng_port: 8081

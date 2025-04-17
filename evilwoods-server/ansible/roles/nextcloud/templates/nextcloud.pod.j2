@@ -2,7 +2,7 @@
 Description=Nextcloud Pod
 
 [Pod]
-AddHost=nextcloud.test.evilwoods.net:10.89.0.14
+AddHost=nextcloud.test.evilwoods.net:{{ evilwoods_caddy_ip }}
 Network={{ evilwoods_container_network }}.network
 
 [Service]
