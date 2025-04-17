@@ -19,11 +19,3 @@ evilwoods_container_subnet: "{{ evilwoods_container_subnet_prefix }}.0/24"
 evilwoods_container_gateway: "{{ evilwoods_container_subnet_prefix }}.1"
 evilwoods_container_ip_range: "{{ evilwoods_container_subnet_prefix }}.100-{{ evilwoods_container_subnet_prefix }}.200"
 evilwoods_caddy_ip: "{{ evilwoods_container_subnet_prefix }}.2"
-
-evilwoods_http_port: 8080
-evilwoods_https_port: 8443
-evilwoods_searxng_port: 8081
-evilwoods_ntfy_port: 8082
-evilwoods_kitchenowl_port: 8083
-evilwoods_immich_port: 8084
-evilwoods_nextcloud_port: 8085
