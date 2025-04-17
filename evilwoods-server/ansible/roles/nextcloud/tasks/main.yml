@@ -10,7 +10,7 @@
 
 - name: Render nextcloud quadlet files
   ansible.builtin.template:
-    src: "{{ item }}.j2"
+    src: "{{ item }}.jinja"
     dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
     mode: "0644"
   loop:
@@ -24,14 +24,14 @@
 
 - name: Render nextcloud caddfile
   ansible.builtin.template:
-    src: nextcloud.caddyfile.j2
+    src: nextcloud.caddyfile.jinja
     dest: "{{ evilwoods_caddy_volume_service_path }}/nextcloud.caddyfile"
     mode: "0644"
   notify: Restart caddy
 
 - name: Render nextcloud config.php
   ansible.builtin.template:
-    src: nextcloud-config.php.j2
+    src: nextcloud-config.php.jinja
     dest: "{{ nextcloud_config_volume }}/evilwoods.config.php"
     mode: "0644"
   notify: Restart nextcloud

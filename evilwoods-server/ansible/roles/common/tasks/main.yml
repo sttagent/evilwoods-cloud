@@ -1,6 +1,6 @@
 - name: Render evilcloud network quadlet
   ansible.builtin.template:
-    src: evilcloud.network.j2
+    src: evilcloud.network.jinja
     dest: "{{ evilwoods_quadlet_path }}/evilcloud.network"
     owner: "{{ evilwoods_runner_user }}"
     group: "{{ evilwoods_runner_user }}"

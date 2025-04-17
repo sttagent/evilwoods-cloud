@@ -6,7 +6,7 @@
 
 - name: Copy secret retrieval service file
   ansible.builtin.template:
-    src: searxng-get-secrets.service.j2
+    src: searxng-get-secrets.service.jinja
     dest: "{{ evilwoods_runner_unit_file_path }}/searxng-get-secrets.service"
     mode: "0644"
   notify:
@@ -14,7 +14,7 @@
 
 - name: Copy Valkey quadlet
   ansible.builtin.template:
-    src: searxng-valkey.container.j2
+    src: searxng-valkey.container.jinja
     dest: "{{ evilwoods_quadlet_path }}/valkey.container"
     mode: "0644"
   notify:
@@ -22,7 +22,7 @@
 
 - name: Copy valkey volume quadlet
   ansible.builtin.template:
-    src: searxng-valkey-data.volume.j2
+    src: searxng-valkey-data.volume.jinja
     dest: "{{ evilwoods_quadlet_path }}/valkey_data.volume"
     mode: "0644"
   notify:
@@ -30,28 +30,28 @@
 
 - name: Copy settings file to searxng volume
   ansible.builtin.template:
-    src: settings.yml.j2
+    src: settings.yml.jinja
     dest: "{{ searxng_data_path }}/settings.yml"
     mode: "0644"
   notify: Restart searxng-pod
 
 - name: Copy searxng pod file
   ansible.builtin.template:
-    src: searxng.pod.j2
+    src: searxng.pod.jinja
     dest: "{{ evilwoods_quadlet_path }}/searxng.pod"
     mode: "0644"
   notify: Restart searxng-pod
 
 - name: Copy searxng container file
   ansible.builtin.template:
-    src: searxng.container.j2
+    src: searxng.container.jinja
     dest: "{{ evilwoods_quadlet_path }}/searxng.container"
     mode: "0644"
   notify: Restart searxng-pod
 
 - name: Copy searxng caddy config
   ansible.builtin.template:
-    src: searxng.caddyfile.j2
+    src: searxng.caddyfile.jinja
     dest: "{{ evilwoods_caddy_volume_service_path }}/searxng.caddyfile"
     mode: "0644"
   notify: Restart caddy

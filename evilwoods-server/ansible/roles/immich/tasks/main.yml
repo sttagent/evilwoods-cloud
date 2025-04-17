@@ -12,13 +12,13 @@
 
 - name: "Render configuration files for {{ immich_app_name }}"
   ansible.builtin.template:
-    src: "immich.json.j2"
+    src: "immich.json.jinja"
     dest: "{{ immich_config_volume }}/immich.json"
     mode: "0644"
 
 - name: "Render quadlet files for {{ immich_app_name }}"
   ansible.builtin.template:
-    src: "{{ item }}.j2"
+    src: "{{ item }}.jinja"
     dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
     mode: "0644"
   notify: Restart immich
@@ -33,7 +33,7 @@
 
 - name: "Render caddyfile for {{ immich_app_name }}"
   ansible.builtin.template:
-    src: "immich.caddyfile.j2"
+    src: "immich.caddyfile.jinja"
     dest: "{{ evilwoods_caddy_volume_service_path }}/immich.caddyfile"
     owner: "{{ evilwoods_runner_user }}"
     group: "{{ evilwoods_runner_user }}"
