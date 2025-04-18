@@ -1,5 +1,7 @@
 [Unit]
 Description=SearXNG Container
+Wants=searxng-valkey.service
+After=searxng-valkey.service
 
 [Container]
 AutoUpdate=registry
