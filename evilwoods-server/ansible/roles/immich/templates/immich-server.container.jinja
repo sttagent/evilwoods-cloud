@@ -1,5 +1,6 @@
 [Unit]
 Description={{ immich_app_name }} server container/service.
+Wants={{ immich_app_name }}-postgresql.service {{ immich_app_name }}-valkey.service {{ immich_app_name }}-machine-learning.service
 After={{ immich_app_name }}-postgresql.service {{ immich_app_name }}-valkey.service {{ immich_app_name }}-machine-learning.service
 
 [Container]
