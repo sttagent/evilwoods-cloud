@@ -10,38 +10,46 @@
       become: true
       tags:
         - container-runner
+        - roles
     - role: cloudflared
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - cloudflared
+        - roles
     - role: caddy
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - caddy
+        - roles
     - role: searxng
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - searxng
+        - roles
     - role: ntfy
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - ntfy
+        - roles
     - role: kitchenowl
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - kitchenowl
+        - roles
     - role: immich
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - immich
+        - roles
     - role: nextcloud
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - nextcloud
+        - roles
