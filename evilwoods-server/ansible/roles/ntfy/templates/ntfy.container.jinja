@@ -3,6 +3,7 @@ Description=ntfy service
 After=caddy.service
 
 [Container]
+AutoUpdate=registry
 Image=docker.io/binwiederhier/ntfy:v2.11.0
 Exec=serve
 Network=evilcloud.network

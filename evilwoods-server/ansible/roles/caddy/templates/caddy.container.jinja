@@ -5,6 +5,7 @@ After=podman-user-wait-network-online.service
 
 [Container]
 Image=docker.io/library/caddy:2.9
+AutoUpdate=registry
 Volume={{ evilwoods_caddy_volume_config_path }}:/etc/caddy:Z
 Volume=caddy_data.volume:/data
 PodmanArgs=--volumes-from=systemd-nextcloud-server:z

@@ -2,11 +2,12 @@
 Description={{ immich_app_name }} postgresql Container/Service
 
 [Container]
+AutoUpdate=registry
 Environment=POSTGRES_PASSWORD={{ immich_db_password }}
 Environment=POSTGRES_USER={{ immich_db_user }}
 Environment=POSTGRES_DB={{ immich_db_name }}
 Environment=POSTGRES_INITDB_ARGS=--data-checksums
-Image=docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+Image=docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
 Volume={{ immich_db_data_volume }}:/var/lib/postgresql/data:Z
 
 Pod=immich.pod

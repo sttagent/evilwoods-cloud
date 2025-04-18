@@ -2,6 +2,7 @@
 Description=SearXNG Container
 
 [Container]
+AutoUpdate=registry
 Image=docker.io/searxng/searxng:latest
 Volume={{ searxng_data_path }}:/etc/searxng:Z
 Secret=searxng_secret,type=env,target=SEARXNG_SECRET

@@ -5,6 +5,7 @@ After=cloudflared-get-secret.service
 Before=caddy.service
 
 [Container]
+AutoUpdate=registry
 Image=docker.io/cloudflare/cloudflared:latest
 Secret=cloudflared_tunnel_token,type=env,target=TUNNEL_TOKEN
 Exec=tunnel run
