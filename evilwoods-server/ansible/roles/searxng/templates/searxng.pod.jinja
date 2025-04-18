@@ -1,7 +1,7 @@
 [Unit]
 Description=SearXNG Pod
-Requires=caddy.service searxng-get-secrets.service
-After=caddy.service searxng-get-secrets.service
+Requires=searxng-get-secrets.service
+After=searxng-get-secrets.service
 
 [Pod]
 Network={{ evilwoods_container_network }}.network

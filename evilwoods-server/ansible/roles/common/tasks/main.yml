@@ -5,3 +5,10 @@
     owner: "{{ evilwoods_runner_user }}"
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'
+
+- name: Enable podman auto update timer
+  ansible.builtin.systemd:
+    name: podman-auto-update.timer
+    state: started
+    enabled: true
+    scope: user

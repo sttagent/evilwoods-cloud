@@ -6,10 +6,10 @@ After=caddy.service
 AutoUpdate=registry
 Image=docker.io/binwiederhier/ntfy:v2.11.0
 Exec=serve
-Network=evilcloud.network
+Network={{ evilwoods_container_network }}.network
 
 [Service]
-Restart=on-failure
+Restart=always
 
 [Install]
 WantedBy=default.target

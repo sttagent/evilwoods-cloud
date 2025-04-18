@@ -8,7 +8,7 @@ AutoUpdate=registry
 Image=docker.io/tombursch/kitchenowl:v0.6.11
 Secret=kitchenowl_jwt_secret,type=env,target=JWT_SECRET_KEY
 Volume={{ kitchenowl_data_volume }}:/data:Z
-Network=evilcloud.network
+Network={{ evilwoods_container_network }}.network
 
 [Service]
 Restart=always

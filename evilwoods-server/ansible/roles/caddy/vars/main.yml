@@ -1,4 +1,7 @@
+caddy_app_name: "{{ ansible_role_name }}"
 caddy_quadlet_path: "{{ evilwoods_data_path }}/.config/containers/systemd"
 caddy_acme_email: acme.kpo9e@ewmail.me
 caddy_acme_server: https://acme-v02.api.letsencrypt.org/directory
 caddy_acme_server_staging: https://acme-staging-v02.api.letsencrypt.org/directory
+
+caddy_image: "docker.io/library/caddy:2.9"

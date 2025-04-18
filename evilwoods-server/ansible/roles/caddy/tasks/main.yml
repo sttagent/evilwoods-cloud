@@ -1,43 +1,33 @@
-- name: Create Caddy configuration directory
+- name: "Create configuration directory for {{ caddy_app_name | upper }}"
   ansible.builtin.file:
     path: "{{ evilwoods_caddy_volume_service_path }}"
     state: directory
     mode: "0755"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
 
-- name: Copy Caddy configuration file
+- name: "Copy configuration file for {{ caddy_app_name | upper }}"
   ansible.builtin.copy:
     src: "Caddyfile"
     dest: "{{ evilwoods_caddy_volume_config_path }}/Caddyfile"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
     mode: "0644"
   notify: Restart caddy
 
-- name: Copy global configuration file
+- name: "Copy global configuration file for {{ caddy_app_name | upper }}"
   ansible.builtin.template:
     src: "global.caddyfile.jinja"
     dest: "{{ evilwoods_caddy_volume_config_path }}/global.caddyfile"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
     mode: "0644"
   notify: Restart caddy
 
-- name: Copy Caddy service quadlet file
+- name: "Copy service quadlet file for {{ caddy_app_name | upper }}"
   ansible.builtin.template:
     src: "caddy.container.jinja"
     dest: "{{ evilwoods_quadlet_path }}/caddy.container"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
     mode: "0644"
   notify: Restart caddy
 
-- name: Copy Caddy data volume file
+- name: "Copy data volume file for {{ caddy_app_name | upper }}"
   ansible.builtin.template:
     src: "caddy_data.volume.jinja"
     dest: "{{ evilwoods_quadlet_path }}/caddy_data.volume"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
     mode: "0644"
   notify: Restart caddy
