@@ -1,5 +1,7 @@
 [Unit]
 Description=Nextcloud FPM Container
+Wants=nexcloud-postgresql.service nextcloud-valkey.service
+After=nexcloud-postgresql.service nextcloud-valkey.service
 
 [Container]
 AutoUpdate=registry
