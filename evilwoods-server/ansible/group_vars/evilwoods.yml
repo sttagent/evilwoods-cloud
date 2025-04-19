@@ -1,15 +1,18 @@
-evilwoods_runner_user: container-runner
-evilwoods_runner_user_id: 1001
-evilwoods_runner_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFc8oFtu7i4WBlbcDMB7ua9cHJW2bzeomrLFddokw7v"
-evilwoods_data_path: /var/lib/storage/data
-evilwoods_quadlet_path: "{{ evilwoods_data_path }}/.config/containers/systemd"
-evilwoods_runner_unit_file_path: "{{ evilwoods_data_path }}/.config/systemd/user"
+evilwoods_runner_user: crunner
+evilwoods_runner_home: "/var/home/{{ evilwoods_runner_user }}"
+evilwoods_data_path: "{{ evilwoods_runner_home }}/data"
+evilwoods_volumes: "{{ evilwoods_data_path }}/volumes"
+evilwoods_named_volumes: "{{ evilwoods_volumes }}/named"
+evilwoods_unnamed_volumes: "{{ evilwoods_volumes }}/unnamed"
+evilwoods_quadlet_path: "{{ evilwoods_runner_home }}/.config/containers/systemd"
+evilwoods_unit_file_path: "{{ evilwoods_runner_home }}/.config/systemd/user"
+evilwoods_runner_bw_config_path: "{{ evilwoods_runner_home }}/.config/bws"
 
-evilwoods_domain_name: test.evilwoods.net
+evilwoods_domain_name: "{{ evilcloud_domain }}"
 
-evilwoods_caddy_volume_path: "{{ evilwoods_data_path }}/caddy"
-evilwoods_caddy_volume_config_path: "{{ evilwoods_caddy_volume_path }}/config"
-evilwoods_caddy_volume_service_path: "{{ evilwoods_caddy_volume_config_path }}/services"
+evilwoods_caddy_volume_path: "{{ evilwoods_unnamed_volumes }}/caddy"
+evilwoods_caddy_config_volume: "{{ evilwoods_caddy_volume_path }}/config"
+evilwoods_caddy_service_config_path: "{{ evilwoods_caddy_config_volume }}/services"
 evilwoods_nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
 
 evilwoods_container_network: evilcloud
@@ -20,4 +23,9 @@ evilwoods_container_ip_range: "{{ evilwoods_container_subnet_prefix }}.100-{{ ev
 evilwoods_caddy_ip: "{{ evilwoods_container_subnet_prefix }}.2"
 
 # TODO: minimize hardcoded values in container names
-evilwoods_container_name_prefix: quadlet-
+evilwoods_container_name_prefix: systemd
+
+evilwoods_caddy_service_name: "caddy"
+evilwoods_caddy_container_name: "{{ evilwoods_container_name_prefix }}-{{ evilwoods_caddy_service_name }} "
+
+evilwoods_nextcloud_volume: "nextcloud.volume"

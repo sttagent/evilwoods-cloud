@@ -1,0 +1,18 @@
+[Unit]
+Description={{ immich_app_name }} server container/service.
+Wants={{ immich_app_name }}-postgresql.service {{ immich_app_name }}-valkey.service {{ immich_app_name }}-machine-learning.service
+After={{ immich_app_name }}-postgresql.service {{ immich_app_name }}-valkey.service {{ immich_app_name }}-machine-learning.service
+
+[Container]
+AutoUpdate=registry
+Environment=DB_HOSTNAME={{ immich_postgresql_container_name }}
+Environment=DB_PASSWORD={{ immich_db_password }}
+Environment=DB_USERNAME={{ immich_db_user }}
+Environment=DB_DATABASE_NAME={{ immich_db_name }}
+Environment=REDIS_HOSTNAME={{ immich_valkey_container_name }}
+Environment=IMMICH_CONFIG_FILE={{ immich_settings_path }}/{{ immich_settings_file }}
+Image={{ immich_image }}
+Volume={{ immich_uploads_volume }}:/usr/src/app/upload:Z
+Volume={{ immich_config_volume }}:{{ immich_settings_path }}:Z
+Volume=/etc/localtime:/etc/localtime:ro
+Pod={{ immich_app_name }}.pod

@@ -1,4 +1,5 @@
 kitchenowl_app_name: "{{ ansible_role_name }}"
-kitchenowl_volume_path: "{{ evilwoods_data_path }}/{{ kitchenowl_app_name }}"
-kitchenowl_data_volume: "{{ kitchenowl_volume_path }}/kitchenowl_data"
-kitchenowl_url: "https://{{ kitchenowl_app_name }}.{{ evilwoods_domain_name }}"
+kitchenowl_container_name: "{{ evilwoods_container_name_prefix }}-{{ kitchenowl_app_name }}"
+kitchenowl_image: "docker.io/tombursch/kitchenowl:v0.6.11"
+kitchenowl_data_volume: "kitchenowl-data.volume"
+kitchenowl_url: "{{ kitchenowl_app_name }}.{{ evilwoods_domain_name }}"

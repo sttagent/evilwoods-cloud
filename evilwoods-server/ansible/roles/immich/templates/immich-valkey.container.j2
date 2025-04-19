@@ -1,0 +1,11 @@
+[Unit]
+Description={{ immich_app_name }} valkey Container/Service
+
+[Container]
+AutoUpdate=registry
+Image={{ immich_valkey_image }}
+Volume={{ immich_valkey_volume }}:/data
+Pod={{ immich_app_name }}.pod
+
+[Service]
+Restart=always

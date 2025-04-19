@@ -6,10 +6,10 @@
     main_user: aitvaras
     ansible_become_pass: "{{ main_user_password }}"
   roles:
-    - role: container-runner
+    - role: crunner
       become: true
       tags:
-        - container-runner
+        - crunner
         - roles
     - role: cloudflared
       become_user: "{{ evilwoods_runner_user }}"
@@ -40,16 +40,4 @@
       become: true
       tags:
         - kitchenowl
-        - roles
-    - role: immich
-      become_user: "{{ evilwoods_runner_user }}"
-      become: true
-      tags:
-        - immich
-        - roles
-    - role: nextcloud
-      become_user: "{{ evilwoods_runner_user }}"
-      become: true
-      tags:
-        - nextcloud
         - roles

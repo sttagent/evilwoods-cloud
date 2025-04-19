@@ -1,0 +1,2 @@
+crunner_quadlet_path: "{{ evilwoods_data_path }}/.config/containers/systemd"
+crunner_unit_file_path: "{{ evilwoods_data_path }}/.config/systemd/user"

@@ -1,0 +1,7 @@
+<?php
+
+$CONFIG = [
+    'trusted_proxies' => [ '127.0.0.1', '{{ evilwoods_caddy_ip }}' ],
+    'trusted_domains' => [ 'localhost', 'nextcloud.test.evilwoods.net' ],
+    'forwarded_for_headers' => [ 'HTTP_X_FORWARDED_FOR' ],
+];

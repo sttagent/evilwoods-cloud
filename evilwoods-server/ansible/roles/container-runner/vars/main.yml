@@ -1,2 +1,0 @@
-container_runner_quadlet_path: "{{ evilwoods_data_path }}/.config/containers/systemd"
-container_runner_unit_file_path: "{{ evilwoods_data_path }}/.config/systemd/user"

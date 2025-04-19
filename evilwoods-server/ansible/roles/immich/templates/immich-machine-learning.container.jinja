@@ -1,8 +1,0 @@
-[Unit]
-Description={{ immich_app_name }} Machine Learning Service
-
-[Container]
-AutoUpdate=registry
-Image=ghcr.io/immich-app/immich-machine-learning:v{{ immich_version }}
-Volume={{ immich_app_name }}-machine-learning.volume:/cache
-Pod=immich.pod

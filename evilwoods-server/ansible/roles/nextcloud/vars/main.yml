@@ -1,7 +1,20 @@
 nextcloud_app_name: "{{ ansible_role_name }}"
-nextcloud_url: "https://{{ nextcloud_app_name }}.{{ evilwoods_domain_name }}"
+nextcloud_service_name: "{{ nextcloud_app_name }}"
+nextcloud_container_name: "{{ evilwoods_container_name_prefix }}-{{ nextcloud_app_name }}"
+nextcloud_image: "docker.io/library/nextcloud:31-fpm-alpine"
+nextcloud_url: "{{ nextcloud_app_name }}.{{ evilwoods_domain_name }}"
 
-nextcloud_volume_path: "{{ evilwoods_data_path }}/nextcloud"
-nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
-nextcloud_config_volume: "{{ evilwoods_data_path }}/nextcloud/config"
-nextcloud_db_data_volume: "{{ evilwoods_data_path }}/nextcloud/db_data"
+nextcloud_volume_path: "{{ evilwoods_unnamed_volumes }}/nextcloud"
+nextcloud_volume: "{{ evilwoods_nextcloud_volume }}"
+nextcloud_data_volume: "{{ nextcloud_volume_path }}/data"
+nextcloud_config_volume: "{{ nextcloud_volume_path }}/config"
+
+# PostgreSQL
+nextcloud_postgresql_image: "docker.io/library/postgres:17-alpine"
+nextcloud_postgresql_user: "nextcloud"
+nextcloud_postgresql_password: "nextcloud"
+nextcloud_postgresql_db: "nextcloud"
+nextcloud_db_data_volume: "{{ nextcloud_volume_path }}/db_data"
+
+# Valkey
+nextcloud_valkey_image: "docker.io/valkey/valkey:8-alpine"

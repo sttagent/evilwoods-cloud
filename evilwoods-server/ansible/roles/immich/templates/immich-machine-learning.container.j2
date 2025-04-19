@@ -1,0 +1,8 @@
+[Unit]
+Description={{ immich_app_name }} Machine Learning Service
+
+[Container]
+AutoUpdate=registry
+Image={{ immich_machine_learning_image }}
+Volume={{ immich_model_cache_volume }}:/cache
+Pod=immich.pod

@@ -2,30 +2,28 @@
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
     mode: "0755"
   loop:
-    # - "{{ immich_db_data_volume }}"
-    - "{{ immich_upload_volume }}"
     - "{{ immich_config_volume }}"
 
 - name: "Render configuration files for {{ immich_app_name }}"
   ansible.builtin.template:
-    src: "immich.json.jinja"
-    dest: "{{ immich_config_volume }}/immich.json"
+    src: "{{ immich_settings_file }}.j2"
+    dest: "{{ immich_config_volume }}/{{ immich_settings_file }}"
     mode: "0644"
 
 - name: "Render quadlet files for {{ immich_app_name }}"
   ansible.builtin.template:
-    src: "{{ item }}.jinja"
+    src: "{{ item }}.j2"
     dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
     mode: "0644"
   notify: Restart immich
   loop:
     - "immich.pod"
-    - "immich-valkey-data.volume"
-    - "immich-model-cache.volume"
+    - "{{ immich_valkey_volume }}"
+    - "{{ immich_postgresql_volume }}"
+    - "{{ immich_model_cache_volume }}"
+    - "{{ immich_uploads_volume }}"
     - "immich-valkey.container"
     - "immich-postgresql.container"
     - "immich-machine-learning.container"
@@ -33,9 +31,7 @@
 
 - name: "Render caddyfile for {{ immich_app_name }}"
   ansible.builtin.template:
-    src: "immich.caddyfile.jinja"
-    dest: "{{ evilwoods_caddy_volume_service_path }}/immich.caddyfile"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
+    src: "immich.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_service_config_path }}/immich.caddyfile"
     mode: "0644"
   notify: Restart caddy

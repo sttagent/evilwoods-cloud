@@ -1,0 +1,8 @@
+[Unit]
+Description={{ nextcloud_app_name }} valkey container service.
+
+[Container]
+AutoUpdate=registry
+Image={{ nextcloud_valkey_image }}
+Volume=nextcloud-valkey-data.volume:/data
+Pod={{ nextcloud_app_name }}.pod

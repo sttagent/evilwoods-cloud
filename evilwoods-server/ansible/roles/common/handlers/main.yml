@@ -2,6 +2,5 @@
   ansible.builtin.systemd:
     name: caddy.service
     state: restarted
-    enabled: true
     daemon_reload: true
     scope: user

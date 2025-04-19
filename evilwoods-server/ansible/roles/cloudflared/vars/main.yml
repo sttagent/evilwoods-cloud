@@ -1,0 +1,3 @@
+cloudflared_app_name: "cloudflared"
+cloudflared_service_name: "{{ cloudflared_app_name }}"
+cloudflared_image: "docker.io/cloudflare/cloudflared:latest"

@@ -1,0 +1,1 @@
+common_containers_config_path: "{{ evilwoods_runner_home }}/.config/containers"

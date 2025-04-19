@@ -1,0 +1,11 @@
+[Unit]
+Description=SearXNG Container
+Wants={{ searxng_app_name }}-valkey.service
+After={{ searxng_app_name }}-valkey.service
+
+[Container]
+AutoUpdate=registry
+Image={{ searxng_image }}
+Volume={{ searxng_volume_path }}:/etc/searxng:Z
+Secret=searxng_secret,type=env,target=SEARXNG_SECRET
+Pod={{ searxng_app_name }}.pod

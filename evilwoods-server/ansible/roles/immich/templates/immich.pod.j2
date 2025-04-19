@@ -1,0 +1,11 @@
+[Unit]
+Description={{ immich_app_name }} App service
+
+[Pod]
+Network={{ evilwoods_container_network }}.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,17 @@
+[Unit]
+Description={{ kitchenowl_app_name }} container service.
+Requires={{ kitchenowl_app_name }}-get-secrets.service
+After={{ kitchenowl_app_name }}-get-secrets.service
+
+[Container]
+AutoUpdate=registry
+Image={{ kitchenowl_image }}
+Secret=kitchenowl_jwt_secret,type=env,target=JWT_SECRET_KEY
+Volume={{ kitchenowl_data_volume }}:/data:Z,U
+Network={{ evilwoods_container_network }}.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

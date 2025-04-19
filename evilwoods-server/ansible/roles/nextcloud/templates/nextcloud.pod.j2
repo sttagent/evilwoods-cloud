@@ -1,0 +1,12 @@
+[Unit]
+Description={{ nextcloud_app_name }} pod
+
+[Pod]
+AddHost={{ nextcloud_url }}:{{ evilwoods_caddy_ip }}
+Network={{ evilwoods_container_network }}.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

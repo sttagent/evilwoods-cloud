@@ -1,0 +1,35 @@
+- name: Ensure user paths exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0755"
+  loop:
+    - "{{ evilwoods_unit_file_path }}"
+    - "{{ evilwoods_quadlet_path }}"
+    - "{{ evilwoods_named_volumes }}"
+    - "{{ evilwoods_unnamed_volumes }}"
+    - "{{ evilwoods_runner_bw_config_path }}"
+
+- name: Create bws access token file
+  ansible.builtin.template:
+    src: "bw-env.j2"
+    dest: "{{ evilwoods_runner_bw_config_path }}/env"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0600"
+
+- name: Check if linger is enabled for runner user
+  ansible.builtin.stat:
+    path: "/var/lib/systemd/linger/{{ evilwoods_runner_user }}"
+  register: linger_check
+
+- name: Set linger for runner user
+  ansible.builtin.file:
+    path: "/var/lib/systemd/linger/{{ evilwoods_runner_user }}"
+    state: touch
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: "0644"
+  when: not linger_check.stat.exists

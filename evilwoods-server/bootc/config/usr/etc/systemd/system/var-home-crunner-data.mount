@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount storage directory
+
+[Mount]
+What=/dev/vdb
+Where=/var/home/crunner/data
+Type=xfs
+Options=defaults,noatime,nodiratime
+
+[Install]
+WantedBy=local-fs.target

@@ -1,8 +1,0 @@
-[Unit]
-Description={{ nextcloud_app_name }} valkey Container/Service
-
-[Container]
-AutoUpdate=registry
-Image=docker.io/valkey/valkey:8-alpine
-Volume=nextcloud-valkey-data.volume:/data
-Pod=nextcloud.pod

@@ -1,0 +1,10 @@
+evilwoods:
+  hosts:
+    evilcloud:
+      ansible_host: evilcloud-dev
+      acme_staging_server: https://acme-staging-v02.api.letsencrypt.org/directory
+      bw_access_token: "{{ evilcloud_test_bw_access_token }}"
+      cloudflare_bw_token_id: "500e590e-ba6a-491e-b428-b2a800ff4c5a"
+      searxng_jwt_secret: "0632763e-7472-42af-b3e4-b2b500e2023a"
+      evilcloud_domain: "test.evilwoods.net"
+      evilcloud_kitchenowl_jwt_secret: "054de8ac-dc72-4fa4-b085-b2b700cbf3d1"

@@ -1,0 +1,13 @@
+[Unit]
+Description={{ nextcloud_app_name }} postgresql container sevice
+
+[Container]
+AutoUpdate=registry
+Environment=POSTGRES_PASSWORD={{ nextcloud_postgresql_password }}
+Environment=POSTGRES_USER={{ nextcloud_postgresql_user }}
+Environment=POSTGRES_DB={{ nextcloud_postgresql_db }}
+Image={{ nextcloud_postgresql_image }}
+UserNS=keep-id:uid=70,gid=70
+Volume={{ nextcloud_db_data_volume }}:/var/lib/postgresql/data:Z
+
+Pod={{ nextcloud_app_name }}.pod

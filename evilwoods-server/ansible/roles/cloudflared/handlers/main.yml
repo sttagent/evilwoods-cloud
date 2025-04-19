@@ -1,9 +1,6 @@
-- name: Restart Cloudflared
-  become: true
-  become_user: "{{ evilwoods_runner_user }}"
+- name: "Restart {{ cloudflared_service_name }}"
   ansible.builtin.systemd:
-    name: cloudflared.service
+    name: "{{ cloudflared_service_name }}.service"
     state: restarted
-    enabled: true
     daemon_reload: true
     scope: user

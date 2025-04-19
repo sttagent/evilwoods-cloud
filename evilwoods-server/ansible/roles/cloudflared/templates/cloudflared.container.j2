@@ -1,0 +1,17 @@
+[Unit]
+Description={{ cloudflared_app_name }} container nservice
+BindsTo={{ cloudflared_app_name }}-get-secret.service
+After={{ cloudflared_app_name }}-get-secret.service
+
+[Container]
+AutoUpdate=registry
+Image={{ cloudflared_image }}
+Secret=cloudflared_tunnel_token,type=env,target=TUNNEL_TOKEN
+Exec=tunnel run
+Network=host
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

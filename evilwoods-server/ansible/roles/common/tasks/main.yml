@@ -1,7 +1,15 @@
 - name: Render evilcloud network quadlet
   ansible.builtin.template:
-    src: evilcloud.network.jinja
+    src: evilcloud.network.j2
     dest: "{{ evilwoods_quadlet_path }}/evilcloud.network"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: '0644'
+
+- name: Render podman config file
+  ansible.builtin.template:
+    src: containers.conf.j2
+    dest: "{{ common_containers_config_path }}/containers.conf"
     owner: "{{ evilwoods_runner_user }}"
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'

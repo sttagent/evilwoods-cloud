@@ -1,3 +1,4 @@
 ntfy_app_name: "{{ ansible_role_name }}"
-ntfy_port: 80
-ntfy_url: "http://ntfy.{{ evilwoods_domain_name }}"
+ntfy_container_name: "{{ evilwoods_container_name_prefix }}-{{ ntfy_app_name }}"
+ntfy_image: "docker.io/binwiederhier/ntfy:v2.11.0"
+ntfy_url: "{{ ntfy_app_name }}.{{ evilwoods_domain_name }}"

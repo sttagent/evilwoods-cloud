@@ -1,4 +1,4 @@
-- name: Ensure nextcloud paths exist
+- name: "Ensure paths exist for {{ nextcloud_app_name | upper }}"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -8,30 +8,37 @@
     - "{{ nextcloud_config_volume }}"
     - "{{ nextcloud_db_data_volume }}"
 
-- name: Render nextcloud quadlet files
+- name: "Render quadlet files for {{ nextcloud_app_name | upper }}"
   ansible.builtin.template:
-    src: "{{ item }}.jinja"
+    src: "{{ item }}.j2"
     dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
     mode: "0644"
   loop:
-    - nextcloud.volume
-    - nextcloud-valkey-data.volume
-    - nextcloud-postgresql.container
-    - nextcloud-valkey.container
-    - nextcloud-server.container
-    - nextcloud.pod
-  notify: Restart nextcloud
+    - "{{ nextcloud_volume }}"
+    - "{{ nextcloud_app_name }}-valkey-data.volume"
+    - "{{ nextcloud_app_name }}-postgresql.container"
+    - "{{ nextcloud_app_name }}-valkey.container"
+    - "{{ nextcloud_app_name }}-server.container"
+    - "{{ nextcloud_app_name }}.pod"
+  notify: "Restart {{ nextcloud_service_name }}"
 
-- name: Render nextcloud caddfile
+- name: "Render caddfile for {{ nextcloud_app_name | upper }}"
   ansible.builtin.template:
-    src: nextcloud.caddyfile.jinja
-    dest: "{{ evilwoods_caddy_volume_service_path }}/nextcloud.caddyfile"
+    src: "{{ nextcloud_app_name }}.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_service_config_path }}/{{ nextcloud_app_name }}.caddyfile"
     mode: "0644"
-  notify: Restart caddy
+  notify: "Restart {{ evilwoods_caddy_service_name }}"
 
-- name: Render nextcloud config.php
+- name: "Render config.php for {{ nextcloud_app_name | upper }}"
   ansible.builtin.template:
-    src: nextcloud-config.php.jinja
+    src: "nextcloud-config.php.j2"
     dest: "{{ nextcloud_config_volume }}/evilwoods.config.php"
     mode: "0644"
-  notify: Restart nextcloud
+  notify: "Restart {{ nextcloud_service_name }}"
+
+- name: "Render pre start script for {{ nextcloud_app_name | upper }}"
+  ansible.builtin.template:
+    src: "nextcloud-before-starting.sh.j2"
+    dest: "{{ nextcloud_config_volume }}/before-starting.sh"
+    mode: "0555"
+  notify: "Restart {{ nextcloud_service_name }}"

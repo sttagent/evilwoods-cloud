@@ -1,4 +1,0 @@
-evilwoods:
-  hosts:
-    evilcloud:
-      ansible_host: evilcloud-test

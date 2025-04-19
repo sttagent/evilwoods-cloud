@@ -1,0 +1,18 @@
+[Unit]
+Description={{ nextcloud_app_name }} fpm container service.
+Wants={{ nextcloud_app_name }}-postgresql.service {{ nextcloud_app_name }}-valkey.service
+After={{ nextcloud_app_name }}-postgresql.service {{ nextcloud_app_name }}-valkey.service
+
+[Container]
+AutoUpdate=registry
+Environment=NEXTCLOUD_TRUSTED_DOMAINS: {{ nextcloud_url }}
+Environment=POSTGRES_HOST={{ nextcloud_container_name }}-postgresql
+Environment=POSTGRES_USER={{ nextcloud_postgresql_user }}
+Environment=POSTGRES_PASSWORD={{ nextcloud_postgresql_password }}
+Environment=POSTGRES_DB={{ nextcloud_postgresql_db }}
+Environment=REDIS_HOST={{ nextcloud_container_name }}-valkey
+Image={{ nextcloud_image }}
+Volume={{ nextcloud_volume }}:/var/www/html:z
+Volume={{ nextcloud_config_volume }}/before-starting.sh:/docker-entrypoint-hooks.d/before-starting/before-starting.sh:Z
+# Volume={{ nextcloud_config_volume }}/evilwoods.config.php:/var/www/html/config/evilwoods.config.php:z
+Pod={{ nextcloud_app_name }}.pod

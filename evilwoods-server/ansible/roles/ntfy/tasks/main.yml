@@ -1,6 +1,6 @@
 - name: "Copy quadlet file. {{ ntfy_app_name }}"
   ansible.builtin.template:
-    src: "{{ ntfy_app_name }}.container.jinja"
+    src: "{{ ntfy_app_name }}.container.j2"
     dest: "{{ evilwoods_quadlet_path }}/{{ ntfy_app_name }}.container"
     mode: "0644"
   notify:
@@ -8,8 +8,8 @@
 
 - name: "Copy caddyfile. {{ ntfy_app_name }}"
   ansible.builtin.template:
-    src: "{{ ntfy_app_name }}.caddyfile.jinja"
-    dest: "{{ evilwoods_caddy_volume_service_path }}/{{ ntfy_app_name }}.caddyfile"
+    src: "{{ ntfy_app_name }}.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_service_config_path }}/{{ ntfy_app_name }}.caddyfile"
     mode: "0644"
   notify:
-    - Restart caddy
+    - "Restart {{ evilwoods_caddy_service_name }}"

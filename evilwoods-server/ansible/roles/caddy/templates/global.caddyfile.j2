@@ -1,0 +1,5 @@
+{
+    {% if acme_staging_server is defined %}
+    acme_ca {{ acme_staging_server }}
+    {% endif %}
+}
