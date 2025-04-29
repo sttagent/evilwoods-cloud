@@ -1,6 +1,6 @@
 [Unit]
 Description={{ cloudflared_app_name }} container nservice
-BindsTo={{ cloudflared_app_name }}-get-secret.service
+Requires={{ cloudflared_app_name }}-get-secret.service
 After={{ cloudflared_app_name }}-get-secret.service
 
 [Container]
