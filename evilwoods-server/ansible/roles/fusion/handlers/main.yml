@@ -1,0 +1,6 @@
+- name: "Restart {{ fusion_app_name }}"
+  ansible.builtin.systemd:
+    name: "{{ fusion_service_name }}"
+    state: restarted
+    scope: user
+    daemon_reload: true

@@ -1,0 +1,8 @@
+fusion_app_name: "{{ ansible_role_name }}"
+fusion_container_name: "{{ evilwoods_container_name_prefix }}-{{ fusion_app_name }}"
+fusion_service_name: "{{ fusion_app_name }}"
+fusion_url: "rss.{{ evilwoods_domain_name }}"
+
+fusion_data_volume: "{{ fusion_app_name }}-data.volume"
+
+fusion_image: "ghcr.io/0x2e/fusion:latest"

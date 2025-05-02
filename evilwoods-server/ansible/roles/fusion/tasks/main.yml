@@ -1,0 +1,18 @@
+- name: "Render quadlet files for {{ fusion_app_name | upper }}"
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - "fusion-data.volume"
+    - "fusion.container"
+  notify:
+    - "Restart {{ fusion_app_name }}"
+
+- name: "Render caddyfile for {{ fusion_app_name | upper }}"
+  ansible.builtin.template:
+    src: "{{ fusion_app_name }}.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_service_config_path }}/{{ fusion_app_name }}.caddyfile"
+    mode: "0644"
+  notify:
+    - "Restart {{ evilwoods_caddy_service_name }}"
