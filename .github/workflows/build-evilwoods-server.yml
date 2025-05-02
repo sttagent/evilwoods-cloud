@@ -25,6 +25,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
 
+      - name: Set current date as variable
+        run: echo "TAG_CURRENT_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+
       - name: Build container image
         id: build-image
         uses: redhat-actions/buildah-build@v2.13
@@ -32,7 +35,7 @@ jobs:
           context: "./evilwoods-server/bootc"
           containerfiles: "./evilwoods-server/bootc/Containerfile"
           image: ${{ env.IMAGE_NAME }}
-          tags: latest ${{ github.sha }}
+          tags: latest ${{ github.sha }} ${{ env.TAG_CURRENT_DATE }}
           layers: false
           oci: true
 
