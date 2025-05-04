@@ -1,0 +1,53 @@
+- name: "Render quadlet files."
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - "authelia.pod"
+    - "authelia-valkey-data.volume"
+    - "authelia-valkey.container"
+    - "authelia-server.container"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Render get-secrets service unit file."
+  ansible.builtin.template:
+    src: "{{ authelia_get_secrets_service_name }}.service.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ authelia_get_secrets_service_name }}.service"
+    mode: "0644"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Ensure config path exists for {{ authelia_app_name | upper }}"
+  ansible.builtin.file:
+    path: "{{ authelia_config_path }}"
+    state: directory
+    mode: "0755"
+
+- name: "Render get-secrets script."
+  ansible.builtin.template:
+    src: "{{ authelia_get_secrets_script_name }}.j2"
+    dest: "{{ authelia_volume_path }}/{{ authelia_get_secrets_service_name }}.sh"
+    mode: "0775"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Render config files."
+  ansible.builtin.template:
+    src: "{{ authelia_app_name }}-{{ item }}.j2"
+    dest: "{{ authelia_config_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - "configuration.yml"
+    - "{{ authelia_userdb_file }}"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Render caddy config file."
+  ansible.builtin.template:
+    src: "{{ authelia_app_name }}.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_service_config_path }}/{{ authelia_app_name }}.caddyfile"
+    mode: "0644"
+  notify:
+    - "Restart {{ evilwoods_caddy_service_name }}"

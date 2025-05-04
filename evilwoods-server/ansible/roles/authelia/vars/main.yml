@@ -1,0 +1,16 @@
+authelia_app_name: "{{ ansible_role_name }}"
+authelia_service_name: "{{ authelia_app_name }}-pod"
+authelia_pod_name: "{{ evilwoods_container_name_prefix }}-{{ authelia_app_name }}"
+authelia_url: "auth.{{ evilwoods_domain_name }}"
+authelia_get_secrets_service_name: "{{ authelia_app_name }}-get-secrets"
+authelia_get_secrets_script_name: "{{ authelia_get_secrets_service_name }}.sh"
+
+authelia_image: "docker.io/authelia/authelia:4.39"
+authelia_valkey_image: "docker.io/valkey/valkey:8.1-alpine"
+authelia_session_secret_name: "{{ authelia_app_name }}_session_secret"
+authelia_storage_encryption_key_name: "{{ authelia_app_name }}_storage_encryption_key"
+authelia_notifier_smtp_password_name: "{{ authelia_app_name }}_notifier_smtp_password"
+
+authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ authelia_app_name }}"
+authelia_config_path: "{{ authelia_volume_path }}/config"
+authelia_userdb_file: "user-database.yml"

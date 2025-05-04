@@ -1,5 +1,7 @@
 {
-    {% if acme_staging_server is defined %}
+{% if acme_staging_server is defined %}
     acme_ca {{ acme_staging_server }}
-    {% endif %}
+{% endif %}
+
+    trusted_proxies {{ evilwoods_container_subnet }}
 }

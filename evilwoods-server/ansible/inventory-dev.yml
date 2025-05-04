@@ -8,3 +8,6 @@ evilwoods:
       searxng_jwt_secret: "0632763e-7472-42af-b3e4-b2b500e2023a"
       evilcloud_domain: "test.evilwoods.net"
       evilcloud_kitchenowl_jwt_secret: "054de8ac-dc72-4fa4-b085-b2b700cbf3d1"
+      authelia_session_secret_id: "8e2fb9e6-9125-4971-a7dd-b2d400927003"
+      authelia_storage_encryption_key_id: "bad501ea-0a9a-49be-8625-b2d40142ca3b"
+      authelia_notifier_smtp_password_id: "97b6b871-5ae6-4fab-80e3-b2d4014700bc"

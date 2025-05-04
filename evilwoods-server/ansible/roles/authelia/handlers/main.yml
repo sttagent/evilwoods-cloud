@@ -1,0 +1,6 @@
+- name: "Restart {{ authelia_app_name }}"
+  ansible.builtin.systemd:
+    name: "{{ authelia_service_name }}"
+    state: restarted
+    scope: user
+    daemon_reload: true
