@@ -9,3 +9,4 @@ evilwoods:
       evilcloud_kitchenowl_jwt_secret: "af2d528d-07f6-479e-aec2-b2ce0082b3aa"
       authelia_session_secret_id: "7104e6cf-1e6c-49ac-a9be-b2d40092c70a"
       authelia_storage_encryption_key_id: "5dc6ed80-29f5-4ca6-8ca2-b2d401430352"
+      authelia_notifier_smtp_password_id: ""
