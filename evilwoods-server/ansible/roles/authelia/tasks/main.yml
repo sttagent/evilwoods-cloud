@@ -11,14 +11,6 @@
   notify:
     - "Restart {{ authelia_app_name }}"
 
-- name: "Render get-secrets service unit file."
-  ansible.builtin.template:
-    src: "{{ authelia_get_secrets_service_name }}.service.j2"
-    dest: "{{ evilwoods_unit_file_path }}/{{ authelia_get_secrets_service_name }}.service"
-    mode: "0644"
-  notify:
-    - "Restart {{ authelia_app_name }}"
-
 - name: "Ensure config path exists for {{ authelia_app_name | upper }}"
   ansible.builtin.file:
     path: "{{ authelia_config_path }}"
