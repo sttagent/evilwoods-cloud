@@ -2,4 +2,13 @@ kitchenowl_app_name: "{{ ansible_role_name }}"
 kitchenowl_container_name: "{{ evilwoods_container_name_prefix }}-{{ kitchenowl_app_name }}"
 kitchenowl_image: "docker.io/tombursch/kitchenowl:v0.6.15"
 kitchenowl_data_volume: "kitchenowl-data.volume"
+kitchenowl_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ kitchenowl_app_name }}"
 kitchenowl_url: "{{ kitchenowl_app_name }}.{{ evilwoods_domain_name }}"
+kitchenowl_jwt_secret_name: "{{ kitchenowl_app_name }}_jwt_secret"
+
+kitchenowl_get_secret_script_name: "{{ kitchenowl_app_name }}_get_secrets.sh"
+kitchenowl_get_secrets_script: "{{ kitchenowl_volume_path }}/{{ kitchenowl_get_secret_script_name }}"
+
+kitchenowl_oidc_client_name: "{{ kitchenowl_app_name }}_oidc_client_id"
+kitchenowl_oidc_client_secret_name: "{{ kitchenowl_app_name }}_oidc_client_secret"
+kitchenowl_oidc_client_secret_hash_name: "{{ kitchenowl_app_name }}_oidc_client_secret_hash"

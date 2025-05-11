@@ -15,7 +15,8 @@ authelia_oidc_hmac_secret_name: "{{ authelia_app_name }}_oidc_hmac_secret"
 authelia_oidc_jwks_private_key_name: "{{ authelia_app_name }}_oidc_jwks_private_key"
 
 authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ authelia_app_name }}"
-authelia_config_path: "{{ authelia_volume_path }}/config"
+# TODO put conpig files into subdirectory (config.d or something else). Adapt the whole role
+authelia_config_volume: "{{ authelia_volume_path }}/config"
 authelia_userdb_file: "user-database.yml"
 
 authelia_env_filename: "env"

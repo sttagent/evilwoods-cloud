@@ -13,7 +13,7 @@
 
 - name: "Ensure config path exists for {{ authelia_app_name | upper }}"
   ansible.builtin.file:
-    path: "{{ authelia_config_path }}"
+    path: "{{ authelia_config_volume }}"
     state: directory
     mode: "0755"
 
@@ -25,7 +25,7 @@
   notify:
     - "Restart {{ authelia_app_name }}"
 
-- name: "Render environment file.."
+- name: "Render environment file."
   ansible.builtin.template:
     src: "authelia-env.j2"
     dest: "{{ authelia_env_file }}"
@@ -36,7 +36,7 @@
 - name: "Render config files."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}-{{ item }}.j2"
-    dest: "{{ authelia_config_path }}/{{ item }}"
+    dest: "{{ authelia_config_volume }}/{{ item }}"
     mode: "0644"
   loop:
     - "configuration.yml"

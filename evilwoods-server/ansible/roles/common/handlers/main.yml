@@ -4,3 +4,10 @@
     state: restarted
     daemon_reload: true
     scope: user
+
+- name: Restart authelia
+  ansible.builtin.systemd:
+    name: authelia-pod.service
+    state: restarted
+    daemon_reload: true
+    scope: user

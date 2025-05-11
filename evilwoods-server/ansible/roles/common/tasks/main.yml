@@ -1,3 +1,13 @@
+- name: Ensure required paths exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: '0775'
+  loop:
+    - "{{ evilwoods_authelia_quadlet_overrides_path }}"
+
 - name: Render evilcloud network quadlet
   ansible.builtin.template:
     src: evilcloud.network.j2

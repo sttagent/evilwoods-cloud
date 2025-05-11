@@ -4,11 +4,17 @@ Description={{ kitchenowl_app_name }} container service.
 [Container]
 AutoUpdate=registry
 Image={{ kitchenowl_image }}
-Secret=kitchenowl_jwt_secret,type=env,target=JWT_SECRET_KEY
+Environment=FRONT_URL=https://{{ kitchenowl_url }}
+Environment=OIDC_ISSUER=https://{{ evilwoods_oidc_issuer }}
+Secret={{ kitchenowl_jwt_secret_name }},type=env,target=JWT_SECRET_KEY
+Secret={{ kitchenowl_oidc_client_name }},type=env,target=OIDC_CLIENT_ID
+Secret={{ kitchenowl_oidc_client_secret_name }},type=env,target=OIDC_CLIENT_SECRET
 Volume={{ kitchenowl_data_volume }}:/data:Z,U
 Network={{ evilwoods_container_network }}.network
 
 [Service]
+EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+ExecStartPre={{ kitchenowl_get_secrets_script }}
 Restart=always
 
 [Install]

@@ -717,7 +717,7 @@ authentication_backend:
 access_control:
   ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   ## resource if there is no policy to be applied to the user.
-  default_policy: 'deny'
+  default_policy: 'one_factor'
 
   rules:
     ## Rules applied to everyone
@@ -1276,7 +1276,7 @@ identity_providers:
     ## The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     ## configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
     jwks:
-    -
+      -
       ## Key ID embedded into the JWT header for key matching. Must be an alphanumeric string with 7 or less characters.
       ## This value is automatically generated if not provided. It's recommended to not configure this.
       # key_id: 'example'
@@ -1288,7 +1288,7 @@ identity_providers:
       # use: 'sig'
 
       ## Required Private Key in PEM DER form.
-      key: {{ '{{ secret "/run/secrets/' + authelia_oidc_jwks_private_key_name + '" | mindent 10 "|" | msquote }}'  }}
+        key: {{ '{{ secret "/run/secrets/' + authelia_oidc_jwks_private_key_name + '" | mindent 10 "|" | msquote }}'  }}
         # -----BEGIN RSA PRIVATE KEY-----
         # ...
         # -----END RSA PRIVATE KEY-----
@@ -1372,10 +1372,10 @@ identity_providers:
     ## It's recommended you read the documentation before configuration of a registered client.
     ## See: https://www.authelia.com/c/oidc/registered-clients
     # clients:
-      # -
+      -
         ## The Client ID is the OAuth 2.0 and OpenID Connect 1.0 Client ID which is used to link an application to a
         ## configuration.
-        # client_id: 'myapp'
+        # client_id: ''
 
         ## The description to show to users when they end up on the consent screen. Defaults to the ID above.
         # client_name: 'My Application'

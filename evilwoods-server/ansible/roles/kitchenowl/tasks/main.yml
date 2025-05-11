@@ -1,3 +1,9 @@
+- name: Ensure kischenowl required paths exist
+  ansible.builtin.file:
+    path: "{{ kitchenowl_volume_path }}"
+    state: directory
+    mode: "0775"
+
 - name: Render kitchenowl quadlet file
   ansible.builtin.template:
     src: "{{ item }}.j2"
@@ -8,11 +14,25 @@
     - "kitchenowl.container"
     - "kitchenowl-data.volume"
 
-- name: Render kitchenowl secret retrieval unit file
+- name: Render kitchenowl authelia config
   ansible.builtin.template:
-    src: kitchenowl-get-secrets.service.j2
-    dest: "{{ evilwoods_unit_file_path }}/kitchenowl-get-secrets.service"
+    src: kitchenowl-authelia-config.yml.j2
+    dest: "{{ evilwoods_authelia_config_volume }}/kitchenowl-authelia-config.yml"
     mode: "0644"
+  notify: Restart authelia
+
+- name: Render authelia server quadlet overrides.
+  ansible.builtin.template:
+    src: kitchenowl-authelia-secrets.conf.j2
+    dest: "{{ evilwoods_authelia_quadlet_overrides_path }}/kitchenowl-secrets.conf"
+    mode: "0644"
+  notify: Restart authelia
+
+- name: Render kitchenowl secrets retrieval script.
+  ansible.builtin.template:
+    src: kitchenowl-get-secrets.sh.j2
+    dest: "{{ kitchenowl_get_secrets_script }}"
+    mode: "0774"
   notify: Restart kitchenowl
 
 - name: Render kitchenowl caddyfile
