@@ -25,6 +25,14 @@
   notify:
     - "Restart {{ authelia_app_name }}"
 
+- name: "Render environment file.."
+  ansible.builtin.template:
+    src: "authelia-env.j2"
+    dest: "{{ authelia_env_file }}"
+    mode: "0644"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
 - name: "Render config files."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}-{{ item }}.j2"

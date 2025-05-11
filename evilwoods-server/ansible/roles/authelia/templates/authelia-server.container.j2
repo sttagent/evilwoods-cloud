@@ -3,9 +3,7 @@ Description={{ authelia_app_name }} container service.
 
 [Container]
 AutoUpdate=registry
-Environment=AUTHELIA_SESSION_SECRET_FILE=/run/secrets/{{ authelia_session_secret_name }}
-Environment=AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/{{ authelia_storage_encryption_key_name }}
-Environment=AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE=/run/secrets/{{ authelia_notifier_smtp_password_name }}
+EnvironmentFile={{ authelia_env_file }}
 Image={{ authelia_image }}
 Secret={{ authelia_session_secret_name }}
 Secret={{ authelia_storage_encryption_key_name }}

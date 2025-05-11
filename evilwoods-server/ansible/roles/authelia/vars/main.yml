@@ -15,3 +15,6 @@ authelia_notifier_smtp_password_name: "{{ authelia_app_name }}_notifier_smtp_pas
 authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ authelia_app_name }}"
 authelia_config_path: "{{ authelia_volume_path }}/config"
 authelia_userdb_file: "user-database.yml"
+
+authelia_env_filename: "env"
+authelia_env_file: "{{ authelia_volume_path }}/{{ authelia_env_filename }}"
