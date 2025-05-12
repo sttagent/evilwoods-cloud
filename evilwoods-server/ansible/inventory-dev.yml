@@ -11,3 +11,4 @@ evilwoods:
       authelia_session_secret_id: "8e2fb9e6-9125-4971-a7dd-b2d400927003"
       authelia_storage_encryption_key_id: "bad501ea-0a9a-49be-8625-b2d40142ca3b"
       authelia_notifier_smtp_password_id: "97b6b871-5ae6-4fab-80e3-b2d4014700bc"
+      authelia_oidc_hmac_secret_id: "a202abfc-e3cf-4ac0-a80d-b2db015b8b36"
