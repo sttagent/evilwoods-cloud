@@ -12,6 +12,7 @@ authelia_session_secret_name: "{{ authelia_app_name }}_session_secret"
 authelia_storage_encryption_key_name: "{{ authelia_app_name }}_storage_encryption_key"
 authelia_notifier_smtp_password_name: "{{ authelia_app_name }}_notifier_smtp_password"
 authelia_oidc_hmac_secret_name: "{{ authelia_app_name }}_oidc_hmac_secret"
+authelia_oidc_jwks_private_key_name: "{{ authelia_app_name }}_oidc_jwks_private_key"
 
 authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ authelia_app_name }}"
 authelia_config_path: "{{ authelia_volume_path }}/config"

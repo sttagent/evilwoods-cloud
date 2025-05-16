@@ -8,6 +8,7 @@ Image={{ authelia_image }}
 Secret={{ authelia_session_secret_name }}
 Secret={{ authelia_storage_encryption_key_name }}
 Secret={{ authelia_notifier_smtp_password_name }}
+Secret={{ authelia_oidc_jwks_private_key_name }}
 Volume={{ authelia_config_path }}:/config:Z
 Pod={{ authelia_app_name }}.pod
 
