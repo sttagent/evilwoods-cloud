@@ -2,10 +2,10 @@ default:
     @just --list
 
 build FOLDER:
-    podman build ./evilwoods-{{FOLDER}}/bootc -t evilwoods-{{FOLDER}}:latest
+    podman build ./bootc/evilwoods-{{FOLDER}} -t evilwoods-{{FOLDER}}:latest
 
-build-image TYPE:
-    cd evilwoods-server/bootc && \
+build-image WHAT TYPE:
+    cd bootc/evilwoods-{{WHAT}} && \
     mkdir -p output && \
     sudo podman run \
         --rm \
@@ -26,7 +26,7 @@ build-image TYPE:
 
 
 playbook ENV *EXTRA_FLAGS:
-    cd evilwoods-server/ansible && \
+    cd ansible && \
     ansible-playbook \
         -i inventory-{{ENV}}.yml \
         setup-evilcloud-playbook.yml \

@@ -1,0 +1,14 @@
+{
+  "customizations": {
+    "user": [
+      {
+        "name": "aitvaras",
+        "password": "chasing3.canyon",
+        "groups": ["wheel"]
+      },
+      {
+        "name": "crunner"
+      }
+    ]
+  }
+}
