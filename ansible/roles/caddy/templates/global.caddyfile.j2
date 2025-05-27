@@ -3,5 +3,7 @@
     acme_ca {{ acme_staging_server }}
 {% endif %}
 
-    trusted_proxies {{ evilwoods_container_subnet }}
+    servers {
+        trusted_proxies static {{ evilwoods_container_subnet }}
+    }
 }
