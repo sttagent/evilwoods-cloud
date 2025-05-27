@@ -5,7 +5,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "evilwoods-server/bootc/**"
+      - "bootc/evilwoods-server/**"
   workflow_dispatch:
 
 env:
@@ -32,8 +32,8 @@ jobs:
         id: build-image
         uses: redhat-actions/buildah-build@v2.13
         with:
-          context: "./evilwoods-server/bootc"
-          containerfiles: "./evilwoods-server/bootc/Containerfile"
+          context: "./bootc/evilwoods-server/"
+          containerfiles: "./bootc/evilwoods-server/Containerfile"
           image: ${{ env.IMAGE_NAME }}
           tags: latest ${{ github.sha }} ${{ env.TAG_CURRENT_DATE }}
           layers: false
