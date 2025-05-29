@@ -13,7 +13,7 @@
 
 - name: "Ensure config path exists for {{ authelia_app_name | upper }}"
   ansible.builtin.file:
-    path: "{{ authelia_config_volume }}"
+    path: "{{ authelia_config_volume }}/config"
     state: directory
     mode: "0755"
 
@@ -33,14 +33,23 @@
   notify:
     - "Restart {{ authelia_app_name }}"
 
-- name: "Render config files."
+- name: "Render userdb files."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}-{{ item }}.j2"
     dest: "{{ authelia_config_volume }}/{{ item }}"
     mode: "0644"
   loop:
-    - "configuration.yml"
     - "{{ authelia_userdb_file }}"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Render config files."
+  ansible.builtin.template:
+    src: "{{ authelia_app_name }}-{{ item }}.j2"
+    dest: "{{ authelia_config_volume }}/config/{{ item }}"
+    mode: "0644"
+  loop:
+    - "configuration.yml"
   notify:
     - "Restart {{ authelia_app_name }}"
 

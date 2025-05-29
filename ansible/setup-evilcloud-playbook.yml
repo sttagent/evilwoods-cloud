@@ -23,6 +23,12 @@
       tags:
         - caddy
         - roles
+    - role: authelia
+      become_user: "{{ evilwoods_runner_user }}"
+      become: true
+      tags:
+        - authelia
+        - roles
     - role: searxng
       become_user: "{{ evilwoods_runner_user }}"
       become: true
@@ -46,10 +52,4 @@
       become: true
       tags:
         - fusion
-        - roles
-    - role: authelia
-      become_user: "{{ evilwoods_runner_user }}"
-      become: true
-      tags:
-        - authelia
         - roles

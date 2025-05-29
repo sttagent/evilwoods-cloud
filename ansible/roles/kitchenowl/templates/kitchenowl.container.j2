@@ -3,6 +3,7 @@ Description={{ kitchenowl_app_name }} container service.
 
 [Container]
 AutoUpdate=registry
+AddHost=auth.{{ evilwoods_domain_name }}:10.200.0.2
 Image={{ kitchenowl_image }}
 Environment=FRONT_URL=https://{{ kitchenowl_url }}
 Environment=OIDC_ISSUER=https://{{ evilwoods_oidc_issuer }}
