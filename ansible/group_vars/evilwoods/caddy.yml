@@ -1,0 +1,6 @@
+evilwoods_caddy_volume_path: "{{ evilwoods_unnamed_volumes }}/caddy"
+evilwoods_caddy_config_volume: "{{ evilwoods_caddy_volume_path }}/config"
+evilwoods_caddy_service_config_path: "{{ evilwoods_caddy_config_volume }}/services"
+evilwoods_caddy_service_name: "caddy"
+evilwoods_caddy_container_name: "{{ evilwoods_container_name_prefix }}-{{ evilwoods_caddy_service_name }} "
+evilwoods_caddy_ip: "{{ evilwoods_container_subnet_prefix }}.2"

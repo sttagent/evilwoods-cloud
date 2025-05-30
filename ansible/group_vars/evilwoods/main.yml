@@ -16,19 +16,6 @@ evilwoods_container_gateway: "{{ evilwoods_container_subnet_prefix }}.1"
 evilwoods_container_ip_range: "{{ evilwoods_container_subnet_prefix }}.100-{{ evilwoods_container_subnet_prefix }}.200"
 evilwoods_oidc_issuer: "auth.{{ evilcloud_domain }}"
 
-evilwoods_caddy_volume_path: "{{ evilwoods_unnamed_volumes }}/caddy"
-evilwoods_caddy_config_volume: "{{ evilwoods_caddy_volume_path }}/config"
-evilwoods_caddy_service_config_path: "{{ evilwoods_caddy_config_volume }}/services"
-evilwoods_caddy_service_name: "caddy"
-evilwoods_caddy_container_name: "{{ evilwoods_container_name_prefix }}-{{ evilwoods_caddy_service_name }} "
-evilwoods_caddy_ip: "{{ evilwoods_container_subnet_prefix }}.2"
-
-evilwoods_authelia_app_name: "authelia"
-evilwoods_authelia_container_name: "{{ evilwoods_container_name_prefix }}-{{ evilwoods_authelia_app_name }}"
-evilwoods_authelia_quadlet_overrides_path: "{{ evilwoods_quadlet_path }}/authelia-server.container.d"
-evilwoods_authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ evilwoods_authelia_app_name }}"
-evilwoods_authelia_config_volume: "{{ evilwoods_authelia_volume_path }}/config/config"
-
 # TODO: minimize hardcoded values in container names
 
 evilwoods_nextcloud_volume: "nextcloud.volume"
