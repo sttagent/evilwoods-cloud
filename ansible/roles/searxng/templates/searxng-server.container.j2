@@ -9,3 +9,6 @@ Image={{ searxng_image }}
 Volume={{ searxng_volume_path }}:/etc/searxng:Z
 Secret=searxng_secret,type=env,target=SEARXNG_SECRET
 Pod={{ searxng_app_name }}.pod
+
+[Service]
+ExecPreStart=/usr/bin/bash -c "bws secret get {{ searxng_jwt_secret }} | jq -r '.value' | podman secret create --replace searxng_secret -"
