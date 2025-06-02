@@ -1,7 +1,5 @@
 [Unit]
 Description={{ cloudflared_app_name }} container nservice
-Requires={{ cloudflared_app_name }}-get-secret.service
-After={{ cloudflared_app_name }}-get-secret.service
 
 [Container]
 AutoUpdate=registry
@@ -11,6 +9,7 @@ Exec=tunnel run
 Network=host
 
 [Service]
+ExecPreStart=/usr/bin/bash -c "bws secret get {{ cloudflare_bw_token_id }} | jq -r '.value' | podman secret create --replace cloudflared_tunnel_token -"
 Restart=always
 
 [Install]
