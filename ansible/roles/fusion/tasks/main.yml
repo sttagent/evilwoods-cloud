@@ -1,3 +1,8 @@
+- name: "Pull fusion image."
+  containers.podman.podman_image:
+    name: "{{ fusion_image }}"
+    state: present
+
 - name: "Render quadlet files for {{ fusion_app_name | upper }}"
   ansible.builtin.template:
     src: "{{ item }}.j2"

@@ -4,6 +4,14 @@
     state: directory
     mode: "0755"
 
+- name: Pull searxng image.
+  containers.podman.podman_image:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ searxng_image }}"
+    - "{{ searxng_valkey_image }}"
+
 - name: Copy secret retrieval service file
   ansible.builtin.template:
     src: searxng-get-secrets.service.j2

@@ -4,6 +4,11 @@
     state: directory
     mode: "0755"
 
+- name: "Pull caddy image."
+  containers.podman.podman_image:
+    name: "{{ evilwoods_caddy_image }}"
+    state: present
+
 - name: "Copy configuration file for {{ caddy_app_name | upper }}"
   ansible.builtin.copy:
     src: "Caddyfile"

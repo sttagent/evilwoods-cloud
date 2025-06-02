@@ -1,3 +1,8 @@
+- name: Pull ntfy image.
+  containers.podman.podman_image:
+    name: "{{ ntfy_image }}"
+    state: present
+
 - name: "Copy quadlet file. {{ ntfy_app_name }}"
   ansible.builtin.template:
     src: "{{ ntfy_app_name }}.container.j2"

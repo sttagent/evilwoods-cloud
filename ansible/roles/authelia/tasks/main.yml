@@ -11,6 +11,14 @@
   notify:
     - "Restart {{ authelia_app_name }}"
 
+- name: "Pull app image."
+  containers.podman.podman_image:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ authelia_image }}"
+    - "{{ authelia_valkey_image }}"
+
 - name: "Ensure config path exists for {{ authelia_app_name | upper }}"
   ansible.builtin.file:
     path: "{{ authelia_config_volume }}/config"

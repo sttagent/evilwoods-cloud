@@ -4,6 +4,11 @@
     state: directory
     mode: "0775"
 
+- name: Pull kitchenowl image.
+  containers.podman.podman_image:
+    name: "{{ kitchenowl_image }}"
+    state: present
+
 - name: Render kitchenowl quadlet file
   ansible.builtin.template:
     src: "{{ item }}.j2"

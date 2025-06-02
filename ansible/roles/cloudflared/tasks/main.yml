@@ -5,6 +5,11 @@
     mode: "0644"
   notify: "Restart {{ cloudflared_service_name }}"
 
+- name: "Pull cloudflared image."
+  containers.podman.podman_image:
+    name: "{{ cloudflared_image }}"
+    state: present
+
 - name: "Copy service quadlet file or {{ cloudflared_app_name | upper }}"
   ansible.builtin.template:
     src: "{{ cloudflared_app_name }}.container.j2"
