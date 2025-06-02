@@ -53,3 +53,9 @@
       tags:
         - fusion
         - roles
+    - role: actual
+      become_user: "{{ evilwoods_runner_user }}"
+      become: true
+      tags:
+        - actual
+        - roles
