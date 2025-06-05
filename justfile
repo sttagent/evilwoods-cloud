@@ -4,7 +4,7 @@ default:
 build FOLDER:
     podman build ./bootc/evilwoods-{{FOLDER}} -t evilwoods-{{FOLDER}}:latest
 
-build-image WHAT TYPE:
+build-image WHAT TYPE BASE:
     cd bootc/evilwoods-{{WHAT}} && \
     mkdir -p output && \
     sudo podman run \
@@ -18,9 +18,10 @@ build-image WHAT TYPE:
         -v /var/lib/containers/storage:/var/lib/containers/storage \
         --label bootc.image.builder=true \
         quay.io/centos-bootc/bootc-image-builder:latest \
-        localhost/evilwoods-server:latest \
+        localhost/evilwoods-server:latest-{{ BASE }} \
         --output /output/ \
         --type {{TYPE}} \
+        --rootfs xfs \
         --target-arch amd64 \
         --chown 1000:1000
 

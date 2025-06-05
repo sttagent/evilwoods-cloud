@@ -39,12 +39,3 @@ cp zellij /usr/local/bin/
 wget  "https://github.com/go-acme/lego/releases/download/v${lego_version}/${lego_archive}"
 tar -xvf $lego_archive
 cp lego /usr/local/bin/
-
-EVILWOODS_XONSH_INSTALL_PATH=/usr/local/share/xonsh-env
-EVILWOODS_PYTHON_VERSION=3.13
-
-mkdir -p $EVILWOODS_XONSH_INSTALL_PATH
-mkdir --mode=700 -p /var/roothome
-
-TARGET_DIR=$EVILWOODS_XONSH_INSTALL_PATH PYTHON_VER=$EVILWOODS_PYTHON_VERSION \
- /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/anki-code/xonsh-install/main/mamba-install-xonsh.sh)"

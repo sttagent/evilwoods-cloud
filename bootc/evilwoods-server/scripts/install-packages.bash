@@ -2,9 +2,8 @@
 
 set -euo pipefail
 
-dnf -y install epel-release
-dnf -y install rsync fish qemu-guest-agent firewalld \
-    cockpit cockpit-podman cockpit-ostree unzip wget policycoreutils-python-utils
-dnf config-manager -y --add-repo https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
-dnf -y install tailscale
+dnf install -y dnf5-plugins
+dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+dnf -y install rsync qemu-guest-agent firewalld \
+    cockpit cockpit-podman cockpit-ostree unzip wget xonsh tailscale
 dnf clean all
