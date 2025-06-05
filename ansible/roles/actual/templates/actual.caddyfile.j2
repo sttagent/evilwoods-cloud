@@ -1,0 +1,4 @@
+https://{{ actual_url}} {
+    encode gzip zstd
+    reverse_proxy {{ actual_container_name }}:5006
+}

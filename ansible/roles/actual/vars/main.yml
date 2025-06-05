@@ -1,0 +1,8 @@
+actual_app_name: "actual"
+actual_container_name: "{{ actual_prefix }}{{ actual_app_name }}"
+actual_image: "docker.io/actualbudget/actual-server:25.5.0-alpine"
+actual_prefix: "quadlet-"
+# actual_data_volume: "{{ evilwoods_unnamed_volumes }}/{{ actual_app_name }}/data"
+actual_data_volume: "{{ actual_app_name }}-data"
+actual_url: "{{ actual_app_name }}.{{ evilwoods_domain_name }}"
+actual_caddy_file: "{{ actual_app_name }}.caddyfile"
