@@ -1,3 +1,4 @@
 cloudflared_app_name: "cloudflared"
+cloudflared_container_name: "{{ evilwoods_container_name_prefix}}{{cloudflared_app_name }}"
 cloudflared_service_name: "{{ cloudflared_app_name }}"
 cloudflared_image: "docker.io/cloudflare/cloudflared:latest"

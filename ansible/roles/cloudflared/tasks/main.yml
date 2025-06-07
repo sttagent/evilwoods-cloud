@@ -3,9 +3,27 @@
     name: "{{ cloudflared_image }}"
     state: present
 
-- name: "Copy service quadlet file or {{ cloudflared_app_name | upper }}"
-  ansible.builtin.template:
-    src: "{{ cloudflared_app_name }}.container.j2"
-    dest: "{{ evilwoods_quadlet_path }}/{{ cloudflared_app_name }}.container"
-    mode: "0644"
-  notify: Restart {{ cloudflared_service_name }}
+- name: Create container quadlet.
+  containers.podman.podman_container:
+    name: "{{ cloudflared_container_name }}"
+    state: quadlet
+    image: "{{ cloudflared_image }}"
+    network: "host"
+    secrets:
+      - "cloudflared_tunnel_token,type=env,target=TUNNEL_TOKEN"
+    command: "tunnel run"
+    quadlet_filename: "{{ cloudflared_app_name }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - |
+        [Unit]
+        Description={{ cloudflared_app_name }} container
+      - |
+        [Service]
+        EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+        ExecStartPre=/usr/bin/bash -c "bws secret get {{ cloudflare_bw_token_id }} | jq -r '.value' | podman secret create --replace cloudflared_tunnel_token -"
+        Restart=always
+      - |
+        [Install]
+        WantedBy=default.target
+  notify: "Restart {{ cloudflared_app_name }}"
