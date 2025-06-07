@@ -9,7 +9,8 @@ Exec=tunnel run
 Network=host
 
 [Service]
-ExecPreStart=/usr/bin/bash -c "bws secret get {{ cloudflare_bw_token_id }} | jq -r '.value' | podman secret create --replace cloudflared_tunnel_token -"
+EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+ExecStartPre=/usr/bin/bash -c "bws secret get {{ cloudflare_bw_token_id }} | jq -r '.value' | podman secret create --replace cloudflared_tunnel_token -"
 Restart=always
 
 [Install]
