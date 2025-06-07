@@ -7,7 +7,7 @@ evilwoods_unnamed_volumes: "{{ evilwoods_volumes }}/unnamed"
 evilwoods_quadlet_path: "{{ evilwoods_runner_home }}/.config/containers/systemd"
 evilwoods_unit_file_path: "{{ evilwoods_runner_home }}/.config/systemd/user"
 evilwoods_runner_bw_config_path: "{{ evilwoods_runner_home }}/.config/bws"
-evilwoods_container_name_prefix: systemd
+evilwoods_container_name_prefix: quadlet-
 evilwoods_domain_name: "{{ evilcloud_domain }}"
 evilwoods_container_network: evilcloud
 evilwoods_container_subnet_prefix: "10.200.0"
