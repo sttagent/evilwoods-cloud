@@ -1,7 +1,5 @@
 [Unit]
 Description=SearXNG Pod
-BindsTo={{ searxng_app_name }}-get-secrets.service
-After={{ searxng_app_name }}-get-secrets.service
 
 [Pod]
 Network={{ evilwoods_container_network }}.network

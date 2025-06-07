@@ -12,14 +12,6 @@
     - "{{ searxng_image }}"
     - "{{ searxng_valkey_image }}"
 
-- name: Copy secret retrieval service file
-  ansible.builtin.template:
-    src: searxng-get-secrets.service.j2
-    dest: "{{ evilwoods_unit_file_path }}/searxng-get-secrets.service"
-    mode: "0644"
-  notify:
-    - "Restart {{ searxng_app_name }}-pod"
-
 - name: Copy quadlet files
   ansible.builtin.template:
     src: "{{ item }}.j2"
