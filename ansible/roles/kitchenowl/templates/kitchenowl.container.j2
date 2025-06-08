@@ -1,5 +1,7 @@
 [Unit]
 Description={{ kitchenowl_app_name }} container service.
+StartLimitBurst=5
+StartLimitIntervalSec=5min
 
 [Container]
 AutoUpdate=registry
@@ -16,7 +18,8 @@ Network={{ evilwoods_container_network }}.network
 [Service]
 EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
 ExecStartPre={{ kitchenowl_get_secrets_script }}
-Restart=always
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=default.target
