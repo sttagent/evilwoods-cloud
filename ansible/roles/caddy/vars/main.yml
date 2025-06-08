@@ -1,8 +1,10 @@
 caddy_app_name: "{{ ansible_role_name }}"
+caddy_container_name: "{{ evilwoods_container_name_prefix }}{{ caddy_app_name }}"
 caddy_quadlet_path: "{{ evilwoods_data_path }}/.config/containers/systemd"
 caddy_config_volume: "{{ evilwoods_caddy_config_volume }}"
 caddy_acme_server: https://acme-v02.api.letsencrypt.org/directory
 caddy_acme_server_staging: https://acme-staging-v02.api.letsencrypt.org/directory
 
 caddy_image: "docker.io/library/caddy:2.9"
-caddy_data_volume: "caddy-data.volume"
+caddy_data_volume_filename: "{{ caddy_app_name }}-data"
+caddy_data_volume_name: "{{ evilwoods_container_name_prefix }}{{ caddy_data_volume_filename }}"

@@ -14,25 +14,47 @@
     src: "Caddyfile"
     dest: "{{ evilwoods_caddy_config_volume }}/Caddyfile"
     mode: "0644"
-  notify: Restart caddy
+  notify: "Restart {{ caddy_app_name }}"
 
 - name: "Copy global configuration file for {{ caddy_app_name | upper }}"
   ansible.builtin.template:
     src: "global.caddyfile.j2"
     dest: "{{ evilwoods_caddy_config_volume }}/global.caddyfile"
     mode: "0644"
-  notify: Restart caddy
+  notify: "Restart {{ caddy_app_name }}"
 
-- name: "Copy service quadlet file for {{ caddy_app_name | upper }}"
-  ansible.builtin.template:
-    src: "caddy.container.j2"
-    dest: "{{ evilwoods_quadlet_path }}/caddy.container"
-    mode: "0644"
-  notify: Restart caddy
+- name: "Create data volume quadlet."
+  containers.podman.podman_volume:
+    name: "{{ caddy_data_volume_name }}"
+    state: quadlet
+    quadlet_filename: "{{ caddy_data_volume_filename }}"
+  notify: "Restart {{ caddy_app_name }}"
 
-- name: "Copy data volume file for {{ caddy_app_name | upper }}"
-  ansible.builtin.template:
-    src: "caddy-data.volume.j2"
-    dest: "{{ evilwoods_quadlet_path }}/caddy-data.volume"
-    mode: "0644"
-  notify: Restart caddy
+- name: "Create container quadlet."
+  containers.podman.podman_container:
+    name: "{{ caddy_container_name }}"
+    state: quadlet
+    image: "{{ caddy_image }}"
+    network: "{{ evilwoods_container_network }}.network"
+    volumes:
+      - "{{ evilwoods_caddy_config_volume }}:/etc/caddy:Z"
+      - "{{ caddy_data_volume_filename }}.volume:/data:Z"
+    publish:
+      - "8080:80"
+      - "8443:443"
+    ip: "{{ evilwoods_caddy_ip }}"
+    quadlet_filename: "{{ caddy_app_name }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - |
+        [Unit]
+        Description={{ caddy_app_name }} service.
+        Wants=cloudflared.service
+        After=cloudflared.service
+      - |
+        [Service]
+        Restart=always
+      - |
+        [Install]
+        WantedBy=default.target
+  notify: "Restart {{ caddy_app_name }}"
