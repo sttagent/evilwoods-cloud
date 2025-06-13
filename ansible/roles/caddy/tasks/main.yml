@@ -35,7 +35,7 @@
     name: "{{ caddy_container_name }}"
     state: quadlet
     image: "{{ caddy_image }}"
-    network: "{{ evilwoods_container_network }}.network"
+    network: "{{ evilwoods_container_network_file }}"
     volumes:
       - "{{ evilwoods_caddy_config_volume }}:/etc/caddy:Z"
       - "{{ caddy_data_volume_filename }}.volume:/data:Z"

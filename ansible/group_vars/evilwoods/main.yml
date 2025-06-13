@@ -10,7 +10,8 @@ evilwoods_unit_file_path: "{{ evilwoods_runner_home }}/.config/systemd/user"
 evilwoods_runner_bw_config_path: "{{ evilwoods_runner_home }}/.config/bws"
 evilwoods_container_name_prefix: quadlet-
 evilwoods_domain_name: "{{ evilcloud_domain }}"
-evilwoods_container_network: evilcloud
+evilwoods_container_network_name_name: evilcloud
+evilwoods_container_network_name_file: "{{ evilwoods_container_network_file }}"
 evilwoods_container_subnet_prefix: "10.200.0"
 evilwoods_container_subnet: "{{ evilwoods_container_subnet_prefix }}.0/24"
 evilwoods_container_gateway: "{{ evilwoods_container_subnet_prefix }}.1"

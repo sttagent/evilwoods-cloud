@@ -13,7 +13,7 @@ Secret={{ kitchenowl_jwt_secret_name }},type=env,target=JWT_SECRET_KEY
 Secret={{ kitchenowl_oidc_client_name }},type=env,target=OIDC_CLIENT_ID
 Secret={{ kitchenowl_oidc_client_secret_name }},type=env,target=OIDC_CLIENT_SECRET
 Volume={{ kitchenowl_data_volume }}:/data:Z,U
-Network={{ evilwoods_container_network }}.network
+Network={{ evilwoods_container_network_file }}
 
 [Service]
 EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env

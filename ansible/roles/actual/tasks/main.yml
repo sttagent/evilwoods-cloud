@@ -23,7 +23,7 @@
     image: "{{ actual_image }}"
     volumes:
       - "{{ actual_data_volume }}.volume:/data:Z"
-    network: "{{ evilwoods_container_network }}.network"
+    network: "{{ evilwoods_container_network_file }}"
     quadlet_filename: "{{ actual_app_name }}"
     quadlet_options:
       - "AutoUpdate=registry"
