@@ -1,16 +1,3 @@
-- name: "Render quadlet files."
-  ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
-    mode: "0644"
-  loop:
-    - "authelia.pod"
-    - "authelia-valkey-data.volume"
-    - "authelia-valkey.container"
-    - "authelia-server.container"
-  notify:
-    - "Restart {{ authelia_app_name }}"
-
 - name: "Pull app image."
   containers.podman.podman_image:
     name: "{{ item }}"
@@ -29,7 +16,7 @@
   ansible.builtin.template:
     src: "{{ authelia_get_secrets_script_name }}.j2"
     dest: "{{ authelia_volume_path }}/{{ authelia_get_secrets_service_name }}.sh"
-    mode: "0775"
+    mode: "0755"
   notify:
     - "Restart {{ authelia_app_name }}"
 
@@ -68,3 +55,79 @@
     mode: "0644"
   notify:
     - "Restart {{ evilwoods_caddy_service_name }}"
+
+- name: "Create pod quadlet."
+  containers.podman.podman_pod:
+    name: "{{ authelia_pod_name }}"
+    state: quadlet
+    network: "{{ evilwoods_container_network_file }}"
+    quadlet_filename: "{{ authelia_pod_file }}"
+    quadlet_options:
+      - |
+        [Unit]
+        Description={{ authelia_app_name }} pod service.
+        [Service]
+        Restart=on-failure
+        [Install]
+        WantedBy=default.target
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Create valkey data volume quadlet."
+  containers.podman.podman_volume:
+    name: "{{ authelia_valkey_data_volume_name }}"
+    state: quadlet
+    quadlet_filename: "{{ authelia_valkey_data_volume_file }}"
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Create authelia valkey container quadlet file."
+  containers.podman.podman_container:
+    name: "{{ authelia_valkey_container_name }}"
+    state: quadlet
+    image: "{{ authelia_valkey_image }}"
+    volumes:
+      - "{{ authelia_valkey_data_volume_file }}:/data"
+    pod: "{{ authelia_pod_file }}"
+    quadlet_filename: "{{ authelia_valkey_container_file }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - |
+        [Unit]
+        Description={{ authelia_app_name }} valkey container.
+        [Service]
+        Restart=on-failure
+  notify:
+    - "Restart {{ authelia_app_name }}"
+
+- name: "Create authelia container quadlet file."
+  containers.podman.podman_container:
+    name: "{{ authelia_container_name }}"
+    state: quadlet
+    image: "{{ authelia_image }}"
+    env_file: "{{ authelia_env_file }}"
+    volumes:
+      - "{{ authelia_config_volume }}:/config:Z"
+    secrets:
+      - "{{ authelia_session_secret_name }}"
+      - "{{ authelia_storage_encryption_key_name }}"
+      - "{{ authelia_notifier_smtp_password_name }}"
+      - "{{ authelia_oidc_hmac_secret_name }}"
+      - "{{ authelia_oidc_jwks_private_key_name }}"
+    pod: "{{ authelia_pod_file }}"
+    quadlet_filename: "{{ authelia_container_file }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - |
+        [Unit]
+        Description={{ authelia_app_name }} container.
+        StartLimitBurst=5
+        StartLimitIntervalSec=5min
+      - |
+        [Service]
+        EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+        ExecStartPre={{ authelia_volume_path }}/{{ authelia_get_secrets_script_name }}
+        Restart=on-failure
+        RestartSec=5s
+  notify:
+    - "Restart {{ authelia_app_name }}"
