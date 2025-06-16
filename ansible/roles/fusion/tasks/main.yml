@@ -3,16 +3,11 @@
     name: "{{ fusion_image }}"
     state: present
 
-- name: "Render quadlet files for {{ fusion_app_name | upper }}"
-  ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
-    mode: "0644"
-  loop:
-    - "fusion-data.volume"
-    - "fusion.container"
-  notify:
-    - "Restart {{ fusion_app_name }}"
+- name: "Create volume quadlet."
+  containers.podman.podman_volume:
+    name: "{{ fusion_data_volume_name }}"
+    state: quadlet
+    quadlet_filename: "{{ fusion_data_volume_quadlet | splitext | first }}"
 
 - name: "Render caddyfile for {{ fusion_app_name | upper }}"
   ansible.builtin.template:
@@ -21,3 +16,26 @@
     mode: "0644"
   notify:
     - "Restart {{ evilwoods_caddy_service_name }}"
+
+- name: "Create container quadlet."
+  containers.podman.podman_container:
+    name: "{{ fusion_container_name }}"
+    state: quadlet
+    image: "{{ fusion_image }}"
+    volumes:
+      - "{{ fusion_data_volume_quadlet }}:/data:Z,U"
+    network: "{{ evilwoods_container_network_file }}"
+    quadlet_filename: "{{ fusion_app_name }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - |
+        [Unit]
+        Description={{ fusion_app_name }} Container Service
+      - |
+        [Service]
+        Restart=always
+      - |
+        [Install]
+        WantedBy=default.target
+  notify:
+    - "Restart {{ fusion_app_name }}"
