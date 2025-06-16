@@ -11,7 +11,7 @@ authelia_get_secrets_script_name: "{{ authelia_get_secrets_service_name }}.sh"
 authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ authelia_app_name }}"
 authelia_valkey_container_name: "{{ evilwoods_container_name_prefix }}{{ authelia_app_name }}-valkey"
 authelia_valkey_container_file: "{{ authelia_app_name }}-valkey.container"
-authelia_valkey_data_volume_name: "{{ authelia_app_name }}-valkey-data"
+authelia_valkey_data_volume_name: "{{ evilwoods_container_name_prefix }}{{ authelia_app_name }}-valkey-data"
 authelia_valkey_data_volume_file: "{{ authelia_valkey_data_volume_name }}.volume"
 
 authelia_image: "docker.io/authelia/authelia:4.39"
