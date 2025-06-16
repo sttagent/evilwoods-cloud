@@ -1,5 +1,5 @@
 evilwoods_authelia_app_name: "authelia"
-evilwoods_authelia_container_name: "{{ evilwoods_container_name_prefix }}-{{ evilwoods_authelia_app_name }}"
+evilwoods_authelia_container_name: "{{ evilwoods_container_name_prefix }}{{ evilwoods_authelia_app_name }}"
 evilwoods_authelia_quadlet_overrides_path: "{{ evilwoods_quadlet_path }}/authelia-server.container.d"
 evilwoods_authelia_volume_path: "{{ evilwoods_unnamed_volumes }}/{{ evilwoods_authelia_app_name }}"
 evilwoods_authelia_config_volume: "{{ evilwoods_authelia_volume_path }}/config/config"
