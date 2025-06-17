@@ -1,4 +1,4 @@
-- name: Restart {{ actual_container_name }}
+- name: Restart {{ actual_app_name }}
   ansible.builtin.systemd:
     name: "{{ actual_app_name }}"
     daemon_reload: true

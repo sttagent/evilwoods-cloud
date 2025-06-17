@@ -27,7 +27,7 @@
   containers.podman.podman_volume:
     name: "{{ caddy_data_volume_name }}"
     state: quadlet
-    quadlet_filename: "{{ caddy_data_volume_filename }}"
+    quadlet_filename: "{{ caddy_data_volume_quadlet }}"
   notify: "Restart {{ caddy_app_name }}"
 
 - name: "Create container quadlet."
@@ -38,7 +38,7 @@
     network: "{{ evilwoods_container_network_file }}"
     volumes:
       - "{{ evilwoods_caddy_config_volume }}:/etc/caddy:Z"
-      - "{{ caddy_data_volume_filename }}.volume:/data:Z"
+      - "{{ caddy_data_volume_quadlet }}.volume:/data:Z"
     publish:
       - "8080:80"
       - "8443:443"

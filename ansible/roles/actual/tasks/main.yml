@@ -5,9 +5,9 @@
 
 - name: Create volume quadlet.
   containers.podman.podman_volume:
-    name: "{{ actual_prefix }}{{ actual_data_volume }}"
+    name: "{{ actual_data_volume_name }}"
     state: quadlet
-    quadlet_filename: "{{ actual_data_volume }}"
+    quadlet_filename: "{{ actual_data_volume_file | splitext | first }}"
 
 - name: Render caddy config file
   ansible.builtin.template:
@@ -22,7 +22,7 @@
     state: quadlet
     image: "{{ actual_image }}"
     volumes:
-      - "{{ actual_data_volume }}.volume:/data:Z"
+      - "{{ actual_data_volume_file }}:/data:Z"
     network: "{{ evilwoods_container_network_file }}"
     quadlet_filename: "{{ actual_app_name }}"
     quadlet_options:
@@ -33,4 +33,4 @@
       - |
         [Install]
         WantedBy=default.target
-  notify: "Restart {{ actual_container_name }}"
+  notify: "Restart {{ actual_app_name }}"

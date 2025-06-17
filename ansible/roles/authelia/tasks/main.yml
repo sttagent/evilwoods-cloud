@@ -61,7 +61,7 @@
     name: "{{ authelia_pod_name }}"
     state: quadlet
     network: "{{ evilwoods_container_network_file }}"
-    quadlet_filename: "{{ authelia_pod_file }}"
+    quadlet_filename: "{{ authelia_pod_quadlet }}"
     quadlet_options:
       - |
         [Unit]
@@ -77,7 +77,7 @@
   containers.podman.podman_volume:
     name: "{{ authelia_valkey_data_volume_name }}"
     state: quadlet
-    quadlet_filename: "{{ authelia_valkey_data_volume_file }}"
+    quadlet_filename: "{{ authelia_valkey_data_volume_quadlet }}"
   notify:
     - "Restart {{ authelia_app_name }}"
 
@@ -87,9 +87,9 @@
     state: quadlet
     image: "{{ authelia_valkey_image }}"
     volumes:
-      - "{{ authelia_valkey_data_volume_file }}:/data"
-    pod: "{{ authelia_pod_file }}"
-    quadlet_filename: "{{ authelia_valkey_container_file }}"
+      - "{{ authelia_valkey_data_volume_quadlet }}:/data"
+    pod: "{{ authelia_pod_quadlet }}"
+    quadlet_filename: "{{ authelia_valkey_container_quadlet }}"
     quadlet_options:
       - "AutoUpdate=registry"
       - |
@@ -114,8 +114,8 @@
       - "{{ authelia_notifier_smtp_password_name }}"
       - "{{ authelia_oidc_hmac_secret_name }}"
       - "{{ authelia_oidc_jwks_private_key_name }}"
-    pod: "{{ authelia_pod_file }}"
-    quadlet_filename: "{{ authelia_container_file }}"
+    pod: "{{ authelia_pod_quadlet }}"
+    quadlet_filename: "{{ authelia_container_quadlet }}"
     quadlet_options:
       - "AutoUpdate=registry"
       - |
