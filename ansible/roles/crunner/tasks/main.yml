@@ -33,8 +33,4 @@
     group: "{{ evilwoods_runner_user }}"
     mode: "0644"
   when: not linger_check.stat.exists
-
-- name: Reboot the host
-  ansible.builtin.reboot:
-    reboot_timeout: 300
-    msg: "Rebooting to apply changes"
+  notify: Reboot the host
