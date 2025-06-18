@@ -1,20 +1,35 @@
-- name: Pull ntfy image.
+- name: "Pull ntfy image."
   containers.podman.podman_image:
     name: "{{ ntfy_image }}"
     state: present
 
-- name: "Copy quadlet file. {{ ntfy_app_name }}"
-  ansible.builtin.template:
-    src: "{{ ntfy_app_name }}.container.j2"
-    dest: "{{ evilwoods_quadlet_path }}/{{ ntfy_app_name }}.container"
-    mode: "0644"
-  notify:
-    - Restart {{ ntfy_app_name }}
-
-- name: "Copy caddyfile. {{ ntfy_app_name }}"
+- name: "Render caddyfile for {{ ntfy_app_name | upper }}"
   ansible.builtin.template:
     src: "{{ ntfy_app_name }}.caddyfile.j2"
     dest: "{{ evilwoods_caddy_service_config_path }}/{{ ntfy_app_name }}.caddyfile"
     mode: "0644"
   notify:
     - "Restart {{ evilwoods_caddy_service_name }}"
+
+- name: "Create container quadlet."
+  containers.podman.podman_container:
+    name: "{{ ntfy_container_name }}"
+    state: quadlet
+    image: "{{ ntfy_image }}"
+    command: ["serve"]
+    network: "{{ evilwoods_container_network_file }}"
+    quadlet_filename: "{{ ntfy_app_name }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - |
+        [Unit]
+        Description=ntfy service
+        After=caddy.service
+      - |
+        [Service]
+        Restart=always
+      - |
+        [Install]
+        WantedBy=default.target
+  notify:
+    - "Restart {{ ntfy_app_name }}"

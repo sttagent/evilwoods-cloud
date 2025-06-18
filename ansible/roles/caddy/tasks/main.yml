@@ -38,7 +38,7 @@
     network: "{{ evilwoods_container_network_file }}"
     volumes:
       - "{{ evilwoods_caddy_config_volume }}:/etc/caddy:Z"
-      - "{{ caddy_data_volume_quadlet }}.volume:/data:Z"
+      - "{{ caddy_data_volume_quadlet }}:/data:Z"
     publish:
       - "8080:80"
       - "8443:443"
