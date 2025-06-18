@@ -16,14 +16,6 @@
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'
 
-- name: Render podman config file
-  ansible.builtin.template:
-    src: containers.conf.j2
-    dest: "{{ common_containers_config_path }}/containers.conf"
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
-    mode: '0644'
-
 - name: Enable podman auto update timer
   ansible.builtin.systemd:
     name: podman-auto-update.timer
