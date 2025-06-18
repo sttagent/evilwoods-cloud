@@ -1,7 +1,7 @@
 evilwoods_runner_user: crunner
 evilwoods_runner_home: "/var/home/{{ evilwoods_runner_user }}"
 evilwoods_data_path: "{{ evilwoods_runner_home }}/data"
-evilwoods_service_data: "{{ evilwoods_data_path }}/services"
+evilwoods_service_data_storage: "{{ evilwoods_runner_home }}/storage/services"
 evilwoods_volumes: "{{ evilwoods_data_path }}/volumes"
 evilwoods_named_volumes: "{{ evilwoods_volumes }}/named"
 evilwoods_unnamed_volumes: "{{ evilwoods_volumes }}/unnamed"

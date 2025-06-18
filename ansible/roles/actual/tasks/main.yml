@@ -12,7 +12,7 @@
 - name: Render caddy config file
   ansible.builtin.template:
     src: "{{ actual_caddy_file }}.j2"
-    dest: "{{ evilwoods_caddy_service_config_path }}/{{ actual_caddy_file }}"
+    dest: "{{ evilwoods_caddy_service_config }}/{{ actual_caddy_file }}"
     mode: "0644"
   notify: "Restart {{ evilwoods_caddy_service_name }}"
 

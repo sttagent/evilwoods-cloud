@@ -8,8 +8,6 @@
   loop:
     - "{{ evilwoods_unit_file_path }}"
     - "{{ evilwoods_quadlet_path }}"
-    - "{{ evilwoods_named_volumes }}"
-    - "{{ evilwoods_unnamed_volumes }}"
     - "{{ evilwoods_runner_bw_config_path }}"
 
 - name: Create bws access token file
@@ -23,6 +21,7 @@
 - name: Check if linger is enabled for runner user
   ansible.builtin.stat:
     path: "/var/lib/systemd/linger/{{ evilwoods_runner_user }}"
+  changed_when: false
   register: linger_check
 
 - name: Set linger for runner user

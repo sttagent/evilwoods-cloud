@@ -1,3 +1,9 @@
+- name: Load host mount facts
+  ansible.builtin.mount_facts:
+  register: mount_facts
+  failed_when: "'/var/home/crunner/storage' not in mount_facts.ansible_facts.mount_points"
+  any_errors_fatal: true
+
 - name: Ensure required paths exist
   ansible.builtin.file:
     path: "{{ item }}"
@@ -7,6 +13,7 @@
     mode: '0775'
   loop:
     - "{{ evilwoods_authelia_quadlet_overrides_path }}"
+    - "{{ evilwoods_service_data_storage }}"
 
 - name: Render evilcloud network quadlet
   ansible.builtin.template:

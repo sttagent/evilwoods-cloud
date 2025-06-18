@@ -1,23 +1,51 @@
 - name: Ensure kischenowl required paths exist
   ansible.builtin.file:
-    path: "{{ kitchenowl_volume_path }}"
+    path: "{{ item }}"
     state: directory
     mode: "0775"
+  loop:
+    - "{{ kitchenowl_data_volume }}"
+    - "{{ kitchenowl_script_dir }}"
 
 - name: Pull kitchenowl image.
   containers.podman.podman_image:
     name: "{{ kitchenowl_image }}"
     state: present
 
-- name: Render kitchenowl quadlet file
-  ansible.builtin.template:
-    src: "{{ item }}.j2"
-    dest: "{{ evilwoods_quadlet_path }}/{{ item }}"
-    mode: "0644"
-  notify: Restart kitchenowl
-  loop:
-    - "kitchenowl.container"
-    - "kitchenowl-data.volume"
+- name: Create kitchenowl container quadlet
+  containers.podman.podman_container:
+    name: "{{ kitchenowl_container_name }}"
+    state: quadlet
+    image: "{{ kitchenowl_image }}"
+    env:
+      FRONT_URL: "https://{{ kitchenowl_url }}"
+      OIDC_ISSUER: "https://{{ evilwoods_oidc_issuer }}"
+    secrets:
+      - "{{ kitchenowl_jwt_secret_name }},type=env,target=JWT_SECRET_KEY"
+      - "{{ kitchenowl_oidc_client_name }},type=env,target=OIDC_CLIENT_ID"
+      - "{{ kitchenowl_oidc_client_secret_name }},type=env,target=OIDC_CLIENT_SECRET"
+    network:
+      - "{{ evilwoods_container_network_file }}"
+    volumes:
+      - "{{ kitchenowl_data_volume }}:/data:Z"
+    quadlet_filename: "{{ kitchenowl_container_quadlet }}"
+    quadlet_options:
+      - "AutoUpdate=registry"
+      - "AddHost={{ evilwoods_authelia_url }}:{{ evilwoods_caddy_ip }}"
+      - |
+        [Unit]
+        Description={{ kitchenowl_app_name }} container service.
+        StartLimitBurst=5
+        StartLimitIntervalSec=5min
+      - |
+        [Service]
+        EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+        ExecStartPre={{ kitchenowl_get_secrets_script }}
+        Restart=on-failure
+        RestartSec=5s
+      - |
+        [Install]
+        WantedBy=default.target
 
 - name: Render kitchenowl authelia config
   ansible.builtin.template:
@@ -35,7 +63,7 @@
 
 - name: Render kitchenowl secrets retrieval script.
   ansible.builtin.template:
-    src: kitchenowl-get-secrets.sh.j2
+    src: "{{ kitchenowl_get_secrets_script_name }}.j2"
     dest: "{{ kitchenowl_get_secrets_script }}"
     mode: "0774"
   notify: Restart kitchenowl
@@ -43,6 +71,6 @@
 - name: Render kitchenowl caddyfile
   ansible.builtin.template:
     src: kitchenowl.caddyfile.j2
-    dest: "{{ evilwoods_caddy_service_config_path }}/kitchenowl.caddyfile"
+    dest: "{{ evilwoods_caddy_service_config }}/kitchenowl.caddyfile"
     mode: "0644"
   notify: Restart caddy

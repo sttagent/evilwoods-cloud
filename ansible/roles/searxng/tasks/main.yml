@@ -1,6 +1,6 @@
 - name: "Ensure searxng volume directory exists"
   ansible.builtin.file:
-    path: "{{ searxng_volume_path }}"
+    path: "{{ searxng_config_volume }}"
     state: directory
     mode: "0755"
 
@@ -15,14 +15,14 @@
 - name: "Copy settings file to searxng volume"
   ansible.builtin.template:
     src: "{{ searxng_app_name }}-settings.yml.j2"
-    dest: "{{ searxng_volume_path }}/settings.yml"
+    dest: "{{ searxng_config_volume }}/settings.yml"
     mode: "0644"
   notify: "Restart {{ searxng_app_name }}-pod"
 
 - name: "Render caddyfile for {{ searxng_app_name | upper }}"
   ansible.builtin.template:
     src: "searxng.caddyfile.j2"
-    dest: "{{ evilwoods_caddy_service_config_path }}/searxng.caddyfile"
+    dest: "{{ evilwoods_caddy_service_config }}/searxng.caddyfile"
     mode: "0644"
   notify: "Restart {{ evilwoods_caddy_service_name }}"
 
@@ -31,7 +31,7 @@
     name: "{{ searxng_pod_name }}"
     state: quadlet
     network: "{{ evilwoods_container_network_file }}"
-    quadlet_filename: "{{ searxng_app_name }}"
+    quadlet_filename: "{{ searxng_pod_quadlet }}"
     quadlet_options:
       - |
         [Unit]
@@ -47,20 +47,20 @@
 
 - name: "Create valkey data volume quadlet."
   containers.podman.podman_volume:
-    name: "{{ searxng_app_name }}-valkey-data"
+    name: "{{ searxng_valkey_data_volume_name }}"
     state: quadlet
-    quadlet_filename: "{{ searxng_app_name }}-valkey-data"
+    quadlet_filename: "{{ searxng_valkey_data_volume_quadlet }}"
   notify:
     - "Restart {{ searxng_app_name }}-pod"
 
 - name: "Create valkey container quadlet."
   containers.podman.podman_container:
-    name: "{{ searxng_valkey_name }}"
+    name: "{{ searxng_valkey_container_name }}"
     state: quadlet
     image: "{{ searxng_valkey_image }}"
     volumes:
       - "{{ searxng_app_name }}-valkey-data.volume:/data:Z,U"
-    pod: "{{ searxng_app_name }}.pod"
+    pod: "{{ searxng_pod_quadlet }}"
     quadlet_filename: "{{ searxng_app_name }}-valkey"
     quadlet_options:
       - "AutoUpdate=registry"
@@ -75,22 +75,22 @@
 
 - name: "Create searxng server container quadlet."
   containers.podman.podman_container:
-    name: "{{ searxng_pod_name }}-server"
+    name: "{{ searxng_container_name }}"
     state: quadlet
     image: "{{ searxng_image }}"
     volumes:
-      - "{{ searxng_volume_path }}:/etc/searxng:Z"
+      - "{{ searxng_config_volume }}:/etc/searxng:Z"
     secrets:
       - "{{ searxng_jwt_secret_name }},type=env,target=SEARXNG_SECRET"
-    pod: "{{ searxng_app_name }}.pod"
-    quadlet_filename: "{{ searxng_app_name }}-server"
+    pod: "{{ searxng_pod_quadlet }}"
+    quadlet_filename: "{{ searxng_container_quadlet }}"
     quadlet_options:
       - "AutoUpdate=registry"
       - |
         [Unit]
         Description=SearXNG Container
-        Wants={{ searxng_app_name }}-valkey.service
-        After={{ searxng_app_name }}-valkey.service
+        Wants={{ searxng_valkey_container_quadlet | splitext | first }}.service
+        After={{ searxng_valkey_container_quadlet | splitext | first }}.service
       - |
         [Service]
         EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env

@@ -10,7 +10,6 @@
       become: true
       tags:
         - crunner
-        - roles
     - role: cloudflared
       become_user: "{{ evilwoods_runner_user }}"
       become: true

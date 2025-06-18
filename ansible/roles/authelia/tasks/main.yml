@@ -8,14 +8,17 @@
 
 - name: "Ensure config path exists for {{ authelia_app_name | upper }}"
   ansible.builtin.file:
-    path: "{{ authelia_config_volume }}/config"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
+  loop:
+    - "{{ authelia_config_volume }}"
+    - "{{ authelia_script_dir }}"
 
 - name: "Render get-secrets script."
   ansible.builtin.template:
-    src: "{{ authelia_get_secrets_script_name }}.j2"
-    dest: "{{ authelia_volume_path }}/{{ authelia_get_secrets_service_name }}.sh"
+    src: "{{ authelia_get_secrets_script }}.j2"
+    dest: "{{ authelia_script_dir }}/{{ authelia_get_secrets_script }}"
     mode: "0755"
   notify:
     - "Restart {{ authelia_app_name }}"
@@ -41,7 +44,7 @@
 - name: "Render config files."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}-{{ item }}.j2"
-    dest: "{{ authelia_config_volume }}/config/{{ item }}"
+    dest: "{{ authelia_config_volume }}/configuration/{{ item }}"
     mode: "0644"
   loop:
     - "configuration.yml"
@@ -51,7 +54,7 @@
 - name: "Render caddy config file."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}.caddyfile.j2"
-    dest: "{{ evilwoods_caddy_service_config_path }}/{{ authelia_app_name }}.caddyfile"
+    dest: "{{ evilwoods_caddy_service_config }}/{{ authelia_app_name }}.caddyfile"
     mode: "0644"
   notify:
     - "Restart {{ evilwoods_caddy_service_name }}"
@@ -126,7 +129,7 @@
       - |
         [Service]
         EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
-        ExecStartPre={{ authelia_volume_path }}/{{ authelia_get_secrets_script_name }}
+        ExecStartPre={{ authelia_script_dir }}/{{ authelia_get_secrets_script }}
         Restart=on-failure
         RestartSec=5s
   notify:
