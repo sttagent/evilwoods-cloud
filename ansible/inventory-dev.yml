@@ -16,3 +16,6 @@ evilwoods:
       kitchenowl_oidc_client_id: "7cc41c3b-9e92-4e96-b9b4-b2df0086be5e"
       kitchenowl_oidc_client_secret_id: "12593639-ff53-4be6-a048-b2df00880729"
       kitchenowl_oidc_client_secret_hash_id: "7d5bd2eb-2b7f-44d8-9d55-b2df0088693b"
+      actual_oidc_client_id: "14052283-150a-4b73-ac6d-b308014b7b52"
+      actual_oidc_client_secret_id: "9043d4a5-8cba-474a-a7b0-b2f10138b9c0"
+      actual_oidc_client_secret_hash_id: "38760582-4283-4408-870b-b2f10138ffb7"

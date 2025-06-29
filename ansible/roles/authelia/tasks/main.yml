@@ -12,7 +12,7 @@
     state: directory
     mode: "0755"
   loop:
-    - "{{ authelia_config_volume }}"
+    - "{{ authelia_config_dir }}"
     - "{{ authelia_script_dir }}"
 
 - name: "Render get-secrets script."

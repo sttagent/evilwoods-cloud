@@ -3,11 +3,27 @@
     name: "{{ actual_image }}"
     state: present
 
-- name: Create volume quadlet.
-  containers.podman.podman_volume:
-    name: "{{ actual_data_volume_name }}"
-    state: quadlet
-    quadlet_filename: "{{ actual_data_volume_file | splitext | first }}"
+- name: Ensure required directories exist.
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ actual_data_volume }}"
+    - "{{ actual_script_dir }}"
+
+- name: Render script file.
+  ansible.builtin.template:
+    src: "{{ actual_script_file }}.j2"
+    dest: "{{ actual_script_dir }}/{{ actual_script_file }}"
+    mode: "0755"
+
+- name: Render env file.
+  ansible.builtin.template:
+    src: "{{ actual_env_file }}.j2"
+    dest: "{{ actual_data_dir }}/{{ actual_env_file }}"
+    mode: "0755"
+  notify: "Restart {{ actual_app_name }}"
 
 - name: Render caddy config file
   ansible.builtin.template:
@@ -16,20 +32,38 @@
     mode: "0644"
   notify: "Restart {{ evilwoods_caddy_service_name }}"
 
+- name: Render authelia server quadlet overrides.
+  ansible.builtin.template:
+    src: actual-authelia-secrets.conf.j2
+    dest: "{{ evilwoods_authelia_quadlet_overrides_path }}/actual-secrets.conf"
+    mode: "0644"
+  notify: Restart authelia
+
 - name: Create container quadlet.
   containers.podman.podman_container:
     name: "{{ actual_container_name }}"
     state: quadlet
     image: "{{ actual_image }}"
+    env_file: "{{ actual_data_dir }}/{{ actual_env_file }}"
+    secrets:
+      - "{{ actual_oidc_client_id_name }},type=env,target=ACTUAL_OIDC_CLIENT_ID"
+      - "{{ actual_oidc_client_secret_name }},type=env,target=ACTUAL_OIDC_CLIENT_SECRET"
     volumes:
-      - "{{ actual_data_volume_file }}:/data:Z"
+      - "{{ actual_data_volume }}:/data:Z"
     network: "{{ evilwoods_container_network_file }}"
     quadlet_filename: "{{ actual_app_name }}"
     quadlet_options:
       - "AutoUpdate=registry"
+      - "AddHost={{ evilwoods_authelia_url }}:{{ evilwoods_caddy_ip }}"
       - |
         [Unit]
         Description={{ actual_container_name }} service.
+      - |
+        [Service]
+        EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+        ExecStartPre={{ actual_script_dir }}/{{ actual_script_file }}
+        Restart=on-failure
+        RestartSec=5s
       - |
         [Install]
         WantedBy=default.target

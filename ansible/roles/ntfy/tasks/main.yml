@@ -6,7 +6,7 @@
 - name: "Render caddyfile for {{ ntfy_app_name | upper }}"
   ansible.builtin.template:
     src: "{{ ntfy_app_name }}.caddyfile.j2"
-    dest: "{{ evilwoods_caddy_service_config_path }}/{{ ntfy_app_name }}.caddyfile"
+    dest: "{{ evilwoods_caddy_service_config }}/{{ ntfy_app_name }}.caddyfile"
     mode: "0644"
   notify:
     - "Restart {{ evilwoods_caddy_service_name }}"
