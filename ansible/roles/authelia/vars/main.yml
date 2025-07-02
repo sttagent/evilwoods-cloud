@@ -1,7 +1,7 @@
 authelia_app_name: "{{ ansible_role_name }}"
 authelia_pod_name: "{{ evilwoods_container_name_prefix }}{{ authelia_app_name }}"
 authelia_pod_quadlet: "{{ authelia_app_name }}.pod"
-authelia_container_name: "{{ evilwoods_container_name_prefix }}-{{ evilwoods_authelia_app_name }}"
+authelia_container_name: "{{ evilwoods_container_name_prefix }}{{ evilwoods_authelia_app_name }}-server"
 authelia_container_quadlet: "{{ authelia_app_name }}-server.container"
 authelia_service_name: "{{ authelia_app_name }}-pod"
 authelia_url: "{{ evilwoods_authelia_url }}"
