@@ -4,7 +4,7 @@ evilwoods:
       ansible_host: evilcloud
       bw_access_token: "{{ evilcloud_bw_access_token }}"
       cloudflare_bw_token_id: "e28c644b-c279-4ea1-8b34-b2cd0151e3ca"
-      searxng_jwt_secret: "90687f6b-35ba-48f2-bec9-b2ce007749d4"
+      searxng_jwt_secret_id: "90687f6b-35ba-48f2-bec9-b2ce007749d4"
       evilcloud_domain: "evilwoods.net"
       evilcloud_kitchenowl_jwt_secret_id: "af2d528d-07f6-479e-aec2-b2ce0082b3aa"
 
