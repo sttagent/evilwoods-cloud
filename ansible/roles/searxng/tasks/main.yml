@@ -21,7 +21,7 @@
     mode: "0644"
   notify: "Restart {{ searxng_app_name }}-pod"
 
-- name: "Render caddyfile for {{ searxng_app_name | upper }}"
+- name: "Render caddyfile."
   ansible.builtin.template:
     src: "searxng.caddyfile.j2"
     dest: "{{ evilwoods_caddy_service_config }}/searxng.caddyfile"
