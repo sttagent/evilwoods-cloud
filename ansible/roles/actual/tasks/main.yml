@@ -32,6 +32,13 @@
     mode: "0644"
   notify: "Restart {{ evilwoods_caddy_service_name }}"
 
+- name: Render oidc client config
+  ansible.builtin.blockinfile:
+    path: "{{ evilwoods_authelia_client_config_f }}"
+    marker: "{{ actual_oidc_client_config_marker }}"
+    block: "{{ lookup('template', 'actual-authelia-config.yml.j2') | indent(width=6, first=True) }}"
+  notify: Restart authelia
+
 - name: Render authelia server quadlet overrides.
   ansible.builtin.template:
     src: actual-authelia-secrets.conf.j2
@@ -46,8 +53,8 @@
     image: "{{ actual_image }}"
     env_file: "{{ actual_data_dir }}/{{ actual_env_file }}"
     secrets:
-      - "{{ actual_oidc_client_id_name }},type=env,target=ACTUAL_OIDC_CLIENT_ID"
-      - "{{ actual_oidc_client_secret_name }},type=env,target=ACTUAL_OIDC_CLIENT_SECRET"
+      - "{{ actual_oidc_client_id_name }},type=env,target=ACTUAL_OPENID_CLIENT_ID"
+      - "{{ actual_oidc_client_secret_name }},type=env,target=ACTUAL_OPENID_CLIENT_SECRET"
     volumes:
       - "{{ actual_data_volume }}:/data:Z"
     network: "{{ evilwoods_container_network_file }}"

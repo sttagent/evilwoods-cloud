@@ -1,24 +1,21 @@
-identity_providers:
-  oidc:
-    clients:
-      - client_id: {{ '{{ secret "/run/secrets/' + actual_oidc_client_id_name + '" | msquote }}' }}
-        client_name: "actual-budget"
-        client_secret: {{ '{{ secret "/run/secrets/' + actual_oidc_client_secret_hash_name + '" | msquote }}' }}
-        public: false
-        authorization_policy: 'one_factor'
-        require_pkce: false
-        pkce_challenge_method: ''
-        redirect_uris:
-          - 'https://{{ actual_url }}/openid/callback'
-        scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-          - 'email'
-        response_types:
-          - 'code'
-        grant_types:
-          - 'authorization_code'
-        access_token_signed_response_alg: 'none'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_basic'
+- client_id: {{ '{{ secret "/run/secrets/' + actual_oidc_client_id_name + '" | msquote }}' }}
+  client_name: "actual-budget"
+  client_secret: {{ '{{ secret "/run/secrets/' + actual_oidc_client_secret_hash_name + '" | msquote }}' }}
+  public: false
+  authorization_policy: 'one_factor'
+  require_pkce: false
+  pkce_challenge_method: ''
+  redirect_uris:
+    - 'https://{{ actual_url }}/openid/callback'
+  scopes:
+    - 'openid'
+    - 'profile'
+    - 'groups'
+    - 'email'
+  response_types:
+    - 'code'
+  grant_types:
+    - 'authorization_code'
+  access_token_signed_response_alg: 'none'
+  userinfo_signed_response_alg: 'none'
+  token_endpoint_auth_method: 'client_secret_basic'

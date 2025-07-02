@@ -51,6 +51,18 @@
   notify:
     - "Restart {{ authelia_app_name }}"
 
+- name: "Create oidc client config file"
+  ansible.builtin.blockinfile:
+    path: "{{ evilwoods_authelia_client_config_f }}"
+    create: true
+    insertbefore: BOF
+    block: |
+      identity_providers:
+        oidc:
+          clients:
+    mode: "0644"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+
 - name: "Render caddy config file."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}.caddyfile.j2"

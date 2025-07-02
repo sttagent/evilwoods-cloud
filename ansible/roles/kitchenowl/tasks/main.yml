@@ -47,11 +47,11 @@
         [Install]
         WantedBy=default.target
 
-- name: Render kitchenowl authelia config
-  ansible.builtin.template:
-    src: kitchenowl-authelia-config.yml.j2
-    dest: "{{ evilwoods_authelia_config_volume }}/kitchenowl-authelia-config.yml"
-    mode: "0644"
+- name: Render oidc client config
+  ansible.builtin.blockinfile:
+    path: "{{ evilwoods_authelia_client_config_f }}"
+    marker: "{{ kitchenowl_oidc_client_config_mark }}"
+    block: "{{ lookup('template', 'kitchenowl-authelia-config.yml.j2') | indent(width=6, first=True) }}"
   notify: Restart authelia
 
 - name: Render authelia server quadlet overrides.

@@ -15,3 +15,4 @@ kitchenowl_get_secrets_script: "{{ kitchenowl_script_dir }}/{{ kitchenowl_get_se
 kitchenowl_oidc_client_name: "{{ kitchenowl_app_name }}_oidc_client_id"
 kitchenowl_oidc_client_secret_name: "{{ kitchenowl_app_name }}_oidc_client_secret"
 kitchenowl_oidc_client_secret_hash_name: "{{ kitchenowl_app_name }}_oidc_client_secret_hash"
+kitchenowl_oidc_client_config_marker: "# {mark} {{ kitchenowl_app_name | upper }} CLIENT CONFIG"
