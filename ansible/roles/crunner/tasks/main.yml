@@ -24,16 +24,17 @@
   changed_when: false
   register: linger_check
 
-- name: Set linger for runner user
-  ansible.builtin.file:
-    path: "/var/lib/systemd/linger/{{ evilwoods_runner_user }}"
-    state: touch
-    owner: "{{ evilwoods_runner_user }}"
-    group: "{{ evilwoods_runner_user }}"
-    mode: "0644"
-  when: not linger_check.stat.exists
-  notify: Reboot the host
+- name: Set linger for runner user and reboot
+  block:
+    - name: Set linger for runner user
+      ansible.builtin.file:
+        path: "/var/lib/systemd/linger/{{ evilwoods_runner_user }}"
+        state: touch
+        owner: "{{ evilwoods_runner_user }}"
+        group: "{{ evilwoods_runner_user }}"
+        mode: "0644"
 
-- name: Reboot the host
-  ansible.builtin.reboot:
-    reboot_timeout: 300
+    - name: Reboot the host
+      ansible.builtin.reboot:
+        reboot_timeout: 300
+  when: not linger_check.stat.exists
