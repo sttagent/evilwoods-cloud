@@ -44,7 +44,7 @@
 - name: "Render config files."
   ansible.builtin.template:
     src: "{{ authelia_app_name }}-{{ item }}.j2"
-    dest: "{{ authelia_config_volume }}/configuration/{{ item }}"
+    dest: "{{ authelia_config_dir }}/{{ item }}"
     mode: "0644"
   loop:
     - "configuration.yml"

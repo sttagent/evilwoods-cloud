@@ -6,3 +6,4 @@ evilwoods_authelia_data: "{{ evilwoods_service_data_storage }}/{{ evilwoods_auth
 evilwoods_authelia_volume_dir: "{{ evilwoods_authelia_data }}/volumes"
 evilwoods_authelia_config_volume: "{{ evilwoods_authelia_volume_dir }}/config"
 evilwoods_authelia_config_dir: "{{ evilwoods_authelia_config_volume }}/configuration"
+evilwoods_authelia_client_config_f: "{{ evilwoods_authelia_config_dir }}/oidc_clients.yml"
