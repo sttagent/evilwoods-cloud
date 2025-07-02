@@ -6,7 +6,7 @@
     - "{{ authelia_image }}"
     - "{{ authelia_valkey_image }}"
 
-- name: "Ensure config path exists for {{ authelia_app_name | upper }}"
+- name: "Ensure config path exists."
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
