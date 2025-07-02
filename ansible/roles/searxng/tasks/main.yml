@@ -13,6 +13,8 @@
     - "{{ searxng_valkey_image }}"
 
 - name: "Copy settings file to searxng volume"
+  become_method: containers.podman.podman_unshare
+  become: true
   ansible.builtin.template:
     src: "{{ searxng_app_name }}-settings.yml.j2"
     dest: "{{ searxng_config_volume }}/settings.yml"
