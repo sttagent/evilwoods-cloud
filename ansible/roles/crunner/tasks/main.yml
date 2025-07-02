@@ -25,6 +25,7 @@
   register: linger_check
 
 - name: Set linger for runner user and reboot
+  when: not linger_check.stat.exists
   block:
     - name: Set linger for runner user
       ansible.builtin.file:
@@ -37,4 +38,3 @@
     - name: Reboot the host
       ansible.builtin.reboot:
         reboot_timeout: 300
-  when: not linger_check.stat.exists
