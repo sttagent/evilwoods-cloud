@@ -50,7 +50,7 @@
 - name: Render oidc client config
   ansible.builtin.blockinfile:
     path: "{{ evilwoods_authelia_client_config_f }}"
-    marker: "{{ kitchenowl_oidc_client_config_mark }}"
+    marker: "{{ kitchenowl_oidc_client_config_marker }}"
     block: "{{ lookup('template', 'kitchenowl-authelia-config.yml.j2') | indent(width=6, first=True) }}"
   notify: Restart authelia
 
