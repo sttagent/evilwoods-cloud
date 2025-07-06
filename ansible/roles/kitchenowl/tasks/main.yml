@@ -62,7 +62,14 @@
   ansible.builtin.template:
     src: "{{ kitchenowl_get_secrets_script_name }}.j2"
     dest: "{{ kitchenowl_get_secrets_script }}"
-    mode: "0774"
+    mode: "0744"
+  notify: Restart kitchenowl
+
+- name: Render kitchenowl backup script.
+  ansible.builtin.template:
+    src: "{{ kitchenowl_backup_script }}.j2"
+    dest: "{{ kitchenowl_script_dir }}/{{ kitchenowl_backup_script }}"
+    mode: "0744"
   notify: Restart kitchenowl
 
 - name: Render kitchenowl caddyfile
@@ -71,3 +78,6 @@
     dest: "{{ evilwoods_caddy_service_config }}/kitchenowl.caddyfile"
     mode: "0644"
   notify: Restart caddy
+
+- name: Add kitchenowl backup service.
+  ansible.builtin.systemd_service:

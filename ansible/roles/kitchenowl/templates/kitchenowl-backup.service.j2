@@ -1,0 +1,11 @@
+[Unit]
+Description=Kitchenowl Backup Service
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory={{ kitchenowl_backup_d }}
+ExecStart={{ kitchenowl_script_dir }}/{{ kitchenowl_backup_script }}
+
+[Install]
+WantedBy=default.target

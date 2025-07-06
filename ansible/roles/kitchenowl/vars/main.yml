@@ -11,6 +11,7 @@ kitchenowl_jwt_secret_name: "{{ kitchenowl_app_name }}_jwt_secret"
 
 kitchenowl_get_secrets_script_name: "{{ kitchenowl_app_name }}-get-secrets.sh"
 kitchenowl_get_secrets_script: "{{ kitchenowl_script_dir }}/{{ kitchenowl_get_secrets_script_name }}"
+kitchenowl_backup_script: "{{ kitchenowl_app_name }}-backup.xonsh"
 
 kitchenowl_oidc_client_name: "{{ kitchenowl_app_name }}_oidc_client_id"
 kitchenowl_oidc_client_secret_name: "{{ kitchenowl_app_name }}_oidc_client_secret"
