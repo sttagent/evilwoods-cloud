@@ -65,6 +65,8 @@
       - |
         [Unit]
         Description={{ actual_container_name }} service.
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
       - |
         [Service]
         EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
@@ -73,5 +75,5 @@
         RestartSec=5s
       - |
         [Install]
-        WantedBy=default.target
+        WantedBy={{ evilwoods_service_target }}
   notify: "Restart {{ actual_app_name }}"

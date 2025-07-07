@@ -49,6 +49,8 @@
       - |
         [Unit]
         Description={{ caddy_app_name }} service.
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
         Wants=cloudflared.service
         After=cloudflared.service
       - |
@@ -56,5 +58,5 @@
         Restart=always
       - |
         [Install]
-        WantedBy=default.target
+        WantedBy={{ evilwoods_service_target }}
   notify: "Restart {{ caddy_app_name }}"

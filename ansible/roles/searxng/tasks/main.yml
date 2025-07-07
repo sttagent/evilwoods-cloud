@@ -38,12 +38,14 @@
       - |
         [Unit]
         Description=SearXNG Pod
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
       - |
         [Service]
         Restart=always
       - |
         [Install]
-        WantedBy=default.target
+        WantedBy={{ evilwoods_service_target }}
   notify:
     - "Restart {{ searxng_app_name }}-pod"
 

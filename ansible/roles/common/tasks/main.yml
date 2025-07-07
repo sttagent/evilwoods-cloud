@@ -23,9 +23,23 @@
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'
 
+- name: Render evilcloud target
+  ansible.builtin.template:
+    src: "{{ evilwoods_service_target }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ evilwoods_service_target }}"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: '0644'
+
 - name: Enable podman auto update timer
   ansible.builtin.systemd:
     name: podman-auto-update.timer
     state: started
     enabled: true
     scope: user
+
+# TODO: rename all quadlet files with prefix and implement common
+# TODO: overrides shared by all evilcloud quadlets.
+# TODO: For example, evilcloud-.container.d/10-overrides.conf and
+# TODO: evilcloud-.pod.d/10-overrides.conf.
+# TODO: Add options from kitchenowl to overrides.

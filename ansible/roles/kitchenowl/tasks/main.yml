@@ -35,6 +35,8 @@
       - |
         [Unit]
         Description={{ kitchenowl_app_name }} container service.
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
         StartLimitBurst=5
         StartLimitIntervalSec=5min
       - |
@@ -45,7 +47,7 @@
         RestartSec=5s
       - |
         [Install]
-        WantedBy=default.target
+        WantedBy={{ evilwoods_service_target }}
 
 - name: Render oidc client config
   ansible.builtin.blockinfile:

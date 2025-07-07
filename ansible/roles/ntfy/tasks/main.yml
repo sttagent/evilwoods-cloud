@@ -24,12 +24,14 @@
       - |
         [Unit]
         Description=ntfy service
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
         After=caddy.service
       - |
         [Service]
         Restart=always
       - |
         [Install]
-        WantedBy=default.target
+        WantedBy={{ evilwoods_service_target }}
   notify:
     - "Restart {{ ntfy_app_name }}"

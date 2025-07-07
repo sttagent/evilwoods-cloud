@@ -81,10 +81,12 @@
       - |
         [Unit]
         Description={{ authelia_app_name }} pod service.
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
         [Service]
         Restart=on-failure
         [Install]
-        WantedBy=default.target
+        WantedBy={{ evilwoods_service_target }}
   notify:
     - "Restart {{ authelia_app_name }}"
 

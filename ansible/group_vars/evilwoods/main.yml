@@ -24,3 +24,5 @@ evilwoods_nextcloud_volume: "nextcloud.volume"
 evilwoods_nextcloud_data_volume: "{{ evilwoods_data_path }}/nextcloud/data"
 
 evilwoods_podman_secrets_path: "/run/secrets"
+
+evilwoods_service_target: "evilcloud.target"
