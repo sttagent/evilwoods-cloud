@@ -14,7 +14,6 @@
     command: "tunnel run"
     quadlet_filename: "{{ cloudflared_app_name }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description={{ cloudflared_app_name }} container

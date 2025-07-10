@@ -60,7 +60,6 @@
     network: "{{ evilwoods_container_network_file }}"
     quadlet_filename: "{{ actual_app_name }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - "AddHost={{ evilwoods_authelia_url }}:{{ evilwoods_caddy_ip }}"
       - |
         [Unit]

@@ -64,7 +64,6 @@
     pod: "{{ searxng_pod_quadlet }}"
     quadlet_filename: "{{ searxng_app_name }}-valkey"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description=Valkey Container Service
@@ -86,7 +85,6 @@
     pod: "{{ searxng_pod_quadlet }}"
     quadlet_filename: "{{ searxng_container_quadlet }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description=SearXNG Container

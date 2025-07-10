@@ -30,7 +30,6 @@
       - "{{ kitchenowl_data_volume }}:/data:Z"
     quadlet_filename: "{{ kitchenowl_container_quadlet }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - "AddHost={{ evilwoods_authelia_url }}:{{ evilwoods_caddy_ip }}"
       - |
         [Unit]

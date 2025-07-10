@@ -4,7 +4,6 @@ Wants={{ immich_app_name }}-postgresql.service {{ immich_app_name }}-valkey.serv
 After={{ immich_app_name }}-postgresql.service {{ immich_app_name }}-valkey.service {{ immich_app_name }}-machine-learning.service
 
 [Container]
-AutoUpdate=registry
 Environment=DB_HOSTNAME={{ immich_postgresql_container_name }}
 Environment=DB_PASSWORD={{ immich_db_password }}
 Environment=DB_USERNAME={{ immich_db_user }}

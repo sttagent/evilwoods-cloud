@@ -27,7 +27,6 @@
     network: "{{ evilwoods_container_network_file }}"
     quadlet_filename: "{{ fusion_app_name }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description={{ fusion_app_name }} Container Service

@@ -20,7 +20,6 @@
     network: "{{ evilwoods_container_network_file }}"
     quadlet_filename: "{{ ntfy_app_name }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description=ntfy service

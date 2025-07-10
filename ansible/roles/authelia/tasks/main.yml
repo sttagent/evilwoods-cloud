@@ -108,7 +108,6 @@
     pod: "{{ authelia_pod_quadlet }}"
     quadlet_filename: "{{ authelia_valkey_container_quadlet }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description={{ authelia_app_name }} valkey container.
@@ -134,7 +133,6 @@
     pod: "{{ authelia_pod_quadlet }}"
     quadlet_filename: "{{ authelia_container_quadlet }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description={{ authelia_app_name }} container.

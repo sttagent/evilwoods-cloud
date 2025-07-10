@@ -4,7 +4,6 @@ Wants={{ nextcloud_app_name }}-postgresql.service {{ nextcloud_app_name }}-valke
 After={{ nextcloud_app_name }}-postgresql.service {{ nextcloud_app_name }}-valkey.service
 
 [Container]
-AutoUpdate=registry
 Environment=NEXTCLOUD_TRUSTED_DOMAINS: {{ nextcloud_url }}
 Environment=POSTGRES_HOST={{ nextcloud_container_name }}-postgresql
 Environment=POSTGRES_USER={{ nextcloud_postgresql_user }}

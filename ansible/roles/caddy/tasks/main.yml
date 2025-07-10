@@ -45,7 +45,6 @@
     ip: "{{ evilwoods_caddy_ip }}"
     quadlet_filename: "{{ caddy_app_name }}"
     quadlet_options:
-      - "AutoUpdate=registry"
       - |
         [Unit]
         Description={{ caddy_app_name }} service.
