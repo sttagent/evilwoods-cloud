@@ -14,6 +14,7 @@
   loop:
     - "{{ evilwoods_authelia_quadlet_overrides_path }}"
     - "{{ evilwoods_service_data_storage }}"
+    - "{{ evilwoods_container_override_d }}"
 
 - name: Render evilcloud network quadlet
   ansible.builtin.template:
@@ -38,6 +39,14 @@
     enabled: true
     scope: user
     daemon_reload: true
+
+- name: Render container common config.
+  ansible.builtin.template:
+    src: common-10-common.conf.j2
+    dest: "{{ evilwoods_container_override_d }}/10-common.conf"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: '0644'
 
 - name: Enable podman auto update timer
   ansible.builtin.systemd:

@@ -28,9 +28,6 @@
         StopPropagatedFrom={{ evilwoods_service_target }}
         After=caddy.service
       - |
-        [Service]
-        Restart=always
-      - |
         [Install]
         WantedBy={{ evilwoods_service_target }}
   notify:

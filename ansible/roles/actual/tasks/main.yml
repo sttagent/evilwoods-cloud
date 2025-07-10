@@ -71,8 +71,6 @@
         [Service]
         EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
         ExecStartPre={{ actual_script_dir }}/{{ actual_script_file }}
-        Restart=on-failure
-        RestartSec=5s
       - |
         [Install]
         WantedBy={{ evilwoods_service_target }}

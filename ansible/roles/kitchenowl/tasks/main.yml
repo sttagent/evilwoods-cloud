@@ -37,14 +37,10 @@
         Description={{ kitchenowl_app_name }} container service.
         ReloadPropagatedFrom={{ evilwoods_service_target }}
         StopPropagatedFrom={{ evilwoods_service_target }}
-        StartLimitBurst=5
-        StartLimitIntervalSec=5min
       - |
         [Service]
         EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
         ExecStartPre={{ kitchenowl_get_secrets_script }}
-        Restart=on-failure
-        RestartSec=5s
       - |
         [Install]
         WantedBy={{ evilwoods_service_target }}

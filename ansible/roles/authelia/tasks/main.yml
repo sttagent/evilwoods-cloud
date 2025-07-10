@@ -138,13 +138,9 @@
       - |
         [Unit]
         Description={{ authelia_app_name }} container.
-        StartLimitBurst=5
-        StartLimitIntervalSec=5min
       - |
         [Service]
         EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
         ExecStartPre={{ authelia_script_dir }}/{{ authelia_get_secrets_script }}
-        Restart=on-failure
-        RestartSec=5s
   notify:
     - "Restart {{ authelia_app_name }}"

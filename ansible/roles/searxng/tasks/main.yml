@@ -41,9 +41,6 @@
         ReloadPropagatedFrom={{ evilwoods_service_target }}
         StopPropagatedFrom={{ evilwoods_service_target }}
       - |
-        [Service]
-        Restart=always
-      - |
         [Install]
         WantedBy={{ evilwoods_service_target }}
   notify:
