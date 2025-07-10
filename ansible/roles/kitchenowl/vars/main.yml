@@ -1,7 +1,7 @@
 kitchenowl_app_name: "{{ ansible_role_name }}"
 kitchenowl_container_quadlet: "{{ kitchenowl_app_name }}.container"
 kitchenowl_container_name: "{{ evilwoods_container_name_prefix }}{{ kitchenowl_app_name }}"
-kitchenowl_image: "docker.io/tombursch/kitchenowl:v0.7.2"
+kitchenowl_image: "docker.io/tombursch/kitchenowl:v0.7.3"
 kitchenowl_data: "{{ evilwoods_service_data_storage }}/{{ kitchenowl_app_name }}"
 kitchenowl_volume_dir: "{{ kitchenowl_data }}/volumes"
 kitchenowl_data_volume: "{{ kitchenowl_volume_dir }}/data"
