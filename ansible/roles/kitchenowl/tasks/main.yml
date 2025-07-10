@@ -54,7 +54,7 @@
 - name: Render authelia server quadlet overrides.
   ansible.builtin.template:
     src: kitchenowl-authelia-secrets.conf.j2
-    dest: "{{ evilwoods_authelia_quadlet_overrides_path }}/kitchenowl-secrets.conf"
+    dest: "{{ evilwoods_authelia_quadlet_overrides_d }}/kitchenowl-secrets.conf"
     mode: "0644"
   notify: Restart authelia
 

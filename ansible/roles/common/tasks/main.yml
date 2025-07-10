@@ -12,7 +12,7 @@
     group: "{{ evilwoods_runner_user }}"
     mode: '0775'
   loop:
-    - "{{ evilwoods_authelia_quadlet_overrides_path }}"
+    - "{{ evilwoods_authelia_quadlet_overrides_d }}"
     - "{{ evilwoods_service_data_storage }}"
     - "{{ evilwoods_container_override_d }}"
 

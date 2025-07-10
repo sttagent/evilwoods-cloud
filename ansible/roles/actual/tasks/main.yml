@@ -42,7 +42,7 @@
 - name: Render authelia server quadlet overrides.
   ansible.builtin.template:
     src: actual-authelia-secrets.conf.j2
-    dest: "{{ evilwoods_authelia_quadlet_overrides_path }}/actual-secrets.conf"
+    dest: "{{ evilwoods_authelia_quadlet_overrides_d }}/actual-secrets.conf"
     mode: "0644"
   notify: Restart authelia
 
