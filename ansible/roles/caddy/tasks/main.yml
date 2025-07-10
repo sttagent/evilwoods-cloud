@@ -1,4 +1,4 @@
-- name: "Create configuration directory for {{ caddy_app_name | upper }}"
+- name: "Create configuration directory for "
   ansible.builtin.file:
     path: "{{ evilwoods_caddy_service_config }}"
     state: directory
@@ -9,14 +9,14 @@
     name: "{{ caddy_image }}"
     state: present
 
-- name: "Copy configuration file for {{ caddy_app_name | upper }}"
+- name: "Copy configuration file for "
   ansible.builtin.copy:
     src: "Caddyfile"
     dest: "{{ evilwoods_caddy_config_volume }}/Caddyfile"
     mode: "0644"
   notify: "Restart {{ caddy_app_name }}"
 
-- name: "Copy global configuration file for {{ caddy_app_name | upper }}"
+- name: "Copy global configuration file for "
   ansible.builtin.template:
     src: "global.caddyfile.j2"
     dest: "{{ evilwoods_caddy_config_volume }}/global.caddyfile"
