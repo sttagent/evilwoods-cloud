@@ -31,6 +31,14 @@
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'
 
+- name: Enable evilwoods target.
+  ansible.builtin.systemd:
+    name: "{{ evilwoods_service_target }}"
+    state: started
+    enabled: true
+    scope: user
+    daemon_reload: true
+
 - name: Enable podman auto update timer
   ansible.builtin.systemd:
     name: podman-auto-update.timer
