@@ -3,7 +3,7 @@
     name: "{{ ntfy_image }}"
     state: present
 
-- name: "Render caddyfile for {{ ntfy_app_name | upper }}"
+- name: "Render caddyfile."
   ansible.builtin.template:
     src: "{{ ntfy_app_name }}.caddyfile.j2"
     dest: "{{ evilwoods_caddy_service_config }}/{{ ntfy_app_name }}.caddyfile"
