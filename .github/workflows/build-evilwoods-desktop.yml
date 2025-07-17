@@ -29,8 +29,8 @@ jobs:
         id: build-image
         uses: redhat-actions/buildah-build@v2.13
         with:
-          context: "./bootc/evilwoods-desktop/bootc"
-          containerfiles: ".bootc/evilwoods-desktop/Containerfile"
+          context: "./bootc/evilwoods-desktop"
+          containerfiles: "./bootc/evilwoods-desktop/Containerfile"
           image: ${{ env.IMAGE_NAME }}
           tags: latest ${{ github.sha }}
           layers: false
