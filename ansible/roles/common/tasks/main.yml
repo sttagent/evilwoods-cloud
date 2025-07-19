@@ -13,7 +13,6 @@
     mode: '0775'
   loop:
     - "{{ evilwoods_authelia_quadlet_overrides_d }}"
-    - "{{ evilwoods_service_backup_d }}"
     - "{{ evilwoods_service_storage_d }}"
     - "{{ evilwoods_service_backup_d }}"
     - "{{ evilwoods_container_override_d }}"
