@@ -1,4 +1,4 @@
-evilwoods_caddy_data: "{{ evilwoods_service_data_storage }}/caddy"
+evilwoods_caddy_data: "{{ evilwoods_service_storage_d }}/caddy"
 evilwoods_caddy_volume_dir: "{{ evilwoods_caddy_data }}/volumes"
 evilwoods_caddy_config_volume: "{{ evilwoods_caddy_volume_dir }}/config"
 evilwoods_caddy_data_volume: "{{ evilwoods_caddy_volume_dir }}/data"

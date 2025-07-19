@@ -1,7 +1,7 @@
 evilwoods_runner_user: crunner
 evilwoods_runner_home: "/var/home/{{ evilwoods_runner_user }}"
-evilwoods_data_path: "{{ evilwoods_runner_home }}/data"
-evilwoods_service_data_storage: "{{ evilwoods_runner_home }}/storage/services"
+evilwoods_storage_d: "{{ evilwoods_runner_home }}/storage"
+evilwoods_service_storage_d: "{{ evilwoods_storage_d }}/services"
 evilwoods_volumes: "{{ evilwoods_data_path }}/volumes"
 evilwoods_quadlet_path: "{{ evilwoods_runner_home }}/.config/containers/systemd"
 evilwoods_unit_file_path: "{{ evilwoods_runner_home }}/.config/systemd/user"

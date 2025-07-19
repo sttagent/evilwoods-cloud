@@ -8,7 +8,7 @@ searxng_valkey_container_name: "{{ evilwoods_container_name_prefix }}{{ searxng_
 searxng_valkey_container_quadlet: "{{ searxng_app_name }}-valkey.container"
 searxng_valkey_data_volume_name: "{{ evilwoods_container_name_prefix }}{{ searxng_app_name }}-valkey-data"
 searxng_valkey_data_volume_quadlet: "{{ searxng_app_name }}-valkey-data.volume"
-searxng_data_d: "{{ evilwoods_service_data_storage }}/{{ searxng_app_name }}"
+searxng_data_d: "{{ evilwoods_service_storage_d }}/{{ searxng_app_name }}"
 searxng_volume_d: "{{ searxng_data_d }}/volumes"
 searxng_config_volume: "{{ searxng_volume_d }}/config"
 searxng_image: "docker.io/searxng/searxng:latest"
