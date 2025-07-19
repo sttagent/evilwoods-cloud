@@ -9,7 +9,7 @@
     state: quadlet
     quadlet_filename: "{{ fusion_data_volume_quadlet | splitext | first }}"
 
-- name: "Render caddyfile for {{ fusion_app_name | upper }}"
+- name: "Render caddyfile for "
   ansible.builtin.template:
     src: "{{ fusion_app_name }}.caddyfile.j2"
     dest: "{{ evilwoods_caddy_service_config }}/{{ fusion_app_name }}.caddyfile"
