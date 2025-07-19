@@ -1,11 +1,11 @@
 [Unit]
 Description=Kitchenowl Backup Service
-After=network.target
+Conflicts={{ kitchenowl_service_name }}
+After={{ kitchenowl_service_name }}
+OnSuccess={{ kitchenowl_service_name }}
+OnFailure={{ kitchenowl_service_name }}
 
 [Service]
 Type=oneshot
-WorkingDirectory={{ kitchenowl_backup_d }}
-ExecStart={{ kitchenowl_script_dir }}/{{ kitchenowl_backup_script }}
+ExecStart={{ kitchenowl_script_d }}/{{ kitchenowl_backup_script }}
 
-[Install]
-WantedBy=default.target

@@ -5,7 +5,8 @@
     mode: "0775"
   loop:
     - "{{ kitchenowl_data_volume }}"
-    - "{{ kitchenowl_script_dir }}"
+    - "{{ kitchenowl_script_d }}"
+    - "{{ kitchenowl_backup_d }}"
 
 - name: Pull kitchenowl image.
   containers.podman.podman_image:
@@ -68,9 +69,17 @@
 - name: Render kitchenowl backup script.
   ansible.builtin.template:
     src: "{{ kitchenowl_backup_script }}.j2"
-    dest: "{{ kitchenowl_script_dir }}/{{ kitchenowl_backup_script }}"
+    dest: "{{ kitchenowl_script_d }}/{{ kitchenowl_backup_script }}"
     mode: "0744"
-  notify: Restart kitchenowl
+
+- name: Render kitchenowl backup service.
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+   - "{{ kitchenowl_backup_service }}"
+   - "{{ kitchenowl_backup_timer }}"
 
 - name: Render kitchenowl caddyfile
   ansible.builtin.template:
@@ -79,5 +88,11 @@
     mode: "0755"
   notify: Restart caddy
 
-- name: Add kitchenowl backup service.
-  ansible.builtin.systemd_service:
+- name: Enable kitchenowl backup taimer.
+  ansible.builtin.systemd:
+    name: "{{ kitchenowl_backup_timer }}"
+    state: started
+    enabled: yes
+    scope: user
+    daemon_reload: true
+

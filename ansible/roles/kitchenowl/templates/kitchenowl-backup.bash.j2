@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Archiving {{ kitchenowl_app_name }} data to {{ kitchenowl_backup_d }}."
+
+rm {{ kitchenowl_backup_d }}/*
+
+tar -cf "{{ kitchenowl_backup_d }}/kitchenowl_data_$(date +%Y%m%d%H%M).tar.gz" "{{ kitchenowl_volume_d }}"
