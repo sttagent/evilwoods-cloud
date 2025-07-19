@@ -13,7 +13,7 @@
   ansible.builtin.template:
     src: "{{ fusion_app_name }}.caddyfile.j2"
     dest: "{{ evilwoods_caddy_service_config }}/{{ fusion_app_name }}.caddyfile"
-    mode: "0644"
+    mode: "0755"
   notify:
     - "Restart {{ evilwoods_caddy_service_name }}"
 

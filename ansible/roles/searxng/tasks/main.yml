@@ -25,7 +25,7 @@
   ansible.builtin.template:
     src: "searxng.caddyfile.j2"
     dest: "{{ evilwoods_caddy_service_config }}/searxng.caddyfile"
-    mode: "0644"
+    mode: "0755"
   notify: "Restart {{ evilwoods_caddy_service_name }}"
 
 - name: "Create pod quadlet."

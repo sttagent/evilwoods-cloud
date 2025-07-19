@@ -13,14 +13,14 @@
   ansible.builtin.copy:
     src: "Caddyfile"
     dest: "{{ evilwoods_caddy_config_volume }}/Caddyfile"
-    mode: "0644"
+    mode: "0755"
   notify: "Restart {{ caddy_app_name }}"
 
 - name: "Copy global configuration file for "
   ansible.builtin.template:
     src: "global.caddyfile.j2"
     dest: "{{ evilwoods_caddy_config_volume }}/global.caddyfile"
-    mode: "0644"
+    mode: "0755"
   notify: "Restart {{ caddy_app_name }}"
 
 - name: "Create data volume quadlet."
