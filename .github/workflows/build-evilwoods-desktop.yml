@@ -75,7 +75,8 @@ jobs:
 
       - name: Sign image
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-image.outputs.digest }}
+          DIGEST=$(skopeo inspect docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest | jq -r '.Digest')
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${DIGEST}
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY  }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
