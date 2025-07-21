@@ -72,3 +72,10 @@ jobs:
           image: ${{ steps.build-image.outputs.image }}
           tags: ${{ steps.build-image.outputs.tags }}
           registry: ${{ env.IMAGE_REGISTRY }}
+
+      - name: Sign image
+        run: |
+          cosign sign --yes ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-image.outputs.digest }}
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY  }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
