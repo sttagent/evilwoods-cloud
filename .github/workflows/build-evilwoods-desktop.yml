@@ -75,7 +75,7 @@ jobs:
 
       - name: Sign image
         run: |
-          cosign sign --yes ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-image.outputs.digest }}
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-image.outputs.digest }}
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY  }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
