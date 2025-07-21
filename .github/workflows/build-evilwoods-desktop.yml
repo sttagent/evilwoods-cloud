@@ -52,7 +52,7 @@ jobs:
           context: "./bootc/evilwoods-desktop"
           containerfiles: "./bootc/evilwoods-desktop/Containerfile"
           image: ${{ env.IMAGE_NAME }}
-          tags: latest ${{ github.sha }} ${{ env.TAG_CURRENT_DATE }}
+          tags: latest ${{ env.TAG_CURRENT_DATE }}
           layers: false
           oci: true
 
