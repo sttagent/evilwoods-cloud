@@ -22,6 +22,14 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: cleanup old image
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ env.IMAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 10
+          token: ${{ gitub.token }}
+
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
 
