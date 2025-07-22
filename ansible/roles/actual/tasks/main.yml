@@ -11,6 +11,7 @@
   loop:
     - "{{ actual_data_volume }}"
     - "{{ actual_script_dir }}"
+    - "{{ actual_backup_d }}"
 
 - name: Render script file.
   ansible.builtin.template:
@@ -74,3 +75,26 @@
         [Install]
         WantedBy={{ evilwoods_service_target }}
   notify: "Restart {{ actual_app_name }}"
+
+- name: Render actual backup script.
+  ansible.builtin.template:
+    src: "{{ actual_backup_script }}.j2"
+    dest: "{{ actual_script_dir }}/{{ actual_backup_script }}"
+    mode: "0744"
+
+- name: Render actual backup service.
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+   - "{{ actual_backup_service }}"
+   - "{{ actual_backup_timer }}"
+
+- name: Enable actual backup timer.
+  ansible.builtin.systemd:
+    name: "{{ actual_backup_timer }}"
+    state: started
+    enabled: yes
+    scope: user
+    daemon_reload: true

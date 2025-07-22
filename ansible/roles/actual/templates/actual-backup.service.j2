@@ -1,0 +1,10 @@
+[Unit]
+Description=Actual Backup Service
+Conflicts={{ actual_app_name }}.service
+After={{ actual_app_name }}.service
+OnSuccess={{ actual_app_name }}.service
+OnFailure={{ actual_app_name }}.service
+
+[Service]
+Type=oneshot
+ExecStart={{ actual_script_dir }}/{{ actual_backup_script }}

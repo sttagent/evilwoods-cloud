@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Archiving {{ actual_app_name }} data to {{ actual_backup_d }}."
+
+rm {{ actual_backup_d }}/*
+
+tar -cf "{{ actual_backup_d }}/actual_data_$(date +%Y%m%d%H%M).tar.gz" "{{ actual_data_volume }}"
