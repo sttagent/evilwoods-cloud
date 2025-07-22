@@ -1,0 +1,10 @@
+[Unit]
+Description=Miniflux Backup Service
+Conflicts={{ miniflux_service_name }}.service
+After={{ miniflux_service_name }}.service
+OnSuccess={{ miniflux_service_name }}.service
+OnFailure={{ miniflux_service_name }}.service
+
+[Service]
+Type=oneshot
+ExecStart={{ miniflux_script_dir }}/{{ miniflux_backup_script }}

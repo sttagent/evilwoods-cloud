@@ -1,0 +1,20 @@
+- client_id: {{ '{{ secret "/run/secrets/' + miniflux_oidc_client_id_name + '" | msquote }}' }}
+  client_name: 'Miniflux'
+  client_secret: {{ '{{ secret "/run/secrets/' + miniflux_oidc_client_secret_hash_name + '" | msquote }}' }}
+  public: false
+  authorization_policy: 'one_factor'
+  require_pkce: false
+  pkce_challenge_method: ''
+  redirect_uris:
+    - 'https://{{ miniflux_url }}/oauth2/oidc/callback'
+  scopes:
+    - 'openid'
+    - 'profile'
+    - 'email'
+  response_types:
+    - 'code'
+  grant_types:
+    - 'authorization_code'
+  access_token_signed_response_alg: 'none'
+  userinfo_signed_response_alg: 'none'
+  token_endpoint_auth_method: 'client_secret_basic'

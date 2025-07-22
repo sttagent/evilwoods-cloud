@@ -51,15 +51,15 @@
       tags:
         - kitchenowl
         - roles
-    - role: fusion
-      become_user: "{{ evilwoods_runner_user }}"
-      become: true
-      tags:
-        - fusion
-        - roles
     - role: actual
       become_user: "{{ evilwoods_runner_user }}"
       become: true
       tags:
         - actual
+        - roles
+    - role: miniflux
+      become_user: "{{ evilwoods_runner_user }}"
+      become: true
+      tags:
+        - miniflux
         - roles

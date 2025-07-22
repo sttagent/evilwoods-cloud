@@ -1,0 +1,33 @@
+miniflux_app_name: "miniflux"
+miniflux_pod_name: "{{ evilwoods_container_name_prefix }}{{ miniflux_app_name }}"
+miniflux_pod_quadlet: "{{ miniflux_app_name }}.pod"
+miniflux_container_name: "{{ evilwoods_container_name_prefix }}{{ miniflux_app_name }}-server"
+miniflux_container_quadlet: "{{ miniflux_app_name }}-server.container"
+miniflux_service_name: "{{ miniflux_app_name }}-pod"
+miniflux_db_container_name: "{{ evilwoods_container_name_prefix }}{{ miniflux_app_name }}-db"
+miniflux_db_container_quadlet: "{{ miniflux_app_name }}-db.container"
+
+miniflux_image: "ghcr.io/miniflux/miniflux:latest"
+miniflux_db_image: "docker.io/postgres:17-alpine"
+
+miniflux_data_dir: "{{ evilwoods_service_storage_d }}/{{ miniflux_app_name }}"
+miniflux_volume_dir: "{{ miniflux_data_dir }}/volumes"
+miniflux_db_data_volume: "{{ miniflux_volume_dir }}/db-data"
+miniflux_script_dir: "{{ miniflux_data_dir }}/scripts"
+miniflux_backup_d: "{{ evilwoods_service_backup_d }}/{{ miniflux_app_name }}"
+
+miniflux_url: "rss.{{ evilwoods_domain_name }}"
+miniflux_caddy_file: "{{ miniflux_app_name }}.caddyfile"
+miniflux_env_file: "{{ miniflux_app_name }}.env"
+miniflux_script_file: "miniflux-get-secrets.sh"
+
+miniflux_oidc_client_id_name: "{{ miniflux_app_name }}_oidc_client_id"
+miniflux_oidc_client_secret_name: "{{ miniflux_app_name }}_oidc_client_secret"
+miniflux_oidc_client_secret_hash_name: "{{ miniflux_app_name }}_oidc_client_secret_hash"
+miniflux_oidc_client_config_marker: "# {mark} {{ miniflux_app_name | upper }} OIDC CLIENT CONFIG"
+
+miniflux_backup_script: "{{ miniflux_app_name }}-backup.bash"
+miniflux_backup_service_name: "{{ miniflux_app_name }}-backup"
+miniflux_backup_service: "{{ miniflux_backup_service_name }}.service"
+miniflux_backup_timer: "{{ miniflux_backup_service_name }}.timer"
+

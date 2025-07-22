@@ -1,0 +1,151 @@
+- name: Ensure miniflux required directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ miniflux_script_dir }}"
+    - "{{ miniflux_backup_d }}"
+
+- name: Ensure miniflux db volume exists
+  become_method: containers.podman.podman_unshare
+  become: true
+  ansible.builtin.file:
+    path: "{{ miniflux_db_data_volume }}"
+    state: directory
+    mode: "0700"
+
+- name: Pull miniflux images
+  containers.podman.podman_image:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ miniflux_image }}"
+    - "{{ miniflux_db_image }}"
+
+- name: Render miniflux env file
+  ansible.builtin.template:
+    src: "{{ miniflux_env_file }}.j2"
+    dest: "{{ miniflux_data_dir }}/{{ miniflux_env_file }}"
+    mode: "0644"
+  notify: Restart miniflux-pod
+
+- name: Render miniflux secrets retrieval script
+  ansible.builtin.template:
+    src: "{{ miniflux_script_file }}.j2"
+    dest: "{{ miniflux_script_dir }}/{{ miniflux_script_file }}"
+    mode: "0755"
+  notify: Restart miniflux-pod
+
+- name: Render miniflux caddy config file
+  ansible.builtin.template:
+    src: "{{ miniflux_caddy_file }}.j2"
+    dest: "{{ evilwoods_caddy_service_config }}/{{ miniflux_caddy_file }}"
+    mode: "0755"
+  notify: "Restart {{ evilwoods_caddy_service_name }}"
+
+- name: Render oidc client config
+  ansible.builtin.blockinfile:
+    path: "{{ evilwoods_authelia_client_config_f }}"
+    marker: "{{ miniflux_oidc_client_config_marker }}"
+    block: "{{ lookup('template', 'miniflux-authelia-config.yml.j2') | indent(width=6, first=True) }}"
+  notify: Restart authelia
+
+- name: Render authelia server quadlet overrides
+  ansible.builtin.template:
+    src: miniflux-authelia-secrets.conf.j2
+    dest: "{{ evilwoods_authelia_quadlet_overrides_d }}/miniflux-secrets.conf"
+    mode: "0644"
+  notify: Restart authelia
+
+- name: Create miniflux pod quadlet
+  containers.podman.podman_pod:
+    name: "{{ miniflux_pod_name }}"
+    state: quadlet
+    network: "{{ evilwoods_container_network_file }}"
+    quadlet_filename: "{{ miniflux_pod_quadlet }}"
+    quadlet_options:
+      - "AddHost={{ evilwoods_authelia_url }}:{{ evilwoods_caddy_ip }}"
+      - |
+        [Unit]
+        Description=Miniflux Pod
+        ReloadPropagatedFrom={{ evilwoods_service_target }}
+        StopPropagatedFrom={{ evilwoods_service_target }}
+      - |
+        [Install]
+        WantedBy={{ evilwoods_service_target }}
+  notify: Restart miniflux-pod
+
+- name: Create miniflux database container quadlet
+  containers.podman.podman_container:
+    name: "{{ miniflux_db_container_name }}"
+    state: quadlet
+    image: "{{ miniflux_db_image }}"
+    volumes:
+      - "{{ miniflux_db_data_volume }}:/var/lib/postgresql/data:Z"
+    env:
+      POSTGRES_USER: miniflux
+      POSTGRES_PASSWORD: miniflux
+      POSTGRES_DB: miniflux
+    pod: "{{ miniflux_pod_quadlet }}"
+    quadlet_filename: "{{ miniflux_db_container_quadlet }}"
+    quadlet_options:
+      - |
+        [Unit]
+        Description=Miniflux Database Container
+      - |
+        [Service]
+        Restart=always
+        HealthCmd=["CMD", "pg_isready", "-U", "miniflux"]
+        HealthInterval=10s
+        HealthStartPeriod=30s
+  notify: Restart miniflux-pod
+
+- name: Create miniflux server container quadlet
+  containers.podman.podman_container:
+    name: "{{ miniflux_container_name }}"
+    state: quadlet
+    image: "{{ miniflux_image }}"
+    env_file: "{{ miniflux_data_dir }}/{{ miniflux_env_file }}"
+    secrets:
+      - "{{ miniflux_oidc_client_id_name }},type=env,target=OAUTH2_CLIENT_ID"
+      - "{{ miniflux_oidc_client_secret_name }},type=env,target=OAUTH2_CLIENT_SECRET"
+    pod: "{{ miniflux_pod_quadlet }}"
+    quadlet_filename: "{{ miniflux_container_quadlet }}"
+    quadlet_options:
+      - |
+        [Unit]
+        Description=Miniflux Server Container
+        Wants={{ miniflux_db_container_quadlet | splitext | first }}.service
+        After={{ miniflux_db_container_quadlet | splitext | first }}.service
+      - |
+        [Service]
+        EnvironmentFile={{ evilwoods_runner_home }}/.config/bws/env
+        ExecStartPre={{ miniflux_script_dir }}/{{ miniflux_script_file }}
+      - |
+        [Install]
+        WantedBy={{ evilwoods_service_target }}
+  notify: Restart miniflux-pod
+
+- name: Render miniflux backup script
+  ansible.builtin.template:
+    src: "{{ miniflux_backup_script }}.j2"
+    dest: "{{ miniflux_script_dir }}/{{ miniflux_backup_script }}"
+    mode: "0744"
+
+- name: Render miniflux backup service
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - "{{ miniflux_backup_service }}"
+    - "{{ miniflux_backup_timer }}"
+
+- name: Enable miniflux backup timer
+  ansible.builtin.systemd:
+    name: "{{ miniflux_backup_timer }}"
+    state: started
+    enabled: true
+    scope: user
+    daemon_reload: true

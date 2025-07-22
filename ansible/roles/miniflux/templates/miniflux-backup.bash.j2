@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Archiving {{ miniflux_app_name }} data to {{ miniflux_backup_d }}."
+
+rm {{ miniflux_backup_d }}/*
+
+tar -cf "{{ miniflux_backup_d }}/miniflux_data_$(date +%Y%m%d%H%M).tar.gz" "{{ miniflux_db_data_volume }}"
