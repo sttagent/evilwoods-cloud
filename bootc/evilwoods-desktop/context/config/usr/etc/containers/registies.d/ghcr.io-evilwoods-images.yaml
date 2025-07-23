@@ -1,0 +1,4 @@
+docker:
+  ghcr.io/sttagent:
+    use-sigstore-attachments: true
+

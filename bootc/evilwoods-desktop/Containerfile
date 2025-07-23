@@ -1,9 +1,5 @@
 FROM quay.io/fedora-ostree-desktops/silverblue:42
 
-COPY config/usr /usr
-
-WORKDIR /tmp
-
-COPY scripts scripts
-
-RUN bash scripts/install-packages.bash && rm -rf /tmp/*
+RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
+  --mount=type=cache,dst=/var/cache/libdnf5 \
+  bash /context/scripts/install-packages.bash
