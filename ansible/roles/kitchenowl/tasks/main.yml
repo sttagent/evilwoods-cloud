@@ -78,8 +78,8 @@
     dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
     mode: "0644"
   loop:
-   - "{{ kitchenowl_backup_service }}"
-   - "{{ kitchenowl_backup_timer }}"
+    - "{{ kitchenowl_backup_service }}"
+    - "{{ kitchenowl_backup_timer }}"
 
 - name: Render kitchenowl caddyfile
   ansible.builtin.template:
@@ -92,7 +92,6 @@
   ansible.builtin.systemd:
     name: "{{ kitchenowl_backup_timer }}"
     state: started
-    enabled: yes
+    enabled: true
     scope: user
     daemon_reload: true
-
