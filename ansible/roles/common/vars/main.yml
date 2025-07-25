@@ -1,1 +1,7 @@
 common_containers_config_path: "{{ evilwoods_runner_home }}/.config/containers"
+
+common_data_d: "{{ evilwoods_service_storage_d }}/common"
+common_script_d: "{{ common_data_d }}/scripts"
+
+common_restic_backup_script: "{{ common_script_d }}/common-restic-backup.bash"
+common_restic_backup_env_f: "{{ common_script_d }}/common-restic-backup.env"

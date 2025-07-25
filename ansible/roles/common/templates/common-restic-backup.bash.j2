@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+source {{ common_restic_backup_env_f }}
+
+if restic --quiet cat config; then
+  echo "Restic repo already initialized."
+else
+  echo "Initializing restic repo."
+  restic init
+fi
+
+restic backup --skip-if-unchanged {{ evilwoods_service_backup_d }}
+
+restic forget $RESTIC_RETENTION_POLICY --prune

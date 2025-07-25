@@ -10,12 +10,13 @@
     state: directory
     owner: "{{ evilwoods_runner_user }}"
     group: "{{ evilwoods_runner_user }}"
-    mode: '0775'
+    mode: '0755'
   loop:
     - "{{ evilwoods_authelia_quadlet_overrides_d }}"
     - "{{ evilwoods_service_storage_d }}"
     - "{{ evilwoods_service_backup_d }}"
     - "{{ evilwoods_container_override_d }}"
+    - "{{ common_script_d }}"
 
 - name: Render evilcloud network quadlet
   ansible.builtin.template:
@@ -25,21 +26,39 @@
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'
 
-- name: Render evilcloud target
+- name: Render systemd unit files.
   ansible.builtin.template:
-    src: "{{ evilwoods_service_target }}.j2"
-    dest: "{{ evilwoods_unit_file_path }}/{{ evilwoods_service_target }}"
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
     owner: "{{ evilwoods_runner_user }}"
     group: "{{ evilwoods_runner_user }}"
     mode: '0644'
+  loop:
+    - "{{ evilwoods_service_target }}"
+    - "common-restic-backup.service"
+    - "common-restic-backup.timer"
+
+- name: Render common restic backup scritps
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ common_script_d }}/{{ item }}"
+    owner: "{{ evilwoods_runner_user }}"
+    group: "{{ evilwoods_runner_user }}"
+    mode: '0755'
+  loop:
+    - "{{ common_restic_backup_script | basename }}"
+    - "{{ common_restic_backup_env_f | basename }}"
 
 - name: Enable evilwoods target.
   ansible.builtin.systemd:
-    name: "{{ evilwoods_service_target }}"
+    name: "{{ item }}"
     state: started
     enabled: true
     scope: user
     daemon_reload: true
+  loop:
+    - "{{ evilwoods_service_target }}"
+    - "common-restic-backup.timer"
 
 - name: Render container common config.
   ansible.builtin.template:

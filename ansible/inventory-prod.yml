@@ -21,3 +21,8 @@ evilwoods:
       actual_oidc_client_id: "8b6c9357-da7f-47df-9ab5-b30d0091d3e4"
       actual_oidc_client_secret_id: "82ac8633-4bb0-4969-909a-b30d009226a2"
       actual_oidc_client_secret_hash_id: "d84b3e17-7735-4ac0-87d4-b30d0092882c"
+
+      restic_backup_repo: s3:https://s3.eu-central-003.backblazeb2.com/evilcloud-restic-backup
+      restic_backup_aws_access_key_id: "1f02747b-ec6b-4442-a8d4-b326007eb0cb"
+      restic_backup_aws_secret_access_key: "252616b3-a722-4187-87c8-b326007eff13"
+      restic_backup_repo_password_id: "02dc77a8-db25-40fd-a8bd-b326007f668f"

@@ -1,0 +1,6 @@
+[Unit]
+Description=Restic backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c '{{ common_restic_backup_script }}'

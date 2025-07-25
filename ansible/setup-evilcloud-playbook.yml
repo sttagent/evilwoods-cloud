@@ -10,6 +10,11 @@
       become: true
       tags:
         - crunner
+    - role: common
+      become_user: "{{ evilwoods_runner_user }}"
+      become: true
+      tags:
+        - common
     - role: cloudflared
       become_user: "{{ evilwoods_runner_user }}"
       become: true
