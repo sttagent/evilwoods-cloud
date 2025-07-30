@@ -1,4 +1,5 @@
-FROM quay.io/fedora-ostree-desktops/silverblue:42
+ARG FEDORA_VERSION=42
+FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
 RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
   --mount=type=cache,dst=/var/cache/libdnf5 \

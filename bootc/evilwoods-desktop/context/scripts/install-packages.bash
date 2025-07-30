@@ -2,19 +2,38 @@
 
 set -euo pipefail
 
-mkdir -p /var/opt
+function evildnf {
+  dnf -y \
+    --setopt=keepcache=true "$@"
+}
 
 cp --no-target-directory -vR /context/config/usr /usr
 
-cp -r /usr/etc/yum.repos.d /etc/
+curl -fsSL "https://copr.fedorainfracloud.org/coprs/scottames/ghostty/repo/fedora-$(rpm -E %fedora)/scottames-ghostty-fedora-$(rpm -E %fedora).repo" |
+  sudo tee /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:scottames:ghostty.repo >/dev/null
 
-dnf --setopt=keepcache=true -y install "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+mkdir -p /var/opt
+
+cp -vR /usr/etc/yum.repos.d /etc
+
+evildnf install \
+  "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
   "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-dnf --setopt=keepcache=true -y swap mesa-va-drivers mesa-va-drivers-freeworld
-dnf --setopt=keepcache=true -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
-# dnf -y copr enable pgdev/ghostty && dnf -y install ghostty
-dnf --setopt=keepcache=true -y install fish neovim tailscale ripgrep fd-find bat just fzf gnome-shell-extension-appindicator zoxide # tuxedo-control-center
-dnf --setopt=keepcache=true -y remove firefox firefox-langpacks
+evildnf swap mesa-va-drivers mesa-va-drivers-freeworld
+evildnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+evildnf install \
+  fish \
+  neovim \
+  tailscale \
+  ripgrep \
+  fd-find \
+  bat \
+  just \
+  fzf \
+  gnome-shell-extension-appindicator \
+  zoxide \
+  ghostty # tuxedo-control-center
+evildnf remove firefox firefox-langpacks
 
 # kver=$(cd /usr/lib/modules && echo *)
 # dkms autoinstall -k "$kver"
