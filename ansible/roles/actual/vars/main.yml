@@ -1,6 +1,6 @@
 actual_app_name: "actual"
 actual_container_name: "{{ evilwoods_container_name_prefix }}{{ actual_app_name }}"
-actual_image: "docker.io/actualbudget/actual-server:25.7.1-alpine"
+actual_image: "docker.io/actualbudget/actual-server:25.8.0-alpine"
 # actual_data_volume: "{{ evilwoods_unnamed_volumes }}/{{ actual_app_name }}/data"
 actual_data_dir: "{{ evilwoods_service_storage_d }}/{{ actual_app_name }}"
 actual_volume_dir: "{{ actual_data_dir }}/volumes"
