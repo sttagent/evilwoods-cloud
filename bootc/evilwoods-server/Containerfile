@@ -1,11 +1,9 @@
-FROM quay.io/fedora/fedora-bootc:42
+ARG FEDORA_VERSION=42
+FROM quay.io/fedora/fedora-bootc:${FEDORA_VERSION}
 
-COPY ./config/usr /usr
+RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
+  --mount=type=cache,dst=/var/cache/libdnf5 \
+  bash /context/scripts/install-packages.bash
 
-WORKDIR /tmp
-
-COPY scripts scripts
-
-RUN bash ./scripts/install-packages.bash
-
-RUN bash ./scripts/download-binaries.bash && rm -rf *
+RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
+  bash /context/scripts/download-binaries.bash
