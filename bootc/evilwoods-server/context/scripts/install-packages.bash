@@ -7,6 +7,8 @@ function evildnf {
     --setopt=keepcache=true "$@"
 }
 
+cp --no-target-directory -vR /context/config/usr /usr
+
 evildnf install -y dnf5-plugins
 evildnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
 evildnf install rsync qemu-guest-agent firewalld restic \
