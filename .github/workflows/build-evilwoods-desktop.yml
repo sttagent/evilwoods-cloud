@@ -10,6 +10,9 @@ on:
 
 jobs:
   podman-build:
+    permissions:
+      packages: write
+      contents: read
     uses: ./.github/workflows/evilwoods-common.yml
     with:
       num-packages-to-keep: 20
