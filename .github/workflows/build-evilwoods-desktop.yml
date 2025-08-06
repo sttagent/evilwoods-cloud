@@ -1,82 +1,16 @@
 name: build-evilwoods-desktop
 on:
   schedule:
-    - cron: "21 6 * * *"
+    - cron: "41 4 * * *"
   push:
     branches: ["main"]
     paths:
       - "bootc/evilwoods-desktop/**"
   workflow_dispatch:
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: "evilwoods-desktop"
-  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
-  REGISTRY_USER: ${{ github.actor }}
-  REGISTRY_PASSWORD: ${{ github.token }}
-
 jobs:
   podman-build:
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - name: cleanup untagged images
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.IMAGE_NAME }}
-          package-type: container
-          min-versions-to-keep: 0
-          delete-only-untagged-versions: true
-          token: ${{ github.token }}
-
-      - name: cleanup old images
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.IMAGE_NAME }}
-          package-type: container
-          min-versions-to-keep: 20
-          token: ${{ github.token }}
-
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3
-
-      - name: Checkout repo
-        uses: actions/checkout@v4.1.1
-
-      - name: Set current date as variable
-        run: echo "TAG_CURRENT_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-
-      - name: Build container image
-        id: build-image
-        uses: redhat-actions/buildah-build@v2.13
-        with:
-          context: "./bootc/evilwoods-desktop"
-          containerfiles: "./bootc/evilwoods-desktop/Containerfile"
-          image: ${{ env.IMAGE_NAME }}
-          tags: latest ${{ env.TAG_CURRENT_DATE }}
-          layers: false
-          oci: true
-
-      - name: Log in to ghcr.io
-        uses: redhat-actions/podman-login@v1.7
-        with:
-          registry: ${{ env.IMAGE_REGISTRY }}
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
-
-      - name: Push to ghcr.io
-        uses: redhat-actions/push-to-registry@v2.8
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: ${{ env.IMAGE_REGISTRY }}
-
-      - name: Sign image
-        run: |
-          DIGEST=$(skopeo inspect docker://${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest | jq -r '.Digest')
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${DIGEST}
-        env:
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY  }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+    uses: ./.github/workflows/evilwoods-common.yml
+    with:
+      num-packages-to-keep: 20
+      image-name: "evilwoods-desktop"
