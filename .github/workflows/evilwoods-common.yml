@@ -18,9 +18,6 @@ env:
 jobs:
   common-steps:
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
     steps:
       - name: cleanup untagged images
         uses: actions/delete-package-versions@v5
