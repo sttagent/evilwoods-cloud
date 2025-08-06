@@ -1,0 +1,69 @@
+name: build-evilwoods-server
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "bootc/evilwoods-binary-cache/**"
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: "evilwoods-binary-cache"
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ github.token }}
+
+jobs:
+  podman-build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: cleanup untagged images
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ env.IMAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 0
+          delete-only-untagged-versions: true
+          token: ${{ github.token }}
+
+      - name: cleanup old images
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ env.IMAGE_NAME }}
+          package-type: container
+          min-versions-to-keep: 1
+          token: ${{ github.token }}
+
+      - name: Checkout repo
+        uses: actions/checkout@v4.1.1
+
+      - name: Set current date as variable
+        run: echo "TAG_CURRENT_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+
+      - name: Build container image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2.13
+        with:
+          context: "./bootc/evilwoods-binary-cache/"
+          containerfiles: "./bootc/evilwoods-binary-cache/Containerfile"
+          image: ${{ env.IMAGE_NAME }}
+          tags: latest ${{ env.TAG_CURRENT_DATE }}
+          layers: false
+          oci: true
+
+      - name: Log in to ghcr.io
+        uses: redhat-actions/podman-login@v1.7
+        with:
+          registry: ${{ env.IMAGE_REGISTRY }}
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+
+      - name: Push to ghcr.io
+        uses: redhat-actions/push-to-registry@v2.6
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ${{ env.IMAGE_REGISTRY }}
