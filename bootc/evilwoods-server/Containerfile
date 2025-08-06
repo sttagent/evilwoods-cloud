@@ -1,9 +1,11 @@
 ARG FEDORA_VERSION=42
+
+FROM ghcr.io/sttagent/evilwoods-binary-cache:latest AS binary-cache
+
 FROM quay.io/fedora/fedora-bootc:${FEDORA_VERSION}
 
 RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
   --mount=type=cache,dst=/var/cache/libdnf5 \
   bash /context/scripts/install-packages.bash
 
-RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
-  bash /context/scripts/download-binaries.bash
+COPY --from=binary-cache /binaries/* /usr/local/bin/
