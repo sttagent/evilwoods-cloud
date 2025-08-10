@@ -54,15 +54,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
 
-      - name: Create rpm cache directory
-        if: ${{ inputs.cache-rpms }}
-        run: mkdir -p /var/cache/libdnf5/
-
       - name: Cache RPM packages
         if: ${{ inputs.cache-rpms }}
         uses: actions/cache@v4
         with:
-          path: /var/cache/libdnf5/
+          path: /tmp/libdnf5/
           key: rpm-cache-${{ runner.os }}-${{ hashFiles('**/${{ inputs.containerfile-name }}') }}
           restore-keys: |
             rpm-cache-${{ runner.os }}-
