@@ -63,7 +63,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/libdnf5/
-          key: rpm-cache-${{ runner.os }}-${{ hashFiles('**/${{ inputs.containerfile-name }}') }}
+          key: rpm-cache-${{ runner.os }}-${{ hashFiles('**/' + inputs.containerfile-name) }}
           restore-keys: |
             rpm-cache-${{ runner.os }}-
 
