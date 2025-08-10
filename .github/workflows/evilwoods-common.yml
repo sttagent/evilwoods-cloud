@@ -54,6 +54,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
 
+      - name: Create dnf5 cache directory
+        if: ${{ inputs.cache-rpms }}
+        run: mkdir -p /tmp/libdnf5/
+
       - name: Cache RPM packages
         if: ${{ inputs.cache-rpms }}
         uses: actions/cache@v4
