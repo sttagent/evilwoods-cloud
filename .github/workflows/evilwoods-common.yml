@@ -7,6 +7,18 @@ on:
       image-name:
         required: true
         type: string
+      containerfile-name:
+        required: false
+        type: string
+        default: "Containerfile"
+      cache-rpms:
+        required: false
+        type: boolean
+        default: false
+      extra-args:
+        required: false
+        type: string
+        default: ""
 
 env:
   REGISTRY: ghcr.io
@@ -42,6 +54,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
 
+      - name: Cache RPM packages
+        if: ${{ inputs.cache-rpms }}
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/libdnf5/
+          key: rpm-cache-${{ runner.os }}-${{ hashFiles('**/${{ inputs.containerfile-name }}') }}
+          restore-keys: |
+            rpm-cache-${{ runner.os }}-
+
       - name: Set current date as variable
         run: echo "TAG_CURRENT_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
 
@@ -50,11 +71,12 @@ jobs:
         uses: redhat-actions/buildah-build@v2.13
         with:
           context: "./bootc/${{ env.IMAGE_NAME }}/"
-          containerfiles: "./bootc/${{ env.IMAGE_NAME }}/Containerfile"
+          containerfiles: "./bootc/${{ env.IMAGE_NAME }}/${{ inputs.containerfile-name }}"
           image: ${{ env.IMAGE_NAME }}
           tags: latest ${{ env.TAG_CURRENT_DATE }}
           layers: false
           oci: true
+          extra-args: ${{ inputs.extra-args }}
 
       - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1.7
