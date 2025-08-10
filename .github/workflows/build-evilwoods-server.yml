@@ -18,6 +18,6 @@ jobs:
       num-packages-to-keep: 20
       image-name: "evilwoods-server"
       containerfile-name: "workflow.Containerfile"
-      rpm-cache: true
+      cache-rpms: true
       extra-args: "--voulme /var/cache/libdnf5/:/var/cache/libdnf5:z"
     secrets: inherit
