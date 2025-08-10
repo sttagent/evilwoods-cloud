@@ -19,5 +19,5 @@ jobs:
       image-name: "evilwoods-server"
       containerfile-name: "workflow.Containerfile"
       cache-rpms: true
-      extra-args: "--voulme /var/cache/libdnf5/:/var/cache/libdnf5:z"
+      extra-args: "--volume /var/cache/libdnf5/:/var/cache/libdnf5:z"
     secrets: inherit
