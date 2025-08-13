@@ -6,13 +6,21 @@ on:
       - "bootc/evilwoods-binary-cache/**"
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: evilwoods-binary-cache
+  CONTAINERFILE: workflow.Containerfile
+
 jobs:
   podman-build:
+    runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
-    uses: ./.github/workflows/evilwoods-common.yml
-    with:
-      num-packages-to-keep: 2
-      image-name: "evilwoods-binary-cache"
-    secrets: inherit
+    steps:
+      - name: setup
+        uses: ./.github/actions/build-container-image
+        with:
+          container-repository: ${{ env.REGISTRY }}
+          image-name: ${{ env.IMAGE_NAME }}
+          containerfile: ${{ env.CONTAINERFILE }}
