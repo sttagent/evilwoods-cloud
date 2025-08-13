@@ -63,9 +63,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/libdnf5/
-          key: rpm-cache-${{ runner.os }}-${{ hashFiles(format('**/{0}', inputs.containerfile-name)) }}
+          key: rpm-cache-${{ inputs.image-name }}-${{ hashFiles(format('**/{0}', inputs.containerfile-name)) }}
           restore-keys: |
-            rpm-cache-${{ runner.os }}-
+            rpm-cache-${{ inputs.image-name }}-
 
       - name: Set current date as variable
         run: echo "TAG_CURRENT_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
