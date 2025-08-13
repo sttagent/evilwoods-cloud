@@ -71,17 +71,17 @@ runs:
       run: |
         EXTRA_ARGS=""
         if [[ $LAYER_CACHE == "true" ]]; then
-          EXTRA_ARGS="--cache-from $IMAGE"
+          EXTRA_ARGS="--cache-from $IMAGE --cache-to $IMAGE"
         fi
         if [[ $EVENT_NAME == "schedule" || $SKIP_CACHE == "true" ]]; then
-          EXTRA_ARGS=" --no-cache"
+          EXTRA_ARGS=" --no-cache --cache-to $IMAGE"
         fi
         if [[ $RPM_CACHE == "true" ]]; then
           EXTRA_ARGS+=" --volume /tmp/libdnf5:/var/cache/libdnf5:z"
         fi
         echo "extra-args=$EXTRA_ARGS" >> $GITHUB_OUTPUT
       env:
-        IMAGE: ${{ inputs.container-repository }}/${{ inputs.image-name }}
+        IMAGE: ${{ inputs.container-repository }}/evilwoods-cache
         EVENT_NAME: ${{ github.event_name }}
         SKIP_CACHE: ${{ inputs.skip-cache }}
         RPM_CACHE: ${{ inputs.setup-rpm-caching }}
