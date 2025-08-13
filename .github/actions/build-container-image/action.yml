@@ -4,6 +4,10 @@ inputs:
   cache-build:
     description: Cache build
     default: "false"
+  num-packages-to-keep:
+    description: Number of packages to keep
+    required: false
+    default: "10"
   container-repository:
     description: Container repository
     required: true

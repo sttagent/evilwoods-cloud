@@ -29,3 +29,4 @@ jobs:
           containerfile: ${{ env.CONTAINERFILE }}
           cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
           cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+          num-packages-to-keep: 1
