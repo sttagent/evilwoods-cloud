@@ -61,7 +61,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: /tmp/libdnf5/
-        key: rpm-cache-${{ inputs.image-name }}-${{ hashFiles(format('**/{0}', inputs.containerfile)) }}
+        key: rpm-cache-${{ inputs.image-name }}-${{ hashFiles(format('./bootc/{0}/{1}', inputs.image-name, inputs.containerfile)) }}
         restore-keys: |
           rpm-cache-${{ inputs.image-name }}-
 
