@@ -90,7 +90,7 @@ runs:
     - name: Sign image
       shell: bash
       run: |
-        DIGEST=$(skopeo inspect docker://${IMAGE_REGISTRY}/${IMAGE_NAME }:latest | jq -r '.Digest')
+        DIGEST=$(skopeo inspect docker://${IMAGE_REGISTRY}/${IMAGE_NAME}:latest | jq -r '.Digest')
         cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${IMAGE_REGISTRY}/${IMAGE_NAME }@${DIGEST}
       env:
         IMAGE_REGISTRY: ${{ inputs.container-repository }}
