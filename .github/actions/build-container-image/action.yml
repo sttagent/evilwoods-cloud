@@ -14,6 +14,12 @@ inputs:
   containerfile:
     description: Containerfile name
     required: true
+  cosign-private-key:
+    description: Cosign private key
+    required: true
+  cosign-password:
+    description: Cosign password
+    required: true
 runs:
   using: composite
   steps:
@@ -89,8 +95,8 @@ runs:
       env:
         IMAGE_REGISTRY: ${{ inputs.container-repository }}
         IMAGE_NAME: ${{ inputs.image-name }}
-        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY  }}
-        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        COSIGN_PRIVATE_KEY: ${{ inputs.cosign-private-key  }}
+        COSIGN_PASSWORD: ${{ inputs.cosign-password }}
 
     - name: cleanup untagged images
       uses: actions/delete-package-versions@v5
