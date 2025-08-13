@@ -73,7 +73,7 @@ runs:
       uses: redhat-actions/buildah-build@v2.13
       with:
         context: "./bootc/${{ inputs.image-name }}/"
-        containerfiles: "./bootc/${{ inputs.image-name }}/${{ inputs.containerfile-name }}"
+        containerfiles: "./bootc/${{ inputs.image-name }}/${{ inputs.containerfile }}"
         image: ${{ inputs.image-name }}
         tags: latest ${{ steps.date.outputs.date }}
         layers: true
