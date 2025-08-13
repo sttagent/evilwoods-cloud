@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: "41 4 * * *"
   push:
-    branches: ["main"]
+    branches: [$default-branch]
     paths:
       - "bootc/evilwoods-desktop/**"
   workflow_dispatch:
