@@ -1,0 +1,6 @@
+[DEFAULT]
+backend = systemd
+ignoreip = 100.64.0.0/10
+
+[sshd]
+enabled = true
