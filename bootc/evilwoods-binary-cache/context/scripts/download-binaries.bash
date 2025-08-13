@@ -12,10 +12,20 @@ bitwarden_archive="bws-x86_64-unknown-linux-gnu-${bitwarden_version}.zip"
 zellij_archive="zellij-x86_64-unknown-linux-musl.tar.gz"
 
 binary_folder=/binaries
+rpm_folder=/rpms
+
+proton_mail_version="1.9.0"
+proton_pass_version="1.32.3-1"
 
 mkdir -p $binary_folder
-cd /tmp
+mkdir -p $rpm_folder
 
+cd $rpm_folder
+
+wget -q https://proton.me/download/mail/linux/${proton_mail_version}/ProtonMail-desktop-beta.rpm
+wget -q https://proton.me/download/pass/linux/proton-pass-${proton_pass_version}.x86_64.rpm
+
+cd /tmp
 wget -q "https://github.com/bitwarden/sdk-sm/releases/download/bws-v${bitwarden_version}/${bitwarden_archive}"
 unzip $bitwarden_archive
 cp bws "${binary_folder}/"
