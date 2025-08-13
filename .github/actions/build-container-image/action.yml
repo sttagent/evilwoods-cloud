@@ -1,9 +1,6 @@
 name: Build-container-image
 description: Build container image
 inputs:
-  cache-build:
-    description: Cache build
-    default: "false"
   num-packages-to-keep:
     description: Number of packages to keep
     required: false
@@ -24,6 +21,18 @@ inputs:
   cosign-password:
     description: Cosign password
     required: true
+  setup-layer-caching:
+    description: Setup layer caching
+    required: false
+    default: "false"
+  setup-rpm-caching:
+    description: Setup rpm caching
+    required: false
+    default: "false"
+  skip-cache:
+    description: No cache
+    required: false
+    default: "false"
 runs:
   using: composite
   steps:
@@ -43,12 +52,12 @@ runs:
         password: ${{ github.token }}
 
     - name: Create dnf5 cache directory
-      if: ${{ inputs.cache-build == 'true' }}
+      if: ${{ inputs.setup-rpm-caching == 'true' }}
       shell: bash
       run: mkdir -p /tmp/libdnf5/
 
     - name: Cache RPM packages
-      if: ${{ inputs.cache-build == 'true' }}
+      if: ${{ inputs.setup-rpm-caching == 'true' }}
       uses: actions/cache@v4
       with:
         path: /tmp/libdnf5/
@@ -60,14 +69,22 @@ runs:
       id: build-args
       shell: bash
       run: |
-        EXTRA_ARGS="--cache-from ${{ inputs.container-repository }}/${{ inputs.image-name }}:latest"
-        if [[ "${{ github.event_name }}" == "schedule" ]]; then
-          EXTRA_ARGS+=" --pull-always"
+        EXTRA_ARGS=""
+        if [[ $LAYER_CACHE == "true" ]]; then
+          EXTRA_ARGS="--cache-from $IMAGE"
         fi
-        if [[ "${{ inputs.cache-build }}" == "true" ]]; then
+        if [[ $EVENT_NAME == "schedule" || $SKIP_CACHE == "true" ]]; then
+          EXTRA_ARGS=" --no-cache"
+        fi
+        if [[ $RPM_CACHE == "true" ]]; then
           EXTRA_ARGS+=" --volume /tmp/libdnf5:/var/cache/libdnf5:z"
         fi
         echo "extra-args=$EXTRA_ARGS" >> $GITHUB_OUTPUT
+      env: IMAGE=${{ inputs.container-repository }}/${{ inputs.image-name }}
+        EVENT_NAME=${{ github.event_name }}
+        SKIP_CACHE=${{ inputs.skip-cache }}
+        RPM_CACHE=${{ inputs.setup-rpm-caching }}
+        LAYER_CACHE=${{ inputs.setup-layer-caching }}
 
     - name: Build container image
       id: build-image
@@ -115,4 +132,3 @@ runs:
         package-type: container
         min-versions-to-keep: ${{ inputs.num-packages-to-keep }}
         token: ${{ github.token }}
-
