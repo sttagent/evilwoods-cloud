@@ -57,18 +57,15 @@ runs:
           rpm-cache-${{ inputs.image-name }}-
 
     - name: Build extra arguments for buildah
-      if: ${{ inputs.cache-build == 'true' }}
-      id: cache-build
+      id: build-args
       shell: bash
-      env:
-        USE_CACHE: "${{ github.event_name != 'schedule' }}"
-        CACHE_IMAGE: "${{ inputs.container-repository }}/${{ inputs.image-name }}-cache"
       run: |
-        EXTRA_ARGS="--volume /tmp/libdnf5:/var/cache/libdnf5:z"
-        if [[ "${{ env.USE_CACHE }}" == "true" ]]; then
-          EXTRA_ARGS+=" --cache-from $CACHE_IMAGE --cache-to $CACHE_IMAGE"
-        else
-          EXTRA_ARGS+=" --cache-to $CACHE_IMAGE --no-cache"
+        EXTRA_ARGS="--cache-from ${{ inputs.container-repository }}/${{ inputs.image-name }}:latest"
+        if [[ "${{ github.event_name }}" == "schedule" ]]; then
+          EXTRA_ARGS+=" --pull-always"
+        fi
+        if [[ "${{ inputs.cache-build }}" == "true" ]]; then
+          EXTRA_ARGS+=" --volume /tmp/libdnf5:/var/cache/libdnf5:z"
         fi
         echo "extra-args=$EXTRA_ARGS" >> $GITHUB_OUTPUT
 
@@ -82,7 +79,7 @@ runs:
         tags: latest ${{ steps.date.outputs.date }}
         layers: true
         oci: true
-        extra-args: ${{ steps.cache-build.outputs.extra-args }}
+        extra-args: ${{ steps.build-args.outputs.extra-args }}
 
     - name: Push to ghcr.io
       uses: redhat-actions/push-to-registry@v2.6
@@ -119,12 +116,3 @@ runs:
         min-versions-to-keep: ${{ inputs.num-packages-to-keep }}
         token: ${{ github.token }}
 
-    - name: cleanup old cache images
-      uses: actions/delete-package-versions@v5
-      if: ${{ inputs.cache-build == 'true' }}
-      with:
-        package-name: ${{ inputs.image-name }}-cache
-        package-type: container
-        min-versions-to-keep: 1
-        delete-only-untagged-versions: true
-        token: ${{ github.token }}
