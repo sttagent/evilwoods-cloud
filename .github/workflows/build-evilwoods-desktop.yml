@@ -8,16 +8,28 @@ on:
       - "bootc/evilwoods-desktop/**"
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: evilwoods-desktop
+  CONTAINERFILE: workflow.Containerfile
+
 jobs:
   podman-build:
+    runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
-    uses: ./.github/workflows/evilwoods-common.yml
-    with:
-      num-packages-to-keep: 20
-      image-name: "evilwoods-desktop"
-      containerfile-name: "workflow.Containerfile"
-      cache-rpms: true
-      extra-args: "--volume /tmp/libdnf5/:/var/cache/libdnf5:z"
-    secrets: inherit
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup
+        uses: ./.github/actions/build-container-image
+        with:
+          container-repository: ${{ env.REGISTRY }}
+          image-name: ${{ env.IMAGE_NAME }}
+          containerfile: ${{ env.CONTAINERFILE }}
+          cache-build: "true"
+          cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+          num-packages-to-keep: 20
