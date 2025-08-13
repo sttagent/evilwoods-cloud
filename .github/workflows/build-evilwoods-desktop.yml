@@ -34,7 +34,7 @@ jobs:
           container-repository: ${{ env.REGISTRY }}
           image-name: ${{ env.IMAGE_NAME }}
           containerfile: ${{ env.CONTAINERFILE }}
-          skip-cache: ${{ github.event.inputs.no-cache }}
+          skip-cache: ${{ inputs.skip-cache }}
           setup-layer-caching: "true"
           setup-rpm-caching: "true"
           cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
