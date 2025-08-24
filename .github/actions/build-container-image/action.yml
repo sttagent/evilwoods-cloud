@@ -91,7 +91,7 @@ runs:
       env:
         IMAGE: ${{ inputs.container-repository }}/evilwoods-cache
         EVENT_NAME: ${{ github.event_name }}
-        SKIP_CACHE: ${{ github.event.inputs.skip-cache }}
+        SKIP_CACHE: ${{ inputs.skip-cache }}
         RPM_CACHE: ${{ inputs.setup-rpm-caching }}
         LAYER_CACHE: ${{ inputs.setup-layer-caching }}
 
