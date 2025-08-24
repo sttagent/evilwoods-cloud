@@ -73,10 +73,7 @@ runs:
 
         if [[ $LAYER_CACHE == "true" ]]; then
           EXTRA_ARGS+=" --cache-to $IMAGE"
-          if [[
-              $EVENT_NAME == "schedule" ||
-              ($EVENT_NAME== "workflow_dispatch" && $SKIP_CACHE == "true") \
-            ]]; then
+          if [[ $EVENT_NAME == "schedule" || ($EVENT_NAME== "workflow_dispatch" && $SKIP_CACHE == "true") ]]; then
             EXTRA_ARGS+=" --no-cache"
           else
             EXTRA_ARGS+=" --cache-from $IMAGE"
