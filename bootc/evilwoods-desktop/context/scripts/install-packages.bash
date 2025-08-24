@@ -33,6 +33,8 @@ evildnf install \
   gnome-shell-extension-appindicator \
   zoxide \
   ghostty # tuxedo-control-center
+evildnf install /rpms/ProtonMail*.rpm
+evlndnf install /rpms/proton-pass*.rpm
 evildnf remove firefox firefox-langpacks
 
 # kver=$(cd /usr/lib/modules && echo *)
