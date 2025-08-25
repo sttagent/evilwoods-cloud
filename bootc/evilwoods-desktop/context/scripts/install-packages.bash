@@ -35,7 +35,6 @@ evildnf install \
   ghostty # tuxedo-control-center
 evildnf install /rpms/ProtonMail*.rpm
 evildnf install /rpms/proton-pass*.rpm
-evildnf remove firefox firefox-langpacks
 
 # kver=$(cd /usr/lib/modules && echo *)
 # dkms autoinstall -k "$kver"

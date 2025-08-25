@@ -3,6 +3,8 @@ FROM ghcr.io/sttagent/evilwoods-binary-cache:latest AS binary-cache
 
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
+RUN dnf -y remove firefox-langpacks
+
 RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
   --mount=type=bind,from=binary-cache,src=/rpms,dst=/rpms,relabel=shared \
   --mount=type=cache,dst=/var/cache/libdnf5 \
