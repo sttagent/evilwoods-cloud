@@ -9,3 +9,5 @@ RUN --mount=type=bind,src=./context,dst=/context,relabel=shared \
   --mount=type=bind,from=binary-cache,src=/rpms,dst=/rpms,relabel=shared \
   --mount=type=cache,dst=/var/cache/libdnf5 \
   bash /context/scripts/install-packages.bash
+
+COPY context/config/usr /usr
