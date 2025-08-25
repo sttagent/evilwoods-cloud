@@ -1,9 +1,10 @@
 ARG FEDORA_VERSION=42
 FROM ghcr.io/sttagent/evilwoods-binary-cache:latest AS binary-cache
 
-RUN dnf -y remove firefox-langpacks
 
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
+
+RUN dnf -y remove firefox-langpacks
 
 RUN \
   --mount=type=bind,src=./context,dst=/context,relabel=shared \
