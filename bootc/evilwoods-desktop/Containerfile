@@ -3,7 +3,7 @@ FROM ghcr.io/sttagent/evilwoods-binary-cache:latest AS binary-cache
 
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
-RUN dnf -y remove firefox-langpacks
+RUN dnf -y remove firefox firefox-langpacks
 
 RUN \
   --mount=type=bind,src=./context,dst=/context,relabel=shared \
