@@ -28,8 +28,6 @@ evildnf install \
   fzf \
   gnome-shell-extension-appindicator \
   zoxide \
-evildnf install /rpms/ProtonMail*.rpm
-evildnf install /rpms/proton-pass*.rpm
   ghostty
 
 # kver=$(cd /usr/lib/modules && echo *)
