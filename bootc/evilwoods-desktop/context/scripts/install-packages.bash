@@ -28,9 +28,9 @@ evildnf install \
   fzf \
   gnome-shell-extension-appindicator \
   zoxide \
-  ghostty # tuxedo-control-center
 evildnf install /rpms/ProtonMail*.rpm
 evildnf install /rpms/proton-pass*.rpm
+  ghostty
 
 # kver=$(cd /usr/lib/modules && echo *)
 # dkms autoinstall -k "$kver"
