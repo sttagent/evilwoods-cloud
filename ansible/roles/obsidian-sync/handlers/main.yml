@@ -1,0 +1,6 @@
+- name: "Restart {{ obsidian_sync_service_name }}"
+  ansible.builtin.systemd:
+    name: "{{ obsidian_sync_service_name }}"
+    state: restarted
+    daemon_reload: true
+    scope: user

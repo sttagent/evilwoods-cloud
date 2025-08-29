@@ -63,3 +63,9 @@
       tags:
         - miniflux
         - roles
+    - role: obsidian-sync
+      become_user: "{{ evilwoods_runner_user }}"
+      become: true
+      tags:
+        - obsidian-sync
+        - roles

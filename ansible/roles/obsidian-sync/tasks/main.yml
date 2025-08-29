@@ -1,0 +1,45 @@
+- name: "Ensure obsidian sync volume directory exists"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ obsidian_sync_config_volume }}"
+    - "{{ obsidian_sync_data_volume }}"
+
+- name: "Pull obsidian sync image."
+  containers.podman.podman_image:
+    name: "{{ obsidian_sync_image }}"
+    state: present
+
+- name: "Create obsidian_sync couchdb container quadlet."
+  containers.podman.podman_container:
+    name: "{{ obsidian_sync_container_name }}"
+    state: quadlet
+    image: "{{ obsidian_sync_image }}"
+    volumes:
+      - "{{ obsidian_sync_config_volume }}:/opt/couchdb/etc/local.d:Z"
+      - "{{ obsidian_sync_data_volume }}:/opt/couchdb/data:Z"
+    env:
+      COUCHDB_USER={{ obsidian_sync_app_name }}
+      COUCHDB_PASSWORD={{ obsidian_sync_app_name }}
+    network:
+      - "{{ evilwoods_container_network_file }}"
+    quadlet_filename: "{{ obsidian_sync_app_name }}.container"
+    quadlet_options:
+      - |
+        [Unit]
+        Description=Obsidian Sync CouchDB
+      - |
+        [Install]
+        WantedBy={{ evilwoods_service_target }}
+  notify: "Restart {{ obsidian_sync_service_name }}"
+
+- name: "Render obsidian sync caddyfile."
+  ansible.builtin.template:
+    src: obsidian-sync.caddyfile.j2
+    dest: "{{ evilwoods_caddy_service_config }}/obsidian-sync.caddyfile"
+    mode: "0644"
+  notify:
+    - Restart caddy
+
