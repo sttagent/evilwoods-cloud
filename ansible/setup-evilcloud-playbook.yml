@@ -69,3 +69,9 @@
       tags:
         - obsidian-sync
         - roles
+    - role: task-trove
+      become_user: "{{ evilwoods_runner_user }}"
+      become: true
+      tags:
+        - task-trove
+        - roles

@@ -1,0 +1,39 @@
+- name: "Ensure task trove volume directory exists"
+  ansible.builtin.file:
+    path: "{{ task_trove_data_volume }}"
+    state: directory
+    mode: "0755"
+
+- name: "Pull task trove image."
+  containers.podman.podman_image:
+    name: "{{ task_trove_image }}"
+    state: present
+
+- name: "Create task_trove container quadlet."
+  containers.podman.podman_container:
+    name: "{{ task_trove_container_name }}"
+    state: quadlet
+    image: "{{ task_trove_image }}"
+    volumes:
+      - "{{ task_trove_data_volume }}:/app/data:Z"
+    ports:
+      - "3000"
+    network:
+      - "{{ evilwoods_container_network_file }}"
+    quadlet_filename: "{{ task_trove_app_name }}.container"
+    quadlet_options:
+      - |
+        [Unit]
+        Description=TaskTrove Task Management
+      - |
+        [Install]
+        WantedBy={{ evilwoods_service_target }}
+  notify: "Restart {{ task_trove_service_name }}"
+
+- name: "Render task trove caddyfile."
+  ansible.builtin.template:
+    src: task-trove.caddyfile.j2
+    dest: "{{ evilwoods_caddy_service_config }}/task-trove.caddyfile"
+    mode: "0644"
+  notify:
+    - Restart caddy
