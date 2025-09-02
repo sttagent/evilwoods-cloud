@@ -37,9 +37,8 @@
 
 - name: "Render obsidian sync caddyfile."
   ansible.builtin.template:
-    src: obsidian-sync.caddyfile.j2
-    dest: "{{ evilwoods_caddy_service_config }}/obsidian-sync.caddyfile"
+    src: "{{ obsidian_sync_app_name }}.caddyfile.j2"
+    dest: "{{ evilwoods_caddy_service_config }}/{{ obsidian_sync_app_name }}.caddyfile"
     mode: "0644"
   notify:
     - Restart caddy
-
