@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Archiving {{ task_trove_app_name }} data to {{ task_trove_backup_d }}."
+
+rm {{ task_trove_backup_d }}/*
+
+tar -cf "{{ task_trove_backup_d }}/task-trove_data_$(date +%Y%m%d%H%M).tar.gz" "{{ task_trove_volume_d }}"

@@ -1,8 +1,12 @@
-- name: "Ensure task trove volume directory exists"
+- name: "Ensure task trove required paths exist"
   ansible.builtin.file:
-    path: "{{ task_trove_data_volume }}"
+    path: "{{ item }}"
     state: directory
-    mode: "0755"
+    mode: "0775"
+  loop:
+    - "{{ task_trove_data_volume }}"
+    - "{{ task_trove_script_d }}"
+    - "{{ task_trove_backup_d }}"
 
 - name: "Pull task trove image."
   containers.podman.podman_image:
@@ -37,3 +41,26 @@
     mode: "0644"
   notify:
     - Restart caddy
+
+- name: "Render task trove backup script."
+  ansible.builtin.template:
+    src: "{{ task_trove_backup_script }}.j2"
+    dest: "{{ task_trove_script_d }}/{{ task_trove_backup_script }}"
+    mode: "0744"
+
+- name: "Render task trove backup service."
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - "{{ task_trove_backup_service }}"
+    - "{{ task_trove_backup_timer }}"
+
+- name: "Enable task trove backup timer."
+  ansible.builtin.systemd:
+    name: "{{ task_trove_backup_timer }}"
+    state: started
+    enabled: true
+    scope: user
+    daemon_reload: true

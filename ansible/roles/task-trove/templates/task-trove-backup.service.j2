@@ -1,0 +1,10 @@
+[Unit]
+Description=Task Trove Backup Service
+Conflicts={{ task_trove_service_name }}
+After={{ task_trove_service_name }}
+OnSuccess={{ task_trove_service_name }}
+OnFailure={{ task_trove_service_name }}
+
+[Service]
+Type=oneshot
+ExecStart={{ task_trove_script_d }}/{{ task_trove_backup_script }}
