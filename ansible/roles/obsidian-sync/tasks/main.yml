@@ -1,11 +1,13 @@
-- name: "Ensure obsidian sync volume directory exists"
+- name: "Ensure obsidian sync required paths exist"
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "0755"
+    mode: "0775"
   loop:
     - "{{ obsidian_sync_config_volume }}"
     - "{{ obsidian_sync_data_volume }}"
+    - "{{ obsidian_sync_script_d }}"
+    - "{{ obsidian_sync_backup_d }}"
 
 - name: "Pull obsidian sync image."
   containers.podman.podman_image:
@@ -42,3 +44,26 @@
     mode: "0644"
   notify:
     - Restart caddy
+
+- name: "Render obsidian sync backup script."
+  ansible.builtin.template:
+    src: "{{ obsidian_sync_backup_script }}.j2"
+    dest: "{{ obsidian_sync_script_d }}/{{ obsidian_sync_backup_script }}"
+    mode: "0744"
+
+- name: "Render obsidian sync backup service."
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
+    mode: "0644"
+  loop:
+    - "{{ obsidian_sync_backup_service }}"
+    - "{{ obsidian_sync_backup_timer }}"
+
+- name: "Enable obsidian sync backup timer."
+  ansible.builtin.systemd:
+    name: "{{ obsidian_sync_backup_timer }}"
+    state: started
+    enabled: true
+    scope: user
+    daemon_reload: true

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Archiving {{ obsidian_sync_app_name }} data to {{ obsidian_sync_backup_d }}."
+
+rm {{ obsidian_sync_backup_d }}/*
+
+tar -cf "{{ obsidian_sync_backup_d }}/obsidian-sync_data_$(date +%Y%m%d%H%M).tar.gz" "{{ obsidian_sync_volume_d }}"

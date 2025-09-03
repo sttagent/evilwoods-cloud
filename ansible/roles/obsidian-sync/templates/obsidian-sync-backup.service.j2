@@ -1,0 +1,10 @@
+[Unit]
+Description=Obsidian Sync Backup Service
+Conflicts={{ obsidian_sync_service_name }}
+After={{ obsidian_sync_service_name }}
+OnSuccess={{ obsidian_sync_service_name }}
+OnFailure={{ obsidian_sync_service_name }}
+
+[Service]
+Type=oneshot
+ExecStart={{ obsidian_sync_script_d }}/{{ obsidian_sync_backup_script }}

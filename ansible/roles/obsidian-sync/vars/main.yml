@@ -8,3 +8,10 @@ obsidian_sync_data_d: "{{ evilwoods_service_storage_d }}/{{ obsidian_sync_app_na
 obsidian_sync_volume_d: "{{ obsidian_sync_data_d }}/volumes"
 obsidian_sync_config_volume: "{{ obsidian_sync_volume_d }}/config"
 obsidian_sync_data_volume: "{{ obsidian_sync_volume_d }}/data"
+obsidian_sync_script_d: "{{ obsidian_sync_data_d }}/scripts"
+obsidian_sync_backup_d: "{{ evilwoods_service_backup_d }}/{{ obsidian_sync_app_name }}"
+
+obsidian_sync_backup_script: "{{ obsidian_sync_app_name }}-backup.bash"
+obsidian_sync_backup_service_name: "{{ obsidian_sync_app_name }}-backup"
+obsidian_sync_backup_service: "{{ obsidian_sync_backup_service_name }}.service"
+obsidian_sync_backup_timer: "{{ obsidian_sync_backup_service_name }}.timer"
