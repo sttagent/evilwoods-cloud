@@ -88,13 +88,13 @@
     dest: "{{ evilwoods_unit_file_path }}/{{ item }}"
     mode: "0644"
   loop:
-   - "{{ actual_backup_service }}"
-   - "{{ actual_backup_timer }}"
+    - "{{ actual_backup_service }}"
+    - "{{ actual_backup_timer }}"
 
 - name: Enable actual backup timer.
   ansible.builtin.systemd:
     name: "{{ actual_backup_timer }}"
     state: started
-    enabled: yes
+    enabled: true
     scope: user
     daemon_reload: true
