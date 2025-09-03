@@ -1,0 +1,5 @@
+enable var-home-crunner-storage.mount
+enable qemu-guest-agent.service
+enable cockpit.socket
+enable fail2ban.service
+enable tailscaled.service
