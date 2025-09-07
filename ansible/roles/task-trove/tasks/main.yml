@@ -12,6 +12,7 @@
   containers.podman.podman_image:
     name: "{{ task_trove_image }}"
     state: present
+  notify: "Restart {{ task_trove_service_name }}"
 
 - name: "Create task_trove container quadlet."
   containers.podman.podman_container:
