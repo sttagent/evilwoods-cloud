@@ -1,4 +1,4 @@
-task_trove_app_name: "task-trove"
+# task_trove_app_name: "task-trove"
 task_trove_container_quadlet: "{{ task_trove_app_name }}"
 task_trove_container_name: "{{ evilwoods_container_name_prefix }}{{ task_trove_app_name }}"
 task_trove_service_name: "{{ task_trove_app_name }}"

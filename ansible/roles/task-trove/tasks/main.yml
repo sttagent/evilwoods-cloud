@@ -2,11 +2,20 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "0775"
+    mode: "0755"
   loop:
-    - "{{ task_trove_data_volume }}"
     - "{{ task_trove_script_d }}"
     - "{{ task_trove_backup_d }}"
+
+- name: "Ensure task trove required paths exist"
+  become_method: containers.podman.podman_unshare
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ task_trove_data_volume }}"
 
 - name: "Pull task trove image."
   containers.podman.podman_image:
