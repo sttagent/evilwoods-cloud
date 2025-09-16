@@ -1,4 +1,4 @@
-ARG FEDORA_VERSION=42
+ARG FEDORA_VERSION=43
 FROM ghcr.io/sttagent/evilwoods-binary-cache:latest AS binary-cache
 
 
@@ -11,8 +11,6 @@ RUN \
   --mount=type=bind,from=binary-cache,src=/rpms,dst=/rpms,relabel=shared \
   --mount=type=bind,src=/var/cache/libdnf5/,dst=/var/cache/libdnf5,relabel=shared \
 dnf -y --setopt=keepcache=true config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo && \
-curl -fsSL "https://copr.fedorainfracloud.org/coprs/scottames/ghostty/repo/fedora-$(rpm -E %fedora)/scottames-ghostty-fedora-$(rpm -E %fedora).repo" | \
-  sudo tee /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:scottames:ghostty.repo >/dev/null && \
 
 dnf -y --setopt=keepcache=true  install \
   "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
@@ -30,6 +28,5 @@ dnf -y --setopt=keepcache=true install \
   fzf \
   gnome-shell-extension-appindicator \
   zoxide \
-  ghostty
 
 COPY context/config/usr /usr
