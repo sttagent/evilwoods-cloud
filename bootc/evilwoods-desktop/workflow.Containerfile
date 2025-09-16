@@ -27,6 +27,6 @@ dnf -y --setopt=keepcache=true install \
   just \
   fzf \
   gnome-shell-extension-appindicator \
-  zoxide \
+  zoxide
 
 COPY context/config/usr /usr
